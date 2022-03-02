@@ -1,0 +1,243 @@
+* {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+}
+
+body {
+  background-color: #e6e6e6;
+}
+
+.App {
+  height: 100vh;
+  overflow-x: hidden;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  height: 100%;
+  position: relative;
+}
+
+.btn {
+  cursor: pointer;
+  outline: none;
+  border: none;
+  border-radius: .5rem;
+  font-size: 1rem;
+  font-weight: 400;
+  padding: .5em 0;
+}
+
+.card {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  position: relative;
+  background-color: white;
+  padding: 3.25em 1.5em;
+  border-radius: .5rem;
+  -webkit-box-shadow: 2px 2px 4px 0 #7d7d7d;
+          box-shadow: 2px 2px 4px 0 #7d7d7d;
+  -webkit-transition: background-color 150ms ease-in-out;
+  transition: background-color 150ms ease-in-out;
+}
+
+.card .id {
+  position: absolute;
+  top: .75rem;
+  left: 1.5rem;
+  padding: .5em 1em;
+  background-color: #e6e6e6;
+  border-radius: .25rem;
+  text-transform: uppercase;
+  font-size: .75rem;
+  font-weight: 600;
+}
+
+.card .personal-information {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  gap: .25rem;
+  color: #444;
+}
+
+.card .personal-information .header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: baseline;
+      -ms-flex-align: baseline;
+          align-items: baseline;
+  gap: .25rem;
+  color: #333;
+}
+
+.card .personal-information h4 {
+  font-weight: 400;
+}
+
+.card .buttons {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  gap: .75em;
+}
+
+.card .buttons .btn {
+  padding: .5em 1.25em;
+  font-weight: 600;
+  color: white;
+  border-color: black;
+  -webkit-transition: all 100ms ease-in-out;
+  transition: all 100ms ease-in-out;
+}
+
+.card .buttons .edit {
+  background-color: rgba(0, 180, 0, 0.7);
+}
+
+.card .buttons .edit:hover {
+  background-color: #00dc00;
+}
+
+.card .buttons .delete {
+  background-color: rgba(180, 4, 4, 0.7);
+}
+
+.card .buttons .delete:hover {
+  background-color: #c80404;
+}
+
+.card:hover {
+  background-color: #f0f0f0;
+}
+
+.left-section {
+  width: 25%;
+  padding: 1.75em 1.5em;
+  background-color: #7d7d7d;
+  position: fixed;
+  height: 100%;
+  z-index: 999;
+}
+
+.navbar {
+  margin-bottom: 2rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  justify-content: center;
+}
+
+.navbar .btn {
+  margin-bottom: .75rem;
+  background-color: white;
+  color: black;
+  -webkit-transition: all 100ms ease-in-out;
+  transition: all 100ms ease-in-out;
+}
+
+.navbar .btn:hover {
+  color: white;
+  background-color: black;
+}
+
+.form {
+  margin-top: 3.25rem;
+  border-top: 2px solid white;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  color: white;
+}
+
+.form .form-header {
+  text-transform: uppercase;
+  -ms-flex-item-align: center;
+      -ms-grid-row-align: center;
+      align-self: center;
+  letter-spacing: .1rem;
+  margin: 1rem;
+}
+
+.form label {
+  margin: .25rem 0;
+}
+
+.form input {
+  padding: .5em .75em;
+  font-size: .75rem;
+  font-weight: 300;
+  outline: none;
+  border-radius: .25rem;
+  border: 3px solid rgba(0, 0, 0, 0.6);
+  -webkit-transition: border 150ms ease-in-out;
+  transition: border 150ms ease-in-out;
+}
+
+.form input:hover, .form input:focus {
+  border: 3px solid black;
+}
+
+.form .btn {
+  margin: 2rem 0;
+  background-color: white;
+  color: black;
+  -webkit-transition: all 100ms ease-in-out;
+  transition: all 100ms ease-in-out;
+}
+
+.form .btn:hover {
+  color: white;
+  background-color: black;
+}
+
+.main {
+  display: -ms-grid;
+  display: grid;
+  height: 100%;
+  -ms-grid-columns: (minmax(500px, 1fr))[auto-fill];
+      grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+  -webkit-box-pack: space-evenly;
+      -ms-flex-pack: space-evenly;
+          justify-content: space-evenly;
+  gap: 1rem;
+  width: 75%;
+  padding: 1.5em;
+  background-color: #e6e6e6;
+  margin-left: 25%;
+}
+/*# sourceMappingURL=main.css.map */
