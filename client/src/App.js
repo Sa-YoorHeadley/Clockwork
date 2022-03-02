@@ -1,7 +1,7 @@
 import Form from "./components/Form";
 import Main from "./components/Main";
 import Navbar from "./components/Navbar";
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 
 function App() {
   const data  = JSON.parse(localStorage.getItem("employees")) || []
