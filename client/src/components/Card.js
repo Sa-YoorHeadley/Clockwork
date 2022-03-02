@@ -14,6 +14,7 @@ export default function Card({id, firstName, lastName, position, age, country, w
                     <h4 className='wage'>Wage: ${wage}</h4>
             </div>
             <div className='buttons'>
+                <button className='btn schedule'>Schedule</button>
                 <button className='btn edit' onClick={onEdit}>Edit</button>
                 <button className='btn delete' onClick={onDelete}>Delete</button>
             </div>
