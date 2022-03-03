@@ -50,7 +50,7 @@ export default function Form({ formType, handleAdd, handleUpdate, handleDelete, 
         const blank = element => !element
         let values = Object.values(formDataCopy)
         console.log(formDataCopy)
-
+        //CHange values for delete
         if(values.some(blank)){
             console.log('blank values')
         } else{

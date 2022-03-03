@@ -46,16 +46,16 @@ function App() {
   
   function scheduleEmployee(employeeId){
     console.log(employeeId)
-    // setEmployeeData(oldEmployeeData => {
-    //   const targetEmployee = employeeData.find( employee => employee.id === employeeId)
-    //   if(targetEmployee.scheduled){
-    //     console.log('Employee Scheduled')
-    //   }else{
-    //     console.log('Schedule Employee')
-    //     targetEmployee.scheduled = true
-    //   }
-    //   return [...oldEmployeeData] 
-    // })
+    setEmployeeData(oldEmployeeData => {
+      const targetEmployee = employeeData.find( employee => employee.id === employeeId)
+      if(targetEmployee.scheduled){
+        console.log('Rescheduled Employee')
+      }else{
+        console.log('Schedule Employee')
+        targetEmployee.scheduled = true
+      }
+      return [...oldEmployeeData] 
+    })
   }
 
   function changeForm(formType){
