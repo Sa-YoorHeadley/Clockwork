@@ -6,7 +6,6 @@ export default function Form({ formType, handleAdd, handleUpdate, handleDelete, 
     
     const [formData, setFormData] = useState({
         'id': '',
-        'account':'',
         'firstName': '',
         'lastName': '',
         'age': 0,

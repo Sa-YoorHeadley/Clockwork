@@ -4,18 +4,30 @@ import Navbar from "./components/Navbar";
 import React, { useState, useEffect } from 'react'
 
 function App() {
-  const data  = JSON.parse(localStorage.getItem("employees")) || []
   const [formType, setFormType] = useState('create')
   const [showList, setShowList] = useState(true)
-  const [employeeData, setEmployeeData] = useState(data)
-  const [selectedDatabase, setSelectedDatabase] = useState('')
+  const [selectedDatabase, setSelectedDatabase] = useState('default')
   const [selectedId, setSelectedId] = useState('')
 
+  //add entry page
+  
+  let data  = JSON.parse(localStorage.getItem(selectedDatabase))
+  const [employeeData, setEmployeeData] = useState(data)
+  
   useEffect(() => {
-    localStorage.setItem('employees', JSON.stringify(employeeData))
+    localStorage.setItem(selectedDatabase, JSON.stringify(employeeData))
   }, [employeeData])
   
-
+  useEffect(() => {
+    console.log(selectedDatabase)
+    console.log(data)
+    if (selectedDatabase == "default"){
+      data = []
+    }
+    setEmployeeData(data)
+    
+  }, [selectedDatabase])
+  
   function updateEmployee(employeeId, sourceEmployee){
     if(!sourceEmployee){
       setFormType('update')

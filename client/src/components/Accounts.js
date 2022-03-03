@@ -2,14 +2,17 @@ import React from 'react'
 
 export default function Accounts({changeDatabase}) {
   function handleChange(event){
-    console.log(event.target)
-
+    
+    const database = event.target.value
+    changeDatabase(database)
   }
+
     return (
     <select onChange={handleChange}>
-        <option value = "Jefferson Health">Jefferson Health</option>
-        <option value = "Optum">Optum</option>
-        <option value = "Paychex">Paychex</option>
+        <option value = "default"></option>
+        <option value = "jeffersonHealthDb">Jefferson Health</option>
+        <option value = "optumDb">Optum</option>
+        <option value = "paychexDb">Paychex</option>
     </select>
   )
 }
