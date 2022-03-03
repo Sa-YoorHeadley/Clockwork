@@ -8,6 +8,7 @@ function App() {
   const [formType, setFormType] = useState('create')
   const [showList, setShowList] = useState(true)
   const [employeeData, setEmployeeData] = useState(data)
+  const [selectedDatabase, setSelectedDatabase] = useState('')
   const [selectedId, setSelectedId] = useState('')
 
   useEffect(() => {
@@ -70,7 +71,7 @@ function App() {
   return (
     <div className="App">
       <aside className="left-section">
-        <Navbar handleClick={changeForm}/>
+        <Navbar handleClick={changeForm} changeDatabase={setSelectedDatabase}/>
         <Form formType={formType} handleAdd={addEmployee} handleDelete={deleteEmployee} handleUpdate={updateEmployee} selectedId={selectedId}/>
       </aside>
       {showList && <Main employeeData={employeeData} deleteEmployee={deleteEmployee} updateEmployee={updateEmployee} scheduleEmployee={scheduleEmployee}/> }
