@@ -83,6 +83,19 @@ body{
                 background-color: rgba(200, 4, 4, 1);
             }
         }
+        .schedule{
+            background-color: rgba(113, 170, 255, 0.7);
+            &:hover{
+                background-color: rgba(113, 170, 255, 1);
+            }
+        }
+        .reschedule{
+            background-color: rgba(122, 148, 187, 0.7);
+            &:hover{
+                background-color: rgba(122, 148, 187, 1);
+            }
+
+        }
     }
     &:hover{
         background-color: rgba(240, 240, 240, 1);

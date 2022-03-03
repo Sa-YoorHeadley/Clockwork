@@ -127,6 +127,22 @@ body {
   background-color: #c80404;
 }
 
+.card .buttons .schedule {
+  background-color: rgba(113, 170, 255, 0.7);
+}
+
+.card .buttons .schedule:hover {
+  background-color: #71aaff;
+}
+
+.card .buttons .reschedule {
+  background-color: rgba(122, 148, 187, 0.7);
+}
+
+.card .buttons .reschedule:hover {
+  background-color: #7a94bb;
+}
+
 .card:hover {
   background-color: #f0f0f0;
 }

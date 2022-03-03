@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function Card({id, firstName, lastName, position, age, country, wage, onEdit, onDelete}) {
+export default function Card({id, firstName, lastName, position, age, country, wage, scheduled, onEdit, onDelete, onSchedule}) {
     return (
         <article className='card'>
             <small className='id'>{id}</small>
@@ -14,7 +14,8 @@ export default function Card({id, firstName, lastName, position, age, country, w
                     <h4 className='wage'>Wage: ${wage}</h4>
             </div>
             <div className='buttons'>
-                <button className='btn schedule'>Schedule</button>
+                {!scheduled ? <button className='btn schedule' onClick={onSchedule}>Schedule</button> : <button className='btn reschedule' onClick={onSchedule}>Reschedule</button> }
+                
                 <button className='btn edit' onClick={onEdit}>Edit</button>
                 <button className='btn delete' onClick={onDelete}>Delete</button>
             </div>

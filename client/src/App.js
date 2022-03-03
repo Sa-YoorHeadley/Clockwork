@@ -41,8 +41,21 @@ function App() {
   }
 
   function deleteEmployee(employeeId){
-    console.log(employeeId)
     setEmployeeData(oldEmployeeData => oldEmployeeData.filter(employee => employee.id !== employeeId))
+  }
+  
+  function scheduleEmployee(employeeId){
+    console.log(employeeId)
+    // setEmployeeData(oldEmployeeData => {
+    //   const targetEmployee = employeeData.find( employee => employee.id === employeeId)
+    //   if(targetEmployee.scheduled){
+    //     console.log('Employee Scheduled')
+    //   }else{
+    //     console.log('Schedule Employee')
+    //     targetEmployee.scheduled = true
+    //   }
+    //   return [...oldEmployeeData] 
+    // })
   }
 
   function changeForm(formType){
@@ -60,7 +73,7 @@ function App() {
         <Navbar handleClick={changeForm}/>
         <Form formType={formType} handleAdd={addEmployee} handleDelete={deleteEmployee} handleUpdate={updateEmployee} selectedId={selectedId}/>
       </aside>
-      {showList && <Main employeeData={employeeData} deleteEmployee={deleteEmployee} updateEmployee={updateEmployee}/> }
+      {showList && <Main employeeData={employeeData} deleteEmployee={deleteEmployee} updateEmployee={updateEmployee} scheduleEmployee={scheduleEmployee}/> }
       
     </div>
   );

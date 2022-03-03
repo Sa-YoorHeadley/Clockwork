@@ -1,7 +1,7 @@
 import React from 'react'
 import Card from './Card'
 
-export default function Main({ employeeData, deleteEmployee, updateEmployee }) {
+export default function Main({ employeeData, deleteEmployee, updateEmployee, scheduleEmployee }) {
     
 
     const cardElements = employeeData.map(employee =>{
@@ -10,6 +10,7 @@ export default function Main({ employeeData, deleteEmployee, updateEmployee }) {
             key={employee.id}
             onEdit={() => updateEmployee(employee.id)}
             onDelete={() => deleteEmployee(employee.id)}
+            onSchedule={() => scheduleEmployee(employee.id)}
             {...employee}
             />
         )
