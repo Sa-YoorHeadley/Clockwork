@@ -9,6 +9,7 @@ export default function Accounts({changeDatabase}) {
     <select onChange={handleChange}>
         <option value = "Jefferson Health">Jefferson Health</option>
         <option value = "Optum">Optum</option>
+        <option value = "Paychex">Paychex</option>
     </select>
   )
 }
