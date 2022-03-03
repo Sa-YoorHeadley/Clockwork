@@ -12,6 +12,8 @@ export default function Form({ formType, handleAdd, handleUpdate, handleDelete, 
         'country': '',
         'position': '',
         'wage': '',
+        'scheduled': false,
+        'scheduleData': {}
     })
 
     useEffect(()=>{
@@ -36,12 +38,20 @@ export default function Form({ formType, handleAdd, handleUpdate, handleDelete, 
 
     
     function submitForm(submitFunction){
+        const excludedValues = ['id', 'scheduled', 'scheduleData']
+        const formDataCopy = {...formData}
+        //Removing ID, Scheduled and Schedule Data
+        excludedValues.forEach(excludedValue =>{
+            if(formDataCopy.hasOwnProperty(excludedValue)){
+                delete formDataCopy[excludedValue]
+            }
+        })
         //Axios.post('http://localhost:3001/create')
         const blank = element => !element
-        //Removing ID
-        const values = Object.values(formData).slice(1)
+        let values = Object.values(formDataCopy)
+        console.log(formDataCopy)
+
         if(values.some(blank)){
-            console.log(values)
             console.log('blank values')
         } else{
             if(formType === 'update'){
@@ -50,9 +60,9 @@ export default function Form({ formType, handleAdd, handleUpdate, handleDelete, 
             } else{
                 submitFunction(formData)
             }
+            clearForm()    
         }
 
-        clearForm()    
     }
 
     function clearForm(){
@@ -64,6 +74,8 @@ export default function Form({ formType, handleAdd, handleUpdate, handleDelete, 
             'country': '',
             'position': '',
             'wage': '',
+            'scheduled': false,
+            'scheduleData': {}
         })
     }
 
