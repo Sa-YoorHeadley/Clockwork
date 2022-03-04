@@ -11,7 +11,7 @@ function App() {
 
   //add entry page
   
-  let data  = JSON.parse(localStorage.getItem(selectedDatabase))
+  let data  = JSON.parse(localStorage.getItem(selectedDatabase)) || []
   const [employeeData, setEmployeeData] = useState(data)
   
   useEffect(() => {
@@ -84,7 +84,7 @@ function App() {
     <div className="App">
       <aside className="left-section">
         <Navbar handleClick={changeForm} changeDatabase={setSelectedDatabase}/>
-        <Form formType={formType} handleAdd={addEmployee} handleDelete={deleteEmployee} handleUpdate={updateEmployee} selectedId={selectedId}/>
+        <Form formType={formType} handleAdd={addEmployee} handleDelete={deleteEmployee} handleUpdate={updateEmployee} selectedId={selectedId} selectedDatabase={selectedDatabase}/>
       </aside>
       {showList && <Main employeeData={employeeData} deleteEmployee={deleteEmployee} updateEmployee={updateEmployee} scheduleEmployee={scheduleEmployee}/> }
       
