@@ -126,6 +126,33 @@ body{
             background-color: black;
         }
     }
+    .accounts{
+        margin-bottom: 3.25rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        border-bottom: 2px solid white;
+        
+        .accounts-header{
+            text-transform: uppercase;
+            align-self: center;
+            letter-spacing: .1rem;
+            margin: 1rem;
+            text-align: center;
+            color: white;
+        }
+        .accounts-select{
+            width: 80%;
+            margin-bottom: 1.5rem;
+            padding: .5em .75em;
+            font-family: inherit;
+            font-weight: 600;
+            outline: none;
+            border: 1px solid black;
+            border-radius: .25rem;
+        }
+
+    }
 }
 .form{
     margin-top: 3.25rem;
@@ -140,6 +167,7 @@ body{
         align-self: center;
         letter-spacing: .1rem;
         margin: 1rem;
+        text-align: center;
     }
 
     label{
