@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Axios from 'axios'
 
 
-export default function Form({ formType, handleAdd, handleUpdate, handleDelete, selectedId }) {
+export default function Form({ formType, handleAdd, handleUpdate, handleDelete, selectedId, selectedDatabase }) {
     
     const [formData, setFormData] = useState({
         'id': '',
@@ -38,6 +38,10 @@ export default function Form({ formType, handleAdd, handleUpdate, handleDelete, 
 
     
     function submitForm(submitFunction){
+        if (selectedDatabase === 'default'){
+            console.log('Please select valid database')
+            return
+        }
         const excludedValues = ['id', 'scheduled', 'scheduleData']
         const formDataCopy = {...formData}
         //Removing ID, Scheduled and Schedule Data
