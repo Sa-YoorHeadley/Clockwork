@@ -1,6 +1,8 @@
 import Form from "./components/Form";
 import Main from "./components/Main";
 import Navbar from "./components/Navbar";
+import Scheduler from "./components/Scheduler";
+import LandingPage from "./components/LandingPage";
 import React, { useState, useEffect } from 'react'
 
 function App() {
@@ -8,7 +10,9 @@ function App() {
   const [showList, setShowList] = useState(true)
   const [selectedDatabase, setSelectedDatabase] = useState('default')
   const [selectedId, setSelectedId] = useState('')
-
+  const [openScheduler, setOpenScheduler] = useState(false)
+  const [targetEmployee, setTargetEmployee] = useState({})
+  const [loggedIn, setLoggedIn] = useState(false)
   //add entry page
   
   let data  = JSON.parse(localStorage.getItem(selectedDatabase)) || []
@@ -29,6 +33,8 @@ function App() {
   }, [selectedDatabase])
   
   function updateEmployee(employeeId, sourceEmployee){
+    console.log(`Source: ${JSON.stringify(sourceEmployee)}`)
+    console.log(`Target: ${JSON.stringify(targetEmployee)}`)
     if(!sourceEmployee){
       setFormType('update')
     }
@@ -39,7 +45,7 @@ function App() {
       }
 
       setEmployeeData(oldEmployeeData => {
-        const targetEmployee = employeeData.find( employee => employee.id === employeeId)
+        setTargetEmployee(employeeData.find( employee => employee.id === employeeId))
         Object.assign(targetEmployee, sourceEmployee)
         return [...oldEmployeeData] 
       })
@@ -58,17 +64,14 @@ function App() {
   }
   
   function scheduleEmployee(employeeId){
-    console.log(employeeId)
-    setEmployeeData(oldEmployeeData => {
-      const targetEmployee = employeeData.find( employee => employee.id === employeeId)
-      if(targetEmployee.scheduled){
-        console.log('Rescheduled Employee')
-      }else{
-        console.log('Schedule Employee')
-        targetEmployee.scheduled = true
-      }
-      return [...oldEmployeeData] 
-    })
+    setTargetEmployee(employeeData.find( employee => employee.id === employeeId))
+    if(targetEmployee.scheduled){
+      console.log('Rescheduled Employee')
+      setOpenScheduler(true)
+    }else{
+      console.log('Schedule Employee')
+      setOpenScheduler(true)
+    }
   }
 
   function changeForm(formType){
@@ -82,12 +85,17 @@ function App() {
 
   return (
     <div className="App">
-      <aside className="left-section">
-        <Navbar handleClick={changeForm} changeDatabase={setSelectedDatabase}/>
-        <Form formType={formType} handleAdd={addEmployee} handleDelete={deleteEmployee} handleUpdate={updateEmployee} selectedId={selectedId} selectedDatabase={selectedDatabase}/>
-      </aside>
-      {showList && <Main employeeData={employeeData} deleteEmployee={deleteEmployee} updateEmployee={updateEmployee} scheduleEmployee={scheduleEmployee}/> }
-      
+      { !loggedIn ? 
+        <LandingPage setLoggedIn={setLoggedIn}/> :
+        <>
+          <aside className="left-section">
+          <Navbar handleClick={changeForm} changeDatabase={setSelectedDatabase}/>
+          <Form formType={formType} handleAdd={addEmployee} handleDelete={deleteEmployee} handleUpdate={updateEmployee} selectedId={selectedId} selectedDatabase={selectedDatabase}/>
+          </aside>
+          {showList && <Main employeeData={employeeData} deleteEmployee={deleteEmployee} updateEmployee={updateEmployee} scheduleEmployee={scheduleEmployee}/> }
+          {openScheduler && <Scheduler targetEmployee={targetEmployee} openScheduler={setOpenScheduler} setTargetEmployee={setTargetEmployee} />}
+        </>
+      }
     </div>
   );
 }

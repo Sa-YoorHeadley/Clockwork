@@ -22,6 +22,8 @@ body{
     font-size: 1rem;
     font-weight: 400;
     padding: .5em 0;
+    font-weight: 600;
+    transition: all 100ms ease-in-out;
 }
 .card{
     display: flex;
@@ -49,7 +51,7 @@ body{
         flex-direction: column;
         gap: .25rem;
         color: #444;
-        .header{
+        .header-header{
             display: flex;
             align-items: baseline;
             gap: .25rem;
@@ -64,12 +66,13 @@ body{
         flex-direction: column;
         justify-content: flex-start;
         gap: .75em;
+        width: 150px;
         .btn{
             padding: .5em 1.25em;
             font-weight: 600;
             color: white;
             border-color: black;
-            transition: all 100ms ease-in-out;
+            
         }
         .edit{
             background-color: rgba(0, 180, 0, .7);
@@ -100,6 +103,250 @@ body{
     &:hover{
         background-color: rgba(240, 240, 240, 1);
     }
+}
+
+.scheduler{
+    position:fixed;
+    top: 0;
+    bottom: 0;
+    left: 25%;
+    right: 0;
+    background-color: rgba(125, 125, 125, 0.5);
+    z-index: 1000;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .scheduler-main{
+        position: relative;
+        background-color: white;
+        width: 500px;
+        height: 400px;
+        padding: 1em 2em;
+        border-radius: .75rem;
+        box-shadow: 3px 3px 3px 0 #777;
+
+        .close{
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background-color: transparent;
+            padding: 0;
+            &:hover{
+                color: rgba(113, 170, 255, 1);
+            }
+        }
+        
+        .scheduler-header{
+            text-transform: uppercase;
+            align-self: center;
+            margin: 1rem .5rem;
+            text-align: center;
+            border-bottom: 2px solid #333;
+        }
+
+        .scheduler-body{
+            display: flex;
+            flex-direction: column;
+
+            label{
+                margin-bottom: .25rem;
+            }
+            input{
+                margin-bottom: .75rem;
+            }
+
+            .submit{
+                color: white;
+                margin-top: 1rem;
+                background-color: rgba(113, 170, 255, 0.7);
+                &:hover{
+                    background-color: rgba(113, 170, 255, 1);
+                }
+            }
+        }
+    }
+}
+.header{
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 100vw;
+    height: 90px;
+    background-color: #EFEFEF;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Montserrat';
+    text-align: center;
+    padding-block: .75rem;
+    z-index: 5;
+
+    .clockwork-logo-text{
+        font-family: inherit;
+        text-decoration: none;
+        color: black;
+        font-weight: 900;
+        font-size: 1.75rem;
+        letter-spacing: .35rem;
+        
+        h1{
+            font-family: inherit;
+            font-weight: 900;
+            text-transform: uppercase;
+            span{
+                font-family: inherit;
+                color: #36CBC2;
+            }
+        }
+    }
+}
+.landing-page{
+    background-color: #404040;
+    width: 100vw;
+    height: 100vh;
+    font-family: 'Montserrat';
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+
+    .login-form-overlay{
+        background-color: rgba(64,64,64, .9);
+        position: absolute;
+        top: 90px;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        width: 100vw;
+        height:100vh;
+        z-index: 10;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .login-form{
+        background-color: #808080;
+        padding: 2em 3em;
+        width: 25rem;
+        height: 30rem;
+        display: flex;
+        border-radius: 1.5rem;
+        flex-direction: column;
+        align-items: center;
+        color: white;
+        font-family: 'Montserrat';
+        gap: 3rem;
+
+        &-header{
+            text-align: center;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            width: 100%;
+
+            &-text{
+                text-transform: uppercase;
+                font-weight: 700;
+                font-size: 1.75rem;
+                font-family: inherit;
+                letter-spacing: .25rem;
+            }
+
+            .close{
+                position: absolute;
+                padding: 0;
+                background-color: transparent;
+                right: -1rem;
+                top: 0;
+            }
+        }
+
+        &-field{
+            align-self: center;
+            width: 20rem;
+            margin: 0 25%;
+            display: flex;
+            flex-direction: column;
+            &-label{
+                position: relative;
+                margin-bottom: .5rem;
+                
+                &-icon{
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                }
+                &-text{
+                    margin-left: 2rem;
+                    font-weight: 400;
+                    text-transform: uppercase;
+                    font-size: 1.25rem;
+                    letter-spacing: .25rem;
+                }
+            }
+            &-input{
+                outline: none;
+                border: none;
+                border-radius: .25rem;
+                padding: .5em .25em;
+                width: 100%;
+            }
+        }
+
+        .login{
+            font-size: 1.5rem;
+        }
+
+    }
+
+    &-welcome{
+        margin-top: 5rem;
+        font-family: inherit;
+        text-transform: uppercase;
+        font-weight: 900;
+        font-size: 6rem;
+        letter-spacing: .35rem;
+        text-align: center;
+        color: white;
+        
+        span{
+            font-family: inherit;
+            color: #36CBC2;
+        }
+    }
+
+    .login{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-family: inherit;
+        padding: .25em 1em;
+        border-radius: 5rem;
+        background-color: #36CBC2;
+        text-transform: uppercase;
+        color: white;
+        font-weight: 700;
+        font-size: 1.75rem;
+        gap: 1.5rem;
+        transition: 150ms ease-in;
+        &:hover{
+            transform: scale(1.05);
+        }
+    }
+
+    &-clockwork-logo{
+        transform: rotate(0);
+        transition: transform 600ms ease-in-out;
+        &:hover{
+            transform: rotate(360deg);
+        }
+    }
+
 }
 .left-section{
     width: 25%;

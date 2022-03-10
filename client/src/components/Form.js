@@ -13,7 +13,10 @@ export default function Form({ formType, handleAdd, handleUpdate, handleDelete, 
         'position': '',
         'wage': '',
         'scheduled': false,
-        'scheduleData': {}
+        'scheduleData': {
+            'interviewTime': '',
+            'interviewDate': ''
+        }
     })
 
     useEffect(()=>{
