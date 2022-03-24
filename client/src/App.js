@@ -6,6 +6,8 @@ import LandingPage from "./components/LandingPage";
 import Axios from 'axios'
 import React, { useState, useEffect } from 'react'
 
+//Add function to get employee data and every time employee is added we call it
+
 function App() {
   const [formType, setFormType] = useState('create')
   const [showList, setShowList] = useState(true)

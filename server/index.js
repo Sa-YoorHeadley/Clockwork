@@ -70,9 +70,39 @@ app.post('/create', (req,res) => {
     })
 })
 
-app.delete('/delete', (req,res) => {
 
+//DELETE CANDIDATE
+app.delete('/delete/:id', (req,res) => {
+    const {id} = req.params
+    console.log(id)
+    const query = `DELETE FROM Persons WHERE PersonID = ?`
+    connection.query(query, id, (error, results) =>{
+        if(error){
+            throw error
+        }
+        if(!results[0]){
+            res.json({status: 'No Results'})
+        } else {
+            res.json(results[0])
+        }
+    })
 })
- 
+//UPDATE CANDIDATE
+app.put('/update/:id', (req,res) => {
+    const {id} = req.params
+    const {currentStatus, lastName, firstName, emailAddress, city, state} = req.body.formData
+    
+    const query = `UPDATE Persons SET currentStatus=?, lastName=?, firstName=?, emailAddress=?, city=?, state=? WHERE PersonID=?`
+    connection.query(query, [currentStatus, lastName, firstName, emailAddress, city, state, id], (error, results) =>{
+        if(error){
+            throw error
+        }
+        if(!results[0]){
+            res.json({status: 'No Results'})
+        } else {
+            res.json(results[0])
+        }
+    })
+})
 
 
