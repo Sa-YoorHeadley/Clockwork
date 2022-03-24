@@ -1,19 +1,78 @@
+require('dotenv').config();
 const express = require('express')
 const app = express()
-
 const mysql = require('mysql')
-const db = mysql.createConnection({
-    user: 'root',
-    host: '',//192.168.1.13
-    password: 'password',
-    database: 'crudDatabase'
+const cors = require('cors')
+const bodyParser = require('body-parser');
+
+// CREATE AND TEST CONNECTION
+const connection = mysql.createConnection({
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASS,
+    database: process.env.DB_NAME,
+    // socketPath: `/cloudsql/${process.env.INSTANCE_CONNECTION_NAME}`
+})
+connection.connect(err => {
+    if(err){
+        console.error('Error connecting: ' + err.stack);
+        return;
+    }
+    console.log('Connected as thread id: ' + connection.threadId);
 })
 
-app.post('/create', (req, res) =>{
-    const { firstName, lastName, age, country, position, wage } = req.body.formData
-    db.query('INSERT INTO employees (formData) VALUES')
-})
+app.use(cors())
+app.use(express.json())
+app.use(bodyParser.urlencoded({extended: true}))
 
+const port = process.env.PORT || 3001
+// LISTEN
 app.listen(3001, ()=>{
-    console.log('Server running')
+    console.log(`Server running on port ${port}`)
 })
+
+// ROOT FUNCTION
+app.get("/", async (req, res) => {
+    res.json({status: 'Running'})
+})
+
+
+// 
+app.get('/candidates', async (req, res) =>{
+    const query = `SELECT * FROM Persons`
+    connection.query(query, (error, results) =>{
+        if(error){
+            throw error
+        }
+        if(!results[0]){
+            res.json({status: 'No Results'})
+        } else {
+            res.json(results)
+        }
+    })
+})
+
+// CREATE CANDIDATE
+app.post('/create', (req,res) => {
+    const {currentStatus, lastName, firstName, emailAddress, city, state} = req.body.formData
+    const query = `INSERT INTO Persons(currentStatus, lastName, firstName, emailAddress, city, state)
+    VALUES (?,?,?,?,?,?)
+    `
+    connection.query(query, [currentStatus, lastName, firstName, emailAddress, city, state], (error, results) =>{
+        if(error){
+            throw error
+        }
+        if(!results[0]){
+            res.json({status: 'No Results'})
+        } else {
+            res.json(results[0])
+        }
+    })
+})
+
+app.delete('/delete', (req,res) => {
+
+})
+ 
+
+

@@ -5,28 +5,22 @@ import Axios from 'axios'
 export default function Form({ formType, handleAdd, handleUpdate, handleDelete, selectedId, selectedDatabase }) {
     
     const [formData, setFormData] = useState({
-        'id': '',
         'firstName': '',
         'lastName': '',
-        'age': 0,
-        'country': '',
-        'position': '',
-        'wage': '',
-        'scheduled': false,
-        'scheduleData': {
-            'interviewTime': '',
-            'interviewDate': ''
-        }
+        'currentStatus': '',
+        'city': '',
+        'state': '',
+        'emailAddress': '',
     })
 
-    useEffect(()=>{
-        setFormData(prevFormData => {
-            return{
-                ...prevFormData,
-                id: ''
-            }
-        })
-    }, [formData.firstName, formData.lastName, formData.age, formData.country, formData.position, formData.wage])
+    // useEffect(()=>{
+    //     setFormData(prevFormData => {
+    //         return{
+    //             ...prevFormData,
+    //             id: ''
+    //         }
+    //     })
+    // }, [formData.firstName, formData.lastName, formData.age, formData.country, formData.position, formData.wage])
 
     function handleChange(event){
         const { name, value } = event.target
@@ -45,19 +39,25 @@ export default function Form({ formType, handleAdd, handleUpdate, handleDelete, 
             console.log('Please select valid database')
             return
         }
-        const excludedValues = ['id', 'scheduled', 'scheduleData']
+        const excludedValues = ['id']
         const formDataCopy = {...formData}
-        //Removing ID, Scheduled and Schedule Data
+        //Removing ID from check
         excludedValues.forEach(excludedValue =>{
             if(formDataCopy.hasOwnProperty(excludedValue)){
                 delete formDataCopy[excludedValue]
             }
         })
-        //Axios.post('http://localhost:3001/create')
+
+        if(formType === 'create'){
+            Axios.post('http://localhost:3001/create', {formData}).then(() => alert("Employee Created"))
+
+        }
+
+        //Check For Blanks
         const blank = element => !element
         let values = Object.values(formDataCopy)
         console.log(formDataCopy)
-        //CHange values for delete
+        //Change values for delete
         if(values.some(blank)){
             console.log('blank values')
         } else{
@@ -67,7 +67,7 @@ export default function Form({ formType, handleAdd, handleUpdate, handleDelete, 
             } else{
                 submitFunction(formData)
             }
-            clearForm()    
+            //clearForm()    
         }
 
     }
@@ -77,12 +77,10 @@ export default function Form({ formType, handleAdd, handleUpdate, handleDelete, 
             'id': '',
             'firstName': '',
             'lastName': '',
-            'age': 0,
-            'country': '',
-            'position': '',
-            'wage': '',
-            'scheduled': false,
-            'scheduleData': {}
+            'currentStatus': '',
+            'city': '',
+            'state': '',
+            'emailAddress': '',
         })
     }
 
@@ -109,17 +107,17 @@ export default function Form({ formType, handleAdd, handleUpdate, handleDelete, 
                     <label htmlFor='last-name'>Last Name</label>
                     <input name='lastName' type='text' id='last-name' value={formData.lastName} onChange={handleChange} required/>
 
-                    <label htmlFor='age'>Age</label>
-                    <input name='age' type='number' id='age' value={formData.age} onChange={handleChange} required/>
+                    <label htmlFor='currentStatus'>Current Status</label>
+                    <input name='currentStatus' type='text' id='currentStatus' value={formData.currentStatus} onChange={handleChange} required/>
 
-                    <label htmlFor='country'>Country</label>
-                    <input name='country' type='text' id='country' value={formData.country} onChange={handleChange} required/>
+                    <label htmlFor='city'>City</label>
+                    <input name='city' type='text' id='city' value={formData.city} onChange={handleChange} required/>
 
-                    <label htmlFor='position'>Position</label>
-                    <input name='position' type='text' id='position' value={formData.position} onChange={handleChange} required/>
+                    <label htmlFor='state'>State</label>
+                    <input name='state' type='text' id='state' value={formData.state} onChange={handleChange} required/>
 
-                    <label htmlFor='wage'>Wage</label>
-                    <input name='wage' type='number' id='wage' value={formData.wage} onChange={handleChange} required/>
+                    <label htmlFor='emailAddress'>Email Address</label>
+                    <input name='emailAddress' type='email' id='emailAddress' value={formData.emailAddress} onChange={handleChange} required/>
 
                     {
                         formType === 'create' ?

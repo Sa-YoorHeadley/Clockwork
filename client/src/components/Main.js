@@ -3,11 +3,12 @@ import Card from './Card'
 
 export default function Main({ employeeData, deleteEmployee, updateEmployee, scheduleEmployee }) {
     
+    console.log(employeeData)
 
     const cardElements = employeeData.map(employee =>{
         return(
             <Card
-            key={employee.id}
+            key={employee.personID}
             onEdit={() => updateEmployee(employee.id)}
             onDelete={() => deleteEmployee(employee.id)}
             onSchedule={() => scheduleEmployee(employee.id)}
