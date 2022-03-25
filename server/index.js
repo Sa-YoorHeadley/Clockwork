@@ -105,4 +105,35 @@ app.put('/update/:id', (req,res) => {
     })
 })
 
+app.get('/contacts', async (req, res) =>{
+    
+    const query = `SELECT * FROM Contacts`
+    connection.query(query, (error, results) =>{
+        if(error){
+            throw error
+        }
+        if(!results[0]){
+            res.json({status: 'No Results'})
+        } else {
+            res.json(results)
+        }
+    })
+})
 
+// CREATE Contact
+app.post('/candidate/create', (req,res) => {
+    const {idContact, ContactTimeStamp, ContactStatus, ContactRecruiterId, ContactApplicationsId} = req.body.newContact
+    const query = `INSERT INTO Persons(idContact, ContactTimeStamp, ContactStatus, ContactRecruiterId, ContactApplicationsId)
+    VALUES (?,?,?,?,?)
+    `
+    connection.query(query, [idContact, ContactTimeStamp, ContactStatus, ContactRecruiterId, ContactApplicationsId], (error, results) =>{
+        if(error){
+            throw error
+        }
+        if(!results[0]){
+            res.json({status: 'No Results'})
+        } else {
+            res.json(results[0])
+        }
+    })
+})

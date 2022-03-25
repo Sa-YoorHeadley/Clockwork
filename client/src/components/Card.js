@@ -14,7 +14,7 @@ export default function Card({PersonID, firstName, lastName, currentStatus, city
                     <h4 className='emailAddress'>emailAddress: {emailAddress}</h4>
             </div>
             <div className='buttons'>
-                {/* {scheduled ? <button className='btn schedule' onClick={onSchedule}>Schedule</button> : <button className='btn reschedule' onClick={onSchedule}>Reschedule</button> } */}
+                {true ? <button className='btn schedule' onClick={onSchedule}>Contact</button> : <button className='btn reschedule' onClick={onSchedule}>Reschedule</button> }
                 
                 <button className='btn edit' onClick={onEdit}>Edit</button>
                 <button className='btn delete' onClick={onDelete}>Delete</button>
