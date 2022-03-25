@@ -50,7 +50,7 @@ function App() {
     getEmployeeData()
   }
   
-  
+  function randomFunction(){}
   function scheduleEmployee(employeeId){
     setTargetEmployee(employeeData.find( employee => employee.id === employeeId))
     if(targetEmployee.scheduled){
