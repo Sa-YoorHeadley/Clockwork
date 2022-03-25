@@ -50,7 +50,13 @@ function App() {
     getEmployeeData()
   }
   
-  function randomFunction(){}
+  function getContactData(){
+    Axios.get('http://localhost:3001/contacts')
+    .then(res => {
+      console.log(res)
+    })
+  }
+
   function scheduleEmployee(employeeId){
     setTargetEmployee(employeeData.find( employee => employee.id === employeeId))
     if(targetEmployee.scheduled){
@@ -63,11 +69,13 @@ function App() {
   }
 
   function changeForm(formType){
-    if(formType !== 'read'){
+    if(formType !== 'read' || formType !== 'readContacts'){
       setFormType(formType)
+      console.log(formType)
     }
     else{
-       setShowList(prevShowList => !prevShowList)
+       setShowList(true)
+       console.log(formType)
     }
   }
 
@@ -80,7 +88,8 @@ function App() {
           <Navbar handleClick={changeForm} changeDatabase={setSelectedDatabase}/>
           <Form formType={formType} handleDelete={deleteEmployee} handleUpdate={updateEmployee} handleAdd={addEmployee} selectedId={selectedId} selectedDatabase={selectedDatabase}/>
           </aside>
-          {showList && <Main employeeData={employeeData} deleteEmployee={deleteEmployee} updateEmployee={updateEmployee} /> }
+          {showList && formType === "read" ? <div>Show Employees</div>: showList && formType === "readContacts" ? <div> Show Contacts </div>: null }
+          {/* {showList && <Main employeeData={employeeData} deleteEmployee={deleteEmployee} updateEmployee={updateEmployee} scheduleEmployee={scheduleEmployee} /> } */}
           {openScheduler && <Scheduler targetEmployee={targetEmployee} openScheduler={setOpenScheduler} setTargetEmployee={setTargetEmployee} />}
         </>
       }
