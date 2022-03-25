@@ -54,7 +54,7 @@ app.get('/candidates', async (req, res) =>{
 
 // CREATE CANDIDATE
 app.post('/create', (req,res) => {
-    const {currentStatus, lastName, firstName, emailAddress, city, state} = req.body.formData
+    const {currentStatus, lastName, firstName, emailAddress, city, state} = req.body.newEmployee
     const query = `INSERT INTO Persons(currentStatus, lastName, firstName, emailAddress, city, state)
     VALUES (?,?,?,?,?,?)
     `
@@ -87,11 +87,11 @@ app.delete('/delete/:id', (req,res) => {
         }
     })
 })
+
 //UPDATE CANDIDATE
 app.put('/update/:id', (req,res) => {
     const {id} = req.params
-    const {currentStatus, lastName, firstName, emailAddress, city, state} = req.body.formData
-    
+    const {currentStatus, lastName, firstName, emailAddress, city, state} = req.body.updatedEmployee
     const query = `UPDATE Persons SET currentStatus=?, lastName=?, firstName=?, emailAddress=?, city=?, state=? WHERE PersonID=?`
     connection.query(query, [currentStatus, lastName, firstName, emailAddress, city, state, id], (error, results) =>{
         if(error){

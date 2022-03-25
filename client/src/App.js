@@ -19,38 +19,37 @@ function App() {
   const [employeeData, setEmployeeData] = useState([])
   
   useEffect(() => {
-    Axios.get('http://localhost:3001/candidates')
-    .then(res => {
-      console.log(res)
-      setEmployeeData(res.data)
-    })
+    getEmployeeData()
   }, [])
 
-  
-  function updateEmployee(employeeId, sourceEmployee){
-    console.log(`Source: ${JSON.stringify(sourceEmployee)}`)
-    console.log(`Target: ${JSON.stringify(targetEmployee)}`)
-    if(!sourceEmployee){
-      setFormType('update')
-    }
-    else{
-      sourceEmployee = {
-        ...sourceEmployee,
-        id: selectedId
-      }
+  function getEmployeeData(){
+    Axios.get('http://localhost:3001/candidates')
+    .then(res => {
+      setEmployeeData(res.data)
+    })
+  }
 
-      setEmployeeData(oldEmployeeData => {
-        setTargetEmployee(employeeData.find( employee => employee.id === employeeId))
-        Object.assign(targetEmployee, sourceEmployee)
-        return [...oldEmployeeData] 
-      })
+  
+  function addEmployee(newEmployee){
+    Axios.post('http://localhost:3001/create', {newEmployee}).then(() => alert("Employee Created"))
+    getEmployeeData()
+  }
+
+  function updateEmployee(employeeId, updatedEmployee){
+    if(!updatedEmployee){
+      setSelectedId(employeeId)
+      setFormType('update')
+      return
     }
-    setSelectedId(employeeId)
+    Axios.put(`http://localhost:3001/update/${employeeId}`, {updatedEmployee}).then(() => alert("Employee Updated"))
+    getEmployeeData()
   }
 
   function deleteEmployee(employeeId){
-    setEmployeeData(oldEmployeeData => oldEmployeeData.filter(employee => employee.id !== employeeId))
+    Axios.delete(`http://localhost:3001/delete/${employeeId}`).then(() => alert("Employee Deleted"))
+    getEmployeeData()
   }
+  
   
   function scheduleEmployee(employeeId){
     setTargetEmployee(employeeData.find( employee => employee.id === employeeId))
@@ -79,9 +78,9 @@ function App() {
         <>
           <aside className="left-section">
           <Navbar handleClick={changeForm} changeDatabase={setSelectedDatabase}/>
-          <Form formType={formType} handleDelete={deleteEmployee} handleUpdate={updateEmployee} selectedId={selectedId} selectedDatabase={selectedDatabase}/>
+          <Form formType={formType} handleDelete={deleteEmployee} handleUpdate={updateEmployee} handleAdd={addEmployee} selectedId={selectedId} selectedDatabase={selectedDatabase}/>
           </aside>
-          {showList && <Main employeeData={employeeData} deleteEmployee={deleteEmployee} updateEmployee={updateEmployee} scheduleEmployee={scheduleEmployee}/> }
+          {showList && <Main employeeData={employeeData} deleteEmployee={deleteEmployee} updateEmployee={updateEmployee} /> }
           {openScheduler && <Scheduler targetEmployee={targetEmployee} openScheduler={setOpenScheduler} setTargetEmployee={setTargetEmployee} />}
         </>
       }

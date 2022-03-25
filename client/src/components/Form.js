@@ -5,6 +5,7 @@ import Axios from 'axios'
 export default function Form({ formType, handleAdd, handleUpdate, handleDelete, selectedId, selectedDatabase }) {
     
     const [formData, setFormData] = useState({
+        'id': selectedId || '',
         'firstName': '',
         'lastName': '',
         'currentStatus': '',
@@ -34,11 +35,7 @@ export default function Form({ formType, handleAdd, handleUpdate, handleDelete, 
 
 
     
-    function submitForm(submitFunction){
-        if (selectedDatabase === 'default'){
-            console.log('Please select valid database')
-            return
-        }
+    function submitForm(){
         const excludedValues = ['id']
         const formDataCopy = {...formData}
         //Removing ID from check
@@ -47,28 +44,22 @@ export default function Form({ formType, handleAdd, handleUpdate, handleDelete, 
                 delete formDataCopy[excludedValue]
             }
         })
-
-        if(formType === 'create'){
-            Axios.post('http://localhost:3001/create', {formData}).then(() => alert("Employee Created"))
-
-        }
-
         //Check For Blanks
         const blank = element => !element
         let values = Object.values(formDataCopy)
-        console.log(formDataCopy)
-        //Change values for delete
-        if(values.some(blank)){
-            console.log('blank values')
-        } else{
-            if(formType === 'update'){
-               submitFunction(selectedId, formData)
-
-            } else{
-                submitFunction(formData)
-            }
-            //clearForm()    
+        
+        if(formType === 'delete' && formData.id){
+            handleDelete(formData.id)
         }
+        
+        else if(formType === 'create' && !values.some(blank)){
+            handleAdd(formData)
+        }
+        else if(formType === 'update' && formData.id && !values.some(blank)){
+            handleUpdate(formData.id, formData)
+        }
+        
+        clearForm()    
 
     }
 
@@ -92,7 +83,7 @@ export default function Form({ formType, handleAdd, handleUpdate, handleDelete, 
                     <label htmlFor='id'>ID</label>
                     <input name='id' type='text' id='id' value={formData.id} onChange={handleChange} required/>
 
-                    <button className='btn' onClick={() => handleDelete(formData.id)}>Delete Employee</button>
+                    <button className='btn' onClick={submitForm}>Delete Employee</button>
                 </section>
             :
                 <section className='form'>
@@ -121,9 +112,9 @@ export default function Form({ formType, handleAdd, handleUpdate, handleDelete, 
 
                     {
                         formType === 'create' ?
-                            <button className='btn' onClick={() => { submitForm(handleAdd) }}>Add Employee</button> 
+                            <button className='btn' onClick={submitForm}>Add Employee</button> 
                             : 
-                            <button className='btn' onClick={() => { submitForm(handleUpdate) }}>Update Employee</button> 
+                            <button className='btn' onClick={submitForm}>Update Employee</button> 
                     }
                 </section>
     )

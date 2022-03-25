@@ -1,7 +1,6 @@
 import React from 'react'
 
 export default function Card({PersonID, firstName, lastName, currentStatus, city, state, emailAddress, onEdit, onDelete, onSchedule}) {
-    console.log(PersonID)
     return (
         <article className='card'>
             <small className='id'>{PersonID}</small>
