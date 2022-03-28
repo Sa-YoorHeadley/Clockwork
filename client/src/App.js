@@ -128,7 +128,7 @@ function App() {
             updateCandidate={updateCandidate} 
             scheduleCandidate={scheduleCandidate}
             contactCandidate={contactCandidate} 
-          /> }
+            />}
           {openContactForm.status && <Contacts openContactForm={setOpenContactForm} data={openContactForm.data}/>} 
           {/* {openScheduler && <Scheduler targetCandidate={targetCandidate} openScheduler={setOpenScheduler} setTargetCandidate={setTargetCandidate} />} */}
         </>
