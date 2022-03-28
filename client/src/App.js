@@ -59,10 +59,11 @@ function App() {
   function filterList(listType){
 
       if(listType === 'readCandidates'){
-      const matchedCharacters = candidateData.filter(candidate =>{
-        return candidate.firstName.toLowerCase().includes(searchKey)
-     
-    })}
+        const matchedCharacters = candidateData.filter(candidate =>{
+        return candidate.firstName.toLowerCase().includes(searchKey.toLowerCase())
+        })
+        console.log(matchedCharacters)
+      }
 
   }
 
