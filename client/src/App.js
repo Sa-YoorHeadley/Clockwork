@@ -22,6 +22,7 @@ function App() {
   const [applicationData, setApplicationData] = useState([])
   const [openContactForm, setOpenContactForm] = useState({data:{}, status:false})
   const [searchKey, setSearchKey] = useState('')
+  const [filteredList, setFilteredList] = useState([])
   
   useEffect(() => {
     getCandidateData()
@@ -31,7 +32,7 @@ function App() {
   }, [])
    
   useEffect(() => {
- filterList(showList.listName)
+    filterList(showList.listName)
     
   }, [searchKey])
 
@@ -39,7 +40,6 @@ function App() {
     Axios.get('http://localhost:3001/candidates')
     .then(res => {
       setCandidateData(res.data)
-      console.log(candidateData)
     })
   }
   
@@ -59,10 +59,25 @@ function App() {
   function filterList(listType){
 
       if(listType === 'readCandidates'){
-        const matchedCharacters = candidateData.filter(candidate =>{
-        return candidate.firstName.toLowerCase().includes(searchKey.toLowerCase())
-        })
-        console.log(matchedCharacters)
+        setFilteredList(
+          candidateData.filter(candidate =>{
+            return candidate.firstName.toLowerCase().includes(searchKey.toLowerCase())
+        }))
+      }
+      else if(listType === 'readContacts'){
+        setFilteredList(
+          contactsData.filter(contact =>{
+            return contact.firstName.toLowerCase().includes(searchKey.toLowerCase())
+        }))
+      }
+      else if(listType === 'readApplications'){
+        setFilteredList(
+          applicationData.filter(application =>{
+            return application.firstName.toLowerCase().includes(searchKey.toLowerCase())
+        }))
+      }
+      else{
+        setFilteredList([])
       }
 
   }
