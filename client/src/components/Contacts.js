@@ -31,7 +31,7 @@ export default function Scheduler({ targetEmployee, openContactForm, data}) {
 
     if(!values.some(blank)){
       Axios.post('http://localhost:3001/contact/create', {formData}).then(() => alert("Contact Created"))
-      closeScheduler()
+      closeContactForm()
       return
     }    
   }
