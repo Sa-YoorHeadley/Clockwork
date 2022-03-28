@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 
-export default function Scheduler({ targetEmployee, openScheduler }) {
+export default function Scheduler({ targetCandidate, openScheduler }) {
   
-  const [formData, setFormData] = useState(targetEmployee)
+  const [formData, setFormData] = useState(targetCandidate)
 
   function closeScheduler(){
     console.log('close')
@@ -43,22 +43,22 @@ export default function Scheduler({ targetEmployee, openScheduler }) {
     <div className='scheduler'>
       <div className='scheduler-main'>
         <button className='btn close' onClick={closeScheduler}>X</button>
-        <h2 className='scheduler-header'>Schedule Employee</h2>
+        <h2 className='scheduler-header'>Schedule Candidate</h2>
 
         <div className='scheduler-body'>
-          <label htmlFor='employeeId'>Employee ID</label>
-          <input type='text' id='employeeId' value={targetEmployee.id} readOnly/>
+          <label htmlFor='employeeId'>Candidate ID</label>
+          <input type='text' id='employeeId' value={targetCandidate.id} readOnly/>
           
-          <label htmlFor='employeeName'>Employee Name</label>
-          <input type='text' id='employeeName' value={`${targetEmployee.firstName} ${targetEmployee.lastName}`} readOnly/>
+          <label htmlFor='employeeName'>Candidate Name</label>
+          <input type='text' id='employeeName' value={`${targetCandidate.firstName} ${targetCandidate.lastName}`} readOnly/>
 
           <label htmlFor='interviewTime'>Interview Time</label>
-          <input type='time' name='interviewTime' id='interviewTime'  value={targetEmployee.scheduleData.interviewTime} onChange={handleChange}/>
+          <input type='time' name='interviewTime' id='interviewTime'  value={targetCandidate.scheduleData.interviewTime} onChange={handleChange}/>
 
           <label htmlFor='interviewDate'>Interview Date</label>
-          <input type='date' name='interviewDate' id='interviewDate' value={targetEmployee.scheduleData.interviewDate} onChange={handleChange}/>
+          <input type='date' name='interviewDate' id='interviewDate' value={targetCandidate.scheduleData.interviewDate} onChange={handleChange}/>
 
-          <button className='btn submit' onClick={submitForm}>Schedule Employee</button>
+          <button className='btn submit' onClick={submitForm}>Schedule Candidate</button>
         </div>
 
       </div>

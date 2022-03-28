@@ -1,7 +1,7 @@
 import Axios from 'axios'
 import React, { useState, useEffect } from 'react'
 
-export default function Scheduler({ targetEmployee, openContactForm, data}) {
+export default function Scheduler({ targetCandidate, openContactForm, data}) {
   
   const [formData, setFormData] = useState({
     notes: '',
@@ -47,10 +47,10 @@ export default function Scheduler({ targetEmployee, openContactForm, data}) {
 
         <div className='contact-form-body'>
           
-          <label htmlFor='employeeId'>Employee ID</label>
+          <label htmlFor='employeeId'>Candidate ID</label>
           <input type='text' id='employeeId' value={PersonID} readOnly/>
           
-          <label htmlFor='employeeName'>Employee Name</label>
+          <label htmlFor='employeeName'>Candidate Name</label>
           <input type='text' id='employeeName' value={`${firstName} ${lastName}`}readOnly/>
 
           <label htmlFor='notes'>Notes</label>

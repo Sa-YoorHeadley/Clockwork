@@ -79,15 +79,15 @@ export default function Form({ formType, handleAdd, handleUpdate, handleDelete, 
         formType === 'delete'
         ?
             <section className='form'>
-                <h1 className='form-header'>{formType} Employee</h1>
+                <h1 className='form-header'>{formType} Candidate</h1>
                 <label htmlFor='id'>ID</label>
                 <input name='id' type='text' id='id' value={formData.id} onChange={handleChange} required/>
 
-                <button className='btn' onClick={submitForm}>Delete Employee</button>
+                <button className='btn' onClick={submitForm}>Delete Candidate</button>
             </section>
         :
             <section className='form'>
-                <h1 className='form-header'>{formType} Employee</h1>
+                <h1 className='form-header'>{formType} Candidate</h1>
                 {formType === 'update' && <label htmlFor='id'>ID</label>}
                 {formType === 'update' && <input name='id' type='text' id='id' value={selectedId !== '' ? selectedId : formData.id} onChange={handleChange} required/>}
     
@@ -112,9 +112,9 @@ export default function Form({ formType, handleAdd, handleUpdate, handleDelete, 
 
                 {
                     formType === 'create' ?
-                        <button className='btn' onClick={submitForm}>Add Employee</button> 
+                        <button className='btn' onClick={submitForm}>Add Candidate</button> 
                         : 
-                        <button className='btn' onClick={submitForm}>Update Employee</button> 
+                        <button className='btn' onClick={submitForm}>Update Candidate</button> 
                 }
             </section>
     )

@@ -4,17 +4,17 @@ import Card from './Card'
 import Detail from './Detail'
 import DetailHeader from './DetailHeader'
 
-export default function Main({ listType, listData, deleteEmployee, updateEmployee, scheduleEmployee, contactEmployee }) {
+export default function Main({ listType, listData, deleteCandidate, updateCandidate, scheduleCandidate, contactCandidate }) {
     let cardElements
     let applicationCardElements
     let detailElements = [<DetailHeader key='header'/>]
-    if(listType === 'readEmployees' && listData){
+    if(listType === 'readCandidates' && listData){
         cardElements = listData.map(employee =>{
             return(
                 <Card
                 key={employee.PersonID}
-                onEdit={() => updateEmployee(employee.PersonID)}
-                onDelete={() => deleteEmployee(employee.PersonID)}
+                onEdit={() => updateCandidate(employee.PersonID)}
+                onDelete={() => deleteCandidate(employee.PersonID)}
                 {...employee}
                 />
             )
@@ -31,7 +31,7 @@ export default function Main({ listType, listData, deleteEmployee, updateEmploye
     else if(listType === 'readApplications' && listData){
         applicationCardElements = listData.map(application => {
             return(
-                <ApplicationCard key={application.idApplications} {...application} onContact={() => contactEmployee(application.idApplications)} />
+                <ApplicationCard key={application.idApplications} {...application} onContact={() => contactCandidate(application.idApplications)} />
             )
         })
         
@@ -39,7 +39,7 @@ export default function Main({ listType, listData, deleteEmployee, updateEmploye
 
     return (
         <main className='main'>
-            {listType === 'readEmployees' ? cardElements : listType === 'readContacts' ? detailElements : listType === 'readApplications' ? applicationCardElements : null}
+            {listType === 'readCandidates' ? cardElements : listType === 'readContacts' ? detailElements : listType === 'readApplications' ? applicationCardElements : null}
         </main>
     )
 }
