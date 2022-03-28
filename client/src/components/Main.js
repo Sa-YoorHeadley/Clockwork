@@ -3,6 +3,7 @@ import ApplicationCard from './ApplicationCard'
 import Card from './Card'
 import Detail from './Detail'
 import DetailHeader from './DetailHeader'
+import Ribbon from './Ribbon'
 
 export default function Main({ listType, listData, deleteCandidate, updateCandidate, scheduleCandidate, contactCandidate }) {
     let cardElements
@@ -39,6 +40,7 @@ export default function Main({ listType, listData, deleteCandidate, updateCandid
 
     return (
         <main className='main'>
+            <Ribbon />
             {listType === 'readCandidates' ? cardElements : listType === 'readContacts' ? detailElements : listType === 'readApplications' ? applicationCardElements : null}
         </main>
     )
