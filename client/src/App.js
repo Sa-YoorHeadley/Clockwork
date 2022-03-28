@@ -60,10 +60,13 @@ function App() {
 
       if(listType === 'readCandidates'){
       const matchedCharacters = candidateData.filter(candidate =>{
-        return candidate.firstName.toLowerCase().includes(searchKey)
-     
-    })}
-
+       
+        return candidate.firstName.toLowerCase().includes(searchKey.toLocaleLowerCase())
+        
+    })
+    console.log(matchedCharacters)
+  }
+    
   }
 
   function addCandidate(newCandidate){
