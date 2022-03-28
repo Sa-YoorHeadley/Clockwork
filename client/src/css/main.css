@@ -479,7 +479,6 @@ body {
   position: fixed;
   height: 100vh;
   z-index: 999;
-  overflow-y: scroll;
 }
 
 .navbar {
@@ -616,10 +615,20 @@ body {
           justify-content: space-evenly;
   gap: 1rem;
   width: 80%;
-  padding: 1em;
-  padding-right: 0;
+  padding: 4.75em 1em;
   background-color: #e6e6e6;
   margin-left: 20%;
+}
+
+.horizontal-navbar {
+  background-color: #646464;
+  position: fixed;
+  top: 0;
+  left: 20%;
+  padding: 1.25em;
+  width: 100%;
+  grid-column: 1 / -1;
+  color: white;
 }
 
 .detail-header {

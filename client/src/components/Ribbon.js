@@ -1,9 +1,9 @@
 import React from 'react'
 import SearchBar from './SearchBar'
-export default function Ribbon() {
+export default function Ribbon({setSearchKey}) {
   return (
     <nav className="horizontal-navbar">
-        <SearchBar/>
+        <SearchBar setSearchKey={setSearchKey}/>
     </nav>
   )
 }

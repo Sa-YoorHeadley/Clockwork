@@ -1,9 +1,11 @@
 import React from 'react'
 
-export default function SearchBar() {
+export default function SearchBar({setSearchKey}) {
   return (
-    
-    <input type="text" />
-   
+      <div className= "searchBar">
+        <label>search</label>
+        <input type="text" onChange={(event)=>{setSearchKey(event.target.value)}} />
+      </div>
+      
   )
 }

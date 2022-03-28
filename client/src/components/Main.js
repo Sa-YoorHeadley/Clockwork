@@ -5,7 +5,7 @@ import Detail from './Detail'
 import DetailHeader from './DetailHeader'
 import Ribbon from './Ribbon'
 
-export default function Main({ listType, listData, deleteCandidate, updateCandidate, scheduleCandidate, contactCandidate }) {
+export default function Main({ listType, listData, deleteCandidate, updateCandidate, scheduleCandidate, contactCandidate,setSearchKey }) {
     let cardElements
     let applicationCardElements
     let detailElements = [<DetailHeader key='header'/>]
@@ -40,7 +40,7 @@ export default function Main({ listType, listData, deleteCandidate, updateCandid
 
     return (
         <main className='main'>
-            <Ribbon />
+            <Ribbon setSearchKey = {setSearchKey}/>
             {listType === 'readCandidates' ? cardElements : listType === 'readContacts' ? detailElements : listType === 'readApplications' ? applicationCardElements : null}
         </main>
     )

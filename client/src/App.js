@@ -21,17 +21,25 @@ function App() {
   const [contactsData, setContactsData] = useState([])
   const [applicationData, setApplicationData] = useState([])
   const [openContactForm, setOpenContactForm] = useState({data:{}, status:false})
+  const [searchKey, setSearchKey] = useState('')
   
   useEffect(() => {
     getCandidateData()
     getContactsData()
     getApplicationData()
+    
   }, [])
+   
+  useEffect(() => {
+ filterList(showList.listName)
+    
+  }, [searchKey])
 
   function getCandidateData(){
     Axios.get('http://localhost:3001/candidates')
     .then(res => {
       setCandidateData(res.data)
+      console.log(candidateData)
     })
   }
   
@@ -49,7 +57,13 @@ function App() {
   }
   
   function filterList(listType){
-    
+
+      if(listType === 'readCandidates'){
+      const matchedCharacters = candidateData.filter(candidate =>{
+        return candidate.firstName.toLowerCase().includes(searchKey)
+     
+    })}
+
   }
 
   function addCandidate(newCandidate){
@@ -132,6 +146,7 @@ function App() {
             updateCandidate={updateCandidate} 
             scheduleCandidate={scheduleCandidate}
             contactCandidate={contactCandidate} 
+            setSearchKey={setSearchKey} 
             />}
           {openContactForm.status && <Contacts openContactForm={setOpenContactForm} data={openContactForm.data}/>} 
           {/* {openScheduler && <Scheduler targetCandidate={targetCandidate} openScheduler={setOpenScheduler} setTargetCandidate={setTargetCandidate} />} */}
