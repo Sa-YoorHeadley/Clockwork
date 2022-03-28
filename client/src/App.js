@@ -48,6 +48,10 @@ function App() {
     })
   }
   
+  function filterList(listType){
+    
+  }
+
   function addCandidate(newCandidate){
     Axios.post('http://localhost:3001/candidate/create', {newCandidate}).then(() => alert("Candidate Created"))
     getCandidateData()
