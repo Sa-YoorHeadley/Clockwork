@@ -37,7 +37,7 @@ app.get("/", async (req, res) => {
 })
 
 
-// 
+//GET ALL CANDIDATES 
 app.get('/candidates', async (req, res) =>{
     const query = `SELECT * FROM Persons`
     connection.query(query, (error, results) =>{
@@ -52,8 +52,73 @@ app.get('/candidates', async (req, res) =>{
     })
 })
 
+//GET ALL APPLICATIONS 
+app.get('/applications', async (req, res) =>{
+    const query = `SELECT *
+    FROM Applications
+    JOIN Openings 
+        ON Applications.OpeningId=Openings.idOpenings
+    JOIN Persons 
+        ON Persons.PersonID=Applications.ApplicationPersonId
+    WHERE ApplicationStatus = "Pending"
+    `
+    connection.query(query, (error, results) =>{
+        if(error){
+            throw error
+        }
+        if(!results[0]){
+            res.json({status: 'No Results'})
+        } else {
+            res.json(results)
+        }
+    })
+})
+
+//GET ALL CONTACTS
+app.get('/contacts', async (req, res) =>{  
+    const query = `SELECT *
+    FROM Contacts
+    JOIN Applications 
+        ON Contacts.ContactApplicationsId=Applications.idApplications
+    JOIN Persons 
+        ON Persons.PersonID=Applications.ApplicationPersonId`
+    connection.query(query, (error, results) =>{
+        if(error){
+            throw error
+        }
+        if(!results[0]){
+            res.json({status: 'No Results'})
+        } else {
+            res.json(results)
+        }
+    })
+})
+
+//GET APPLICATION BY ID
+app.get('/applications/:id', async (req, res) =>{
+    const {id} = req.params
+    const query = `SELECT *
+    FROM Applications
+    JOIN Openings 
+        ON Applications.OpeningId=Openings.idOpenings
+    JOIN Persons 
+        ON Persons.PersonID=Applications.ApplicationPersonId
+    WHERE Applications.idApplications = ?`
+    connection.query(query, id , (error, results) =>{
+        if(error){
+            throw error
+        }
+        if(!results[0]){
+            res.json({status: 'No Results'})
+        } else {
+            res.json(results)
+        }
+    })
+})
+
+
 // CREATE CANDIDATE
-app.post('/create', (req,res) => {
+app.post('/candidate/create', (req,res) => {
     const {currentStatus, lastName, firstName, emailAddress, city, state} = req.body.newEmployee
     const query = `INSERT INTO Persons(currentStatus, lastName, firstName, emailAddress, city, state)
     VALUES (?,?,?,?,?,?)
@@ -72,7 +137,7 @@ app.post('/create', (req,res) => {
 
 
 //DELETE CANDIDATE
-app.delete('/delete/:id', (req,res) => {
+app.delete('/candidate/delete/:id', (req,res) => {
     const {id} = req.params
     console.log(id)
     const query = `DELETE FROM Persons WHERE PersonID = ?`
@@ -89,7 +154,7 @@ app.delete('/delete/:id', (req,res) => {
 })
 
 //UPDATE CANDIDATE
-app.put('/update/:id', (req,res) => {
+app.put('/candidate/update/:id', (req,res) => {
     const {id} = req.params
     const {currentStatus, lastName, firstName, emailAddress, city, state} = req.body.updatedEmployee
     const query = `UPDATE Persons SET currentStatus=?, lastName=?, firstName=?, emailAddress=?, city=?, state=? WHERE PersonID=?`
@@ -105,28 +170,18 @@ app.put('/update/:id', (req,res) => {
     })
 })
 
-app.get('/contacts', async (req, res) =>{
-    
-    const query = `SELECT * FROM Contacts`
-    connection.query(query, (error, results) =>{
-        if(error){
-            throw error
-        }
-        if(!results[0]){
-            res.json({status: 'No Results'})
-        } else {
-            res.json(results)
-        }
-    })
-})
 
-// CREATE Contact
-app.post('/candidate/create', (req,res) => {
-    const {idContact, ContactTimeStamp, ContactStatus, ContactRecruiterId, ContactApplicationsId} = req.body.newContact
-    const query = `INSERT INTO Persons(idContact, ContactTimeStamp, ContactStatus, ContactRecruiterId, ContactApplicationsId)
-    VALUES (?,?,?,?,?)
+
+// CREATE CONTACT
+app.post('/contact/create', (req,res) => {
+    const ContactTimeStamp = new Date()
+    const ContactRecruiterId = 9999
+    const ContactApplicationsId = 9999
+    const {contactStatus} = req.body.formData
+    const query = `INSERT INTO Contacts(ContactTimeStamp, ContactStatus, ContactRecruiterId, ContactApplicationsId)
+    VALUES (?,?,?,?)
     `
-    connection.query(query, [idContact, ContactTimeStamp, ContactStatus, ContactRecruiterId, ContactApplicationsId], (error, results) =>{
+    connection.query(query, [ContactTimeStamp, contactStatus, ContactRecruiterId, ContactApplicationsId], (error, results) =>{
         if(error){
             throw error
         }

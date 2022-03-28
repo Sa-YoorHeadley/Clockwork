@@ -149,11 +149,11 @@ body {
   background-color: #f0f0f0;
 }
 
-.scheduler {
+.contact-form {
   position: fixed;
   top: 0;
   bottom: 0;
-  left: 25%;
+  left: 20%;
   right: 0;
   background-color: rgba(125, 125, 125, 0.5);
   z-index: 1000;
@@ -169,18 +169,18 @@ body {
           align-items: center;
 }
 
-.scheduler .scheduler-main {
+.contact-form .contact-form-main {
   position: relative;
   background-color: white;
   width: 500px;
-  height: 400px;
+  height: auto;
   padding: 1em 2em;
   border-radius: .75rem;
   -webkit-box-shadow: 3px 3px 3px 0 #777;
           box-shadow: 3px 3px 3px 0 #777;
 }
 
-.scheduler .scheduler-main .close {
+.contact-form .contact-form-main .close {
   position: absolute;
   top: 1rem;
   right: 1rem;
@@ -188,11 +188,11 @@ body {
   padding: 0;
 }
 
-.scheduler .scheduler-main .close:hover {
+.contact-form .contact-form-main .close:hover {
   color: #71aaff;
 }
 
-.scheduler .scheduler-main .scheduler-header {
+.contact-form .contact-form-main .contact-form-header {
   text-transform: uppercase;
   -ms-flex-item-align: center;
       -ms-grid-row-align: center;
@@ -202,7 +202,7 @@ body {
   border-bottom: 2px solid #333;
 }
 
-.scheduler .scheduler-main .scheduler-body {
+.contact-form .contact-form-main .contact-form-body {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -212,21 +212,27 @@ body {
           flex-direction: column;
 }
 
-.scheduler .scheduler-main .scheduler-body label {
+.contact-form .contact-form-main .contact-form-body label {
   margin-bottom: .25rem;
 }
 
-.scheduler .scheduler-main .scheduler-body input {
+.contact-form .contact-form-main .contact-form-body input {
   margin-bottom: .75rem;
 }
 
-.scheduler .scheduler-main .scheduler-body .submit {
+.contact-form .contact-form-main .contact-form-body textarea {
+  min-height: 60px;
+  resize: vertical;
+  margin-bottom: .75rem;
+}
+
+.contact-form .contact-form-main .contact-form-body .submit {
   color: white;
   margin-top: 1rem;
   background-color: rgba(113, 170, 255, 0.7);
 }
 
-.scheduler .scheduler-main .scheduler-body .submit:hover {
+.contact-form .contact-form-main .contact-form-body .submit:hover {
   background-color: #71aaff;
 }
 
@@ -467,7 +473,7 @@ body {
 }
 
 .left-section {
-  width: 25%;
+  width: 20%;
   padding: 1.75em 1.5em;
   background-color: #7d7d7d;
   position: fixed;
@@ -609,9 +615,35 @@ body {
       -ms-flex-pack: space-evenly;
           justify-content: space-evenly;
   gap: 1rem;
-  width: 75%;
-  padding: 1.5em;
+  width: 80%;
+  padding: 1em;
+  padding-right: 0;
   background-color: #e6e6e6;
-  margin-left: 25%;
+  margin-left: 20%;
+}
+
+.detail-header {
+  background-color: white;
+  grid-column: 1 / -1;
+  width: calc(100% + 1em);
+  margin: -.95em -1em;
+  margin-right: 0;
+  margin-bottom: .075rem;
+  padding: 1em;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: (minmax(100px, 1fr))[9];
+      grid-template-columns: repeat(9, minmax(100px, 1fr));
+  font-size: 1rem;
+}
+
+.detail {
+  width: calc(100% - 1em);
+  grid-column: 1 / -1;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: (1fr)[9];
+      grid-template-columns: repeat(9, 1fr);
+  font-size: .75rem;
 }
 /*# sourceMappingURL=main.css.map */

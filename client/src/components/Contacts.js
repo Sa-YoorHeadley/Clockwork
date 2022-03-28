@@ -1,66 +1,66 @@
+import Axios from 'axios'
 import React, { useState, useEffect } from 'react'
 
-export default function Scheduler({ targetEmployee, openScheduler }) {
+export default function Scheduler({ targetEmployee, openContactForm, data}) {
   
-  const [formData, setFormData] = useState(targetEmployee)
+  const [formData, setFormData] = useState({
+    notes: '',
+    contactStatus: ''
+  })
+  const {PersonID, firstName, lastName} = data[0]
 
-  function closeScheduler(){
-    console.log('close')
-    openScheduler(false)
+  function closeContactForm(){
+    openContactForm(false)
   }
 
-  // function handleChange(event){
-  //   const { name, value } = event.target
+  function handleChange(event){
+    const { name, value } = event.target
     
-  //   setFormData(prevFormData => {
-  //       return{
-  //         ...prevFormData,
-  //       'scheduleData': {
-  //         ...prevFormData.scheduleData,
-  //         [name]: value
-  //         }}
-  //       }
-  //   )
-  // }
+    setFormData(prevFormData => {
+        return{
+          ...prevFormData,
+          [name]: value
+        }
+      }
+    )
+  }
 
-  // function submitForm(){
-  //   const blank = element => !element
-  //   let values = Object.values(formData.scheduleData)
+  function submitForm(){
+    const blank = element => !element
+    let values = Object.values(formData)
 
-  //   if(values.some(blank)){
-  //       console.log('blank values')
-  //       return
-  //   } 
-  //   else{
-  //     closeScheduler()
-  //   }      
-  // }
+    if(!values.some(blank)){
+      Axios.post('http://localhost:3001/contact/create', {formData}).then(() => alert("Contact Created"))
+      closeScheduler()
+      return
+    }    
+  }
 
 
 
 
   return (
-    <div className='scheduler'>
-      <div className='scheduler-main'>
-        <button className='btn close' onClick={closeScheduler}>X</button>
-        <h2 className='scheduler-header'>Schedule Employee</h2>
+    <div className='contact-form'>
+      <div className='contact-form-main'>
+        <button className='btn close' onClick={closeContactForm}>X</button>
+        <h2 className='contact-form-header'>Contact Form</h2>
 
-        <div className='scheduler-body'>
+        <div className='contact-form-body'>
           
           <label htmlFor='employeeId'>Employee ID</label>
-          <input type='text' id='employeeId' readOnly/>
+          <input type='text' id='employeeId' value={PersonID} readOnly/>
           
           <label htmlFor='employeeName'>Employee Name</label>
-          <input type='text' id='employeeName' readOnly/>
+          <input type='text' id='employeeName' value={`${firstName} ${lastName}`}readOnly/>
 
-          <label htmlFor='interviewDate'>Notes</label>
-          <input type='date' name='Notes' id='interviewDate'/>
+          <label htmlFor='notes'>Notes</label>
+          <textarea name='notes' id='notes' onChange={handleChange}/>
 
-          <label htmlFor='interviewTime'>Contact Outcome Status</label>
-          <input type='time' name='interviewTime' id='interviewTime' />
+          <label htmlFor='contactStatus'>Contact Outcome Status</label>
+          <input type='text' name='contactStatus' id='contactStatus' onChange={handleChange} />
           
 
-          <button className='btn submit' >Schedule Employee</button>
+          <button className='btn submit' onClick={submitForm}>Submit</button>
         </div>
 
       </div>

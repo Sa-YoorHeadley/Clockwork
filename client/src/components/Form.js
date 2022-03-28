@@ -76,46 +76,46 @@ export default function Form({ formType, handleAdd, handleUpdate, handleDelete, 
     }
 
     return (
-            formType === 'delete'
-            ?
-                <section className='form'>
-                    <h1 className='form-header'>{formType} Employee</h1>
-                    <label htmlFor='id'>ID</label>
-                    <input name='id' type='text' id='id' value={formData.id} onChange={handleChange} required/>
+        formType === 'delete'
+        ?
+            <section className='form'>
+                <h1 className='form-header'>{formType} Employee</h1>
+                <label htmlFor='id'>ID</label>
+                <input name='id' type='text' id='id' value={formData.id} onChange={handleChange} required/>
 
-                    <button className='btn' onClick={submitForm}>Delete Employee</button>
-                </section>
-            :
-                <section className='form'>
-                    <h1 className='form-header'>{formType} Employee</h1>
-                    {formType === 'update' && <label htmlFor='id'>ID</label>}
-                    {formType === 'update' && <input name='id' type='text' id='id' value={selectedId !== '' ? selectedId : formData.id} onChange={handleChange} required/>}
-        
+                <button className='btn' onClick={submitForm}>Delete Employee</button>
+            </section>
+        :
+            <section className='form'>
+                <h1 className='form-header'>{formType} Employee</h1>
+                {formType === 'update' && <label htmlFor='id'>ID</label>}
+                {formType === 'update' && <input name='id' type='text' id='id' value={selectedId !== '' ? selectedId : formData.id} onChange={handleChange} required/>}
+    
 
-                    <label htmlFor='first-name'>First Name</label>
-                    <input name='firstName' type='text' id='first-name' value={formData.firstName} onChange={handleChange} required/>
+                <label htmlFor='first-name'>First Name</label>
+                <input name='firstName' type='text' id='first-name' value={formData.firstName} onChange={handleChange} required/>
 
-                    <label htmlFor='last-name'>Last Name</label>
-                    <input name='lastName' type='text' id='last-name' value={formData.lastName} onChange={handleChange} required/>
+                <label htmlFor='last-name'>Last Name</label>
+                <input name='lastName' type='text' id='last-name' value={formData.lastName} onChange={handleChange} required/>
 
-                    <label htmlFor='currentStatus'>Current Status</label>
-                    <input name='currentStatus' type='text' id='currentStatus' value={formData.currentStatus} onChange={handleChange} required/>
+                <label htmlFor='currentStatus'>Current Status</label>
+                <input name='currentStatus' type='text' id='currentStatus' value={formData.currentStatus} onChange={handleChange} required/>
 
-                    <label htmlFor='city'>City</label>
-                    <input name='city' type='text' id='city' value={formData.city} onChange={handleChange} required/>
+                <label htmlFor='city'>City</label>
+                <input name='city' type='text' id='city' value={formData.city} onChange={handleChange} required/>
 
-                    <label htmlFor='state'>State</label>
-                    <input name='state' type='text' id='state' value={formData.state} onChange={handleChange} required/>
+                <label htmlFor='state'>State</label>
+                <input name='state' type='text' id='state' value={formData.state} onChange={handleChange} required/>
 
-                    <label htmlFor='emailAddress'>Email Address</label>
-                    <input name='emailAddress' type='email' id='emailAddress' value={formData.emailAddress} onChange={handleChange} required/>
+                <label htmlFor='emailAddress'>Email Address</label>
+                <input name='emailAddress' type='email' id='emailAddress' value={formData.emailAddress} onChange={handleChange} required/>
 
-                    {
-                        formType === 'create' ?
-                            <button className='btn' onClick={submitForm}>Add Employee</button> 
-                            : 
-                            <button className='btn' onClick={submitForm}>Update Employee</button> 
-                    }
-                </section>
+                {
+                    formType === 'create' ?
+                        <button className='btn' onClick={submitForm}>Add Employee</button> 
+                        : 
+                        <button className='btn' onClick={submitForm}>Update Employee</button> 
+                }
+            </section>
     )
 }
