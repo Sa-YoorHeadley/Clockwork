@@ -123,7 +123,7 @@ function App() {
           </aside>
           {showList && <Main 
             listType={showList.listName}
-            listData={showList.listName === "readEmployees" ? employeeData : showList.listName === "readContacts" ? contactsData : showList.listName === "readApplications" ? applicationData : null} 
+            listData={showList.listName === "readCandidates" ? employeeData : showList.listName === "readContacts" ? contactsData : showList.listName === "readApplications" ? applicationData : null} 
             deleteEmployee={deleteEmployee} 
             updateEmployee={updateEmployee} 
             scheduleEmployee={scheduleEmployee}

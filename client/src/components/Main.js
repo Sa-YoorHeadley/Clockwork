@@ -8,7 +8,7 @@ export default function Main({ listType, listData, deleteEmployee, updateEmploye
     let cardElements
     let applicationCardElements
     let detailElements = [<DetailHeader key='header'/>]
-    if(listType === 'readEmployees' && listData){
+    if(listType === 'readCandidates' && listData){
         cardElements = listData.map(employee =>{
             return(
                 <Card
@@ -39,7 +39,7 @@ export default function Main({ listType, listData, deleteEmployee, updateEmploye
 
     return (
         <main className='main'>
-            {listType === 'readEmployees' ? cardElements : listType === 'readContacts' ? detailElements : listType === 'readApplications' ? applicationCardElements : null}
+            {listType === 'readCandidates' ? cardElements : listType === 'readContacts' ? detailElements : listType === 'readApplications' ? applicationCardElements : null}
         </main>
     )
 }
