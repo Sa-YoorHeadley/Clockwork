@@ -186,7 +186,7 @@ body{
     font-family: 'Montserrat';
     text-align: center;
     padding-block: .75rem;
-    z-index: 5;
+    z-index: 999;
 
     .clockwork-logo-text{
         font-family: inherit;
@@ -206,6 +206,17 @@ body{
             }
         }
     }
+
+    .logout{
+        background-color: #EFEFEF;
+        right: 2rem;
+        padding: .5em 1em;
+        color: #36CBC2;
+        position: absolute;
+        &:hover{
+            background-color: whitesmoke;
+        }
+    }
 }
 .landing-page{
     background-color: #404040;
@@ -222,7 +233,7 @@ body{
     .login-form-overlay{
         background-color: rgba(64,64,64, .9);
         position: absolute;
-        top: 90px;
+        top: 95px;
         bottom: 0;
         right: 0;
         left: 0;
@@ -300,11 +311,22 @@ body{
                 border-radius: .25rem;
                 padding: .5em .25em;
                 width: 100%;
+
             }
         }
 
         .login{
             font-size: 1.5rem;
+        }
+        .password{
+            position: relative;
+            &-toggle-btn{
+                position: absolute;
+                top: .25rem;
+                right: .5rem;
+                background-color: white;
+                padding: 0;
+            }
         }
 
     }
@@ -358,8 +380,9 @@ body{
     padding: 1.75em 1.5em;
     background-color: rgba(125, 125, 125, 1);
     position: fixed;
+    top: 90px;
     height: 100vh;
-    z-index: 999;
+    z-index: 900;
 }
 .navbar{
     margin-bottom: 2rem;
@@ -458,24 +481,25 @@ body{
     justify-content: space-evenly;
     gap: 1rem;
     width: 80%;
-    padding: 4.75em 1em;
+    padding: 10.25em 1em;
     background-color: rgb(230, 230, 230);
     margin-left: 20%;
 }
 .horizontal-navbar{
     background-color: rgba(100, 100, 100, 1);
     position: fixed;
-    top: 0;
+    top: 90px;
     left: 20%;
     padding: 1.25em;
     width: 100%;
     grid-column: 1 / -1;
     color: white;
+    z-index: 998;
 }
 .detail-header{
     background-color: white;
     grid-column: 1 / -1;
-    width:  calc(100% + 1em);
+    width:  calc(100% + 1.95em);
     margin: -.95em -1em;
     margin-right: 0;
     margin-bottom: .075rem;
@@ -485,7 +509,7 @@ body{
     font-size: 1rem;
 }
 .detail{
-    width:  calc(100% - 1em);
+    width:  100%;
     grid-column: 1 / -1;
     display: grid;
     grid-template-columns: repeat(9, 1fr);

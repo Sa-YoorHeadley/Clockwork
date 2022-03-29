@@ -4,6 +4,7 @@ import Navbar from "./components/Navbar";
 import Scheduler from "./components/Scheduler";
 import Contacts from "./components/Contacts"
 import LandingPage from "./components/LandingPage";
+import Header from "./components/Header";
 import Axios from 'axios'
 import React, { useState, useEffect } from 'react'
 
@@ -11,17 +12,18 @@ import React, { useState, useEffect } from 'react'
 //Candidate Contact List New Candidate and Contact
 function App() {
   const [formType, setFormType] = useState('create')
-  const [showList, setShowList] = useState({listName: '', status: false})
+  const [showList, setShowList] = useState({listName: 'readCandidates', status: false})
   const [selectedDatabase, setSelectedDatabase] = useState('default')
   const [selectedId, setSelectedId] = useState('')
   const [openScheduler, setOpenScheduler] = useState(false)
   const [targetCandidate, setTargetCandidate] = useState({})
-  const [loggedIn, setLoggedIn] = useState(true)
+  const [loggedIn, setLoggedIn] = useState(false)
   const [candidateData, setCandidateData] = useState([])
   const [contactsData, setContactsData] = useState([])
   const [applicationData, setApplicationData] = useState([])
   const [openContactForm, setOpenContactForm] = useState({data:{}, status:false})
   const [searchKey, setSearchKey] = useState('')
+  const [filteredList, setFilteredList] = useState([])
   
 
   const [candidateDataPersistent , setCandidateDataP] = useState([])
@@ -38,8 +40,7 @@ function App() {
   }, [])
    
   useEffect(() => {
- filterList(showList.listName)
-    
+    filterList(showList.listName)
   }, [searchKey])
 
 
@@ -48,7 +49,6 @@ function App() {
     Axios.get('http://localhost:3001/candidates')
     .then(res => {
       setCandidateData(res.data)
-      setCandidateDataP(res.data)
     })
   }
   
@@ -66,7 +66,7 @@ function App() {
       setApplicationDataP(res.data)
     })
   }
-  
+  // fix merge
   function filterList(listType){
 
     
@@ -87,6 +87,34 @@ function App() {
     console.log(candidateData)
   }
     
+    if(listType === 'readCandidates'){
+      setFilteredList(
+        candidateData.filter(candidate =>{
+          return candidate.firstName.toLowerCase().includes(searchKey.toLowerCase()) ||
+          candidate.lastName.toLowerCase().includes(searchKey.toLowerCase()) ||
+          candidate.PersonID.toString().includes(searchKey.toString())
+      }))
+    }
+    else if(listType === 'readContacts'){
+      setFilteredList(
+        contactsData.filter(contact =>{
+          return contact.firstName.toLowerCase().includes(searchKey.toLowerCase()) ||
+          contact.lastName.toLowerCase().includes(searchKey.toLowerCase()) ||
+          contact.PersonID.toString().includes(searchKey.toString())
+      }))
+    }
+    else if(listType === 'readApplications'){
+      setFilteredList(
+        applicationData.filter(application =>{
+          return application.firstName.toLowerCase().includes(searchKey.toLowerCase()) ||
+          application.lastName.toLowerCase().includes(searchKey.toLowerCase()) ||
+          application.PersonID.toString().includes(searchKey.toString())
+      }))
+    }
+    if(!searchKey){
+      setFilteredList(['No Data'])
+    }
+
   }
 
   function addCandidate(newCandidate){
@@ -105,7 +133,10 @@ function App() {
   }
 
   function deleteCandidate(employeeId){
-    Axios.delete(`http://localhost:3001/candidate/delete/${employeeId}`).then(() => alert("Candidate Deleted"))
+    const confirmation = confirm(`You are about to delete Candidate: #${employeeId}`)
+    if(confirmation){
+      Axios.delete(`http://localhost:3001/candidate/delete/${employeeId}`).then(() => alert("Candidate Deleted"))
+    }
     getCandidateData()
   }
 
@@ -162,9 +193,10 @@ function App() {
           <Navbar handleClick={changeForm} changeDatabase={setSelectedDatabase} changeList={changeList} listType={showList.listName}/>
           {/* <Form listType={showList.listName} formType={formType} handleDelete={deleteCandidate} handleUpdate={updateCandidate} handleAdd={addCandidate} selectedId={selectedId} selectedDatabase={selectedDatabase}/> */}
           </aside>
+          <Header loggedIn={loggedIn} setLoggedIn={setLoggedIn}/>
           {showList && <Main 
             listType={showList.listName}
-            listData={showList.listName === "readCandidates" ? candidateData : showList.listName === "readContacts" ? contactsData : showList.listName === "readApplications" ? applicationData : null} 
+            listData={filteredList[0] !== 'No Data' ? filteredList : showList.listName === "readCandidates" ? candidateData : showList.listName === "readContacts" ? contactsData : showList.listName === "readApplications" ? applicationData : null} 
             deleteCandidate={deleteCandidate} 
             updateCandidate={updateCandidate} 
             scheduleCandidate={scheduleCandidate}
