@@ -255,7 +255,7 @@ body {
   font-family: 'Montserrat';
   text-align: center;
   padding-block: .75rem;
-  z-index: 5;
+  z-index: 999;
 }
 
 .header .clockwork-logo-text {
@@ -276,6 +276,18 @@ body {
 .header .clockwork-logo-text h1 span {
   font-family: inherit;
   color: #36CBC2;
+}
+
+.header .logout {
+  background-color: #EFEFEF;
+  right: 2rem;
+  padding: .5em 1em;
+  color: #36CBC2;
+  position: absolute;
+}
+
+.header .logout:hover {
+  background-color: whitesmoke;
 }
 
 .landing-page {
@@ -302,7 +314,7 @@ body {
 .landing-page .login-form-overlay {
   background-color: rgba(64, 64, 64, 0.9);
   position: absolute;
-  top: 90px;
+  top: 95px;
   bottom: 0;
   right: 0;
   left: 0;
@@ -414,6 +426,18 @@ body {
   font-size: 1.5rem;
 }
 
+.landing-page .login-form .password {
+  position: relative;
+}
+
+.landing-page .login-form .password-toggle-btn {
+  position: absolute;
+  top: .25rem;
+  right: .5rem;
+  background-color: white;
+  padding: 0;
+}
+
 .landing-page-welcome {
   margin-top: 5rem;
   font-family: inherit;
@@ -477,8 +501,9 @@ body {
   padding: 1.75em 1.5em;
   background-color: #7d7d7d;
   position: fixed;
+  top: 90px;
   height: 100vh;
-  z-index: 999;
+  z-index: 900;
 }
 
 .navbar {
@@ -615,7 +640,7 @@ body {
           justify-content: space-evenly;
   gap: 1rem;
   width: 80%;
-  padding: 4.75em 1em;
+  padding: 10.25em 1em;
   background-color: #e6e6e6;
   margin-left: 20%;
 }
@@ -623,7 +648,7 @@ body {
 .horizontal-navbar {
   background-color: #646464;
   position: fixed;
-  top: 0;
+  top: 90px;
   left: 20%;
   padding: 1.25em;
   width: 100%;
@@ -635,7 +660,7 @@ body {
 .detail-header {
   background-color: white;
   grid-column: 1 / -1;
-  width: calc(100% + 1em);
+  width: calc(100% + 1.95em);
   margin: -.95em -1em;
   margin-right: 0;
   margin-bottom: .075rem;
@@ -648,7 +673,7 @@ body {
 }
 
 .detail {
-  width: calc(100% - 1em);
+  width: 100%;
   grid-column: 1 / -1;
   display: -ms-grid;
   display: grid;

@@ -4,7 +4,6 @@ export default function Detail({ PersonID, ContactTimeStamp, ContactStatus, Cont
   return (
       <>
     <div className='detail'>
-        {/* personId firsnt lastname contact time status recruiter  */}
         <p className='detail-candidate-id'>{PersonID}</p>
         <p className='detail-contact-first-name'>{firstName}</p>
         <p className='detail-contact-last-name'>{lastName}</p>
