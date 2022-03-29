@@ -23,6 +23,13 @@ function App() {
   const [openContactForm, setOpenContactForm] = useState({data:{}, status:false})
   const [searchKey, setSearchKey] = useState('')
   
+
+  const [candidateDataPersistent , setCandidateDataP] = useState([])
+  const [contactsDataPersistent, setContactsDataP] = useState([])
+  const [applicationDataPersistent, setApplicationDataP] = useState([])
+
+  const [searchOption, setSearchOption] = useState('')
+
   useEffect(() => {
     getCandidateData()
     getContactsData()
@@ -35,11 +42,13 @@ function App() {
     
   }, [searchKey])
 
+
+
   function getCandidateData(){
     Axios.get('http://localhost:3001/candidates')
     .then(res => {
       setCandidateData(res.data)
-      console.log(candidateData)
+      setCandidateDataP(res.data)
     })
   }
   
@@ -47,24 +56,35 @@ function App() {
     Axios.get('http://localhost:3001/contacts')
     .then(res => {
       setContactsData(res.data)
+      setContactsDataP(res.data)
     })
   }
   function getApplicationData(){
     Axios.get('http://localhost:3001/applications')
     .then(res => {
       setApplicationData(res.data)
+      setApplicationDataP(res.data)
     })
   }
   
   function filterList(listType){
 
-      if(listType === 'readCandidates'){
-      const matchedCharacters = candidateData.filter(candidate =>{
-       
-        return candidate.firstName.toLowerCase().includes(searchKey.toLocaleLowerCase())
+    
+    if(listType === 'readCandidates'){
+      
+      const matchedCharacters = candidateDataPersistent.filter(candidate =>{
         
-    })
-    console.log(matchedCharacters)
+        var searchString
+        if (searchOption === "Name") searchString = candidate.firstName.toLowerCase()+candidate.lastName.toLowerCase()
+        else if (searchOption === "Location") searchString = candidate.state.toLowerCase()+candidate.city.toLowerCase()
+        else if (searchOption === "Position") searchString = candidate.position
+        
+        return searchString.includes(searchKey.toLocaleLowerCase())
+        
+      })
+      setCandidateData(matchedCharacters)
+      
+    console.log(candidateData)
   }
     
   }
@@ -150,6 +170,7 @@ function App() {
             scheduleCandidate={scheduleCandidate}
             contactCandidate={contactCandidate} 
             setSearchKey={setSearchKey} 
+            setSearchOption={setSearchOption}
             />}
           {openContactForm.status && <Contacts openContactForm={setOpenContactForm} data={openContactForm.data}/>} 
           {/* {openScheduler && <Scheduler targetCandidate={targetCandidate} openScheduler={setOpenScheduler} setTargetCandidate={setTargetCandidate} />} */}
