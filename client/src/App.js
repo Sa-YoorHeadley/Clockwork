@@ -12,7 +12,7 @@ import React, { useState, useEffect } from 'react'
 //Candidate Contact List New Candidate and Contact
 function App() {
   const [formType, setFormType] = useState('create')
-  const [showList, setShowList] = useState({listName: '', status: false})
+  const [showList, setShowList] = useState({listName: 'readCandidates', status: true})
   const [selectedDatabase, setSelectedDatabase] = useState('default')
   const [selectedId, setSelectedId] = useState('')
   const [openScheduler, setOpenScheduler] = useState(false)
@@ -24,12 +24,6 @@ function App() {
   const [openContactForm, setOpenContactForm] = useState({data:{}, status:false})
   const [searchKey, setSearchKey] = useState('')
   const [filteredList, setFilteredList] = useState([])
-  
-
-  // const [candidateDataPersistent , setCandidateDataP] = useState([])
-  // const [contactsDataPersistent, setContactsDataP] = useState([])
-  // const [applicationDataPersistent, setApplicationDataP] = useState([])
-
   const [searchOption, setSearchOption] = useState('')
 
   useEffect(() => {
@@ -65,57 +59,30 @@ function App() {
       setApplicationData(res.data)
     })
   }
-  // fix merge
+  
   function filterList(listType){
-
+    if(listType === 'readCandidates'){setFilteredList(candidateData)}
+    else if(listType === 'readContacts'){setFilteredList(contactsData)}
+    else if(listType === 'readApplications'){setFilteredList(applicationData)}
+    else{setFilteredList(['No Data'])}
     
-  //   if(listType === 'readCandidates'){
-      
-  //     const matchedCharacters = candidateDataPersistent.filter(candidate =>{
-        
-  //       var searchString
-  //       if (searchOption === "Name") searchString = candidate.firstName.toLowerCase()+candidate.lastName.toLowerCase()
-  //       else if (searchOption === "Location") searchString = candidate.state.toLowerCase()+candidate.city.toLowerCase()
-  //       else if (searchOption === "Position") searchString = candidate.position
-        
-  //       return searchString.includes(searchKey.toLocaleLowerCase())
-        
-  //     })
-  //     setCandidateData(matchedCharacters)
-      
-  //   console.log(candidateData)
-  // }
+    setFilteredList(prevFiltered => {
+        return(
+          prevFiltered.filter(application =>{
+              return application.firstName.toLowerCase().includes(searchKey.toLowerCase()) ||
+              application.lastName.toLowerCase().includes(searchKey.toLowerCase()) ||
+              application.PersonID.toString().includes(searchKey.toString())
+            })
+        )  
+    })
+    console.log(filteredList)
   
     if(!searchKey){
       setFilteredList(['No Data'])
     }
-    if(listType === 'readCandidates'){
-      setFilteredList(
-        candidateData.filter(candidate =>{
-          return candidate.firstName.toLowerCase().includes(searchKey.toLowerCase()) ||
-          candidate.lastName.toLowerCase().includes(searchKey.toLowerCase()) ||
-          candidate.PersonID.toString().includes(searchKey.toString())
-      }))
-    }
-    else if(listType === 'readContacts'){
-      setFilteredList(
-        contactsData.filter(contact =>{
-          return contact.firstName.toLowerCase().includes(searchKey.toLowerCase()) ||
-          contact.lastName.toLowerCase().includes(searchKey.toLowerCase()) ||
-          contact.PersonID.toString().includes(searchKey.toString())
-      }))
-    }
-    else if(listType === 'readApplications'){
-      setFilteredList(
-        applicationData.filter(application =>{
-          return application.firstName.toLowerCase().includes(searchKey.toLowerCase()) ||
-          application.lastName.toLowerCase().includes(searchKey.toLowerCase()) ||
-          application.PersonID.toString().includes(searchKey.toString())
-      }))
-    }
-
+    
   }
-
+  
   function addCandidate(newCandidate){
     Axios.post('http://localhost:3001/candidate/create', {newCandidate}).then(() => alert("Candidate Created"))
     getCandidateData()
