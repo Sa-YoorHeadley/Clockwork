@@ -657,7 +657,14 @@ body {
   z-index: 998;
 }
 
+.horizontal-navbar .searchbar {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
 .detail-header {
+  text-align: left;
   background-color: white;
   grid-column: 1 / -1;
   width: calc(100% + 1.95em);
@@ -667,18 +674,24 @@ body {
   padding: 1em;
   display: -ms-grid;
   display: grid;
-  -ms-grid-columns: (minmax(100px, 1fr))[9];
-      grid-template-columns: repeat(9, minmax(100px, 1fr));
+  -ms-grid-columns: (1fr)[9];
+      grid-template-columns: repeat(9, 1fr);
+  -webkit-column-gap: .5rem;
+          column-gap: .5rem;
   font-size: 1rem;
 }
 
 .detail {
+  text-align: left;
   width: 100%;
   grid-column: 1 / -1;
   display: -ms-grid;
   display: grid;
   -ms-grid-columns: (1fr)[9];
       grid-template-columns: repeat(9, 1fr);
+  row-gap: 1rem;
+  -webkit-column-gap: .25rem;
+          column-gap: .25rem;
   font-size: .75rem;
 }
 /*# sourceMappingURL=main.css.map */

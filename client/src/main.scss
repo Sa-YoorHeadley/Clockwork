@@ -495,8 +495,13 @@ body{
     grid-column: 1 / -1;
     color: white;
     z-index: 998;
+
+    .searchbar{
+        display: flex;
+    }
 }
 .detail-header{
+    text-align: left;
     background-color: white;
     grid-column: 1 / -1;
     width:  calc(100% + 1.95em);
@@ -505,13 +510,17 @@ body{
     margin-bottom: .075rem;
     padding: 1em;
     display: grid;
-    grid-template-columns: repeat(9, minmax(100px, 1fr));
+    grid-template-columns: repeat(9, 1fr);
+    column-gap: .5rem;
     font-size: 1rem;
 }
 .detail{
+    text-align: left;
     width:  100%;
     grid-column: 1 / -1;
     display: grid;
     grid-template-columns: repeat(9, 1fr);
+    row-gap: 1rem;
+    column-gap: .25rem;
     font-size: .75rem;
 }
