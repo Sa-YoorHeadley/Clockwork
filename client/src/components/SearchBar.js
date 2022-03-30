@@ -4,11 +4,35 @@ export default function SearchBar({setSearchKey, setSearchOption,dataKeys}) {
 
     var genericFilter = {"Name":'', "Location":''}
     getFilterValues( dataKeys)
-    console.log(JSON.stringify(genericFilter))
-    const optionElements = dataKeys.map(element=> {
+
+    let filteredKeys = dataKeys.map(key => {
+      if(key.toLowerCase().includes('name')){
+        return 'Name'
+      }  
+      else if(key.toLowerCase().includes('city') || key.toLowerCase().includes('state') || key.toLowerCase().includes('street')){
+        return 'Location'
+      }
+      else if(key.toLowerCase().includes('id')){
+        return 'ID'
+      }
+      else if(key.toLowerCase().includes('email')){
+        return 'Email'
+      }
+      else if(key.toLowerCase().includes('phone')){
+        return 'Phone Number'
+      }
+      else if(key.toLowerCase().includes('status')){
+        return 'Status'
+      }
+      else {
+        return 'Other'
+      }  
+    })
+    filteredKeys = filteredKeys.filter((element, pos) => filteredKeys.indexOf(element) == pos)
+    console.log(filteredKeys)
+    const optionElements = filteredKeys.map(element=> {
         return(
-             
-               <option key={element} value = {element}>{element}</option>
+            element ? <option key={element} value = {element}>{element}</option> : null
         )
     })
     function getFilterValues(dataKeys){
