@@ -40,7 +40,7 @@ export default function Main({ listType, listData, deleteCandidate, updateCandid
 
     return (
         <main className='main'>
-            <Ribbon setSearchKey = {setSearchKey} setSearchOption={setSearchOption}/>
+            <Ribbon setSearchKey = {setSearchKey} setSearchOption={setSearchOption} dataKeys={Object.keys(listData[0])}/>
             {listType === 'readCandidates' ? cardElements : listType === 'readContacts' ? detailElements : listType === 'readApplications' ? applicationCardElements : null}
         </main>
     )

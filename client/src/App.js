@@ -17,7 +17,7 @@ function App() {
   const [selectedId, setSelectedId] = useState('')
   const [openScheduler, setOpenScheduler] = useState(false)
   const [targetCandidate, setTargetCandidate] = useState({})
-  const [loggedIn, setLoggedIn] = useState(false)
+  const [loggedIn, setLoggedIn] = useState(true)
   const [candidateData, setCandidateData] = useState([])
   const [contactsData, setContactsData] = useState([])
   const [applicationData, setApplicationData] = useState([])
@@ -26,9 +26,9 @@ function App() {
   const [filteredList, setFilteredList] = useState([])
   
 
-  const [candidateDataPersistent , setCandidateDataP] = useState([])
-  const [contactsDataPersistent, setContactsDataP] = useState([])
-  const [applicationDataPersistent, setApplicationDataP] = useState([])
+  // const [candidateDataPersistent , setCandidateDataP] = useState([])
+  // const [contactsDataPersistent, setContactsDataP] = useState([])
+  // const [applicationDataPersistent, setApplicationDataP] = useState([])
 
   const [searchOption, setSearchOption] = useState('')
 
@@ -70,22 +70,22 @@ function App() {
   function filterList(listType){
 
     
-    if(listType === 'readCandidates'){
+  //   if(listType === 'readCandidates'){
       
-      const matchedCharacters = candidateDataPersistent.filter(candidate =>{
+  //     const matchedCharacters = candidateDataPersistent.filter(candidate =>{
         
-        var searchString
-        if (searchOption === "Name") searchString = candidate.firstName.toLowerCase()+candidate.lastName.toLowerCase()
-        else if (searchOption === "Location") searchString = candidate.state.toLowerCase()+candidate.city.toLowerCase()
-        else if (searchOption === "Position") searchString = candidate.position
+  //       var searchString
+  //       if (searchOption === "Name") searchString = candidate.firstName.toLowerCase()+candidate.lastName.toLowerCase()
+  //       else if (searchOption === "Location") searchString = candidate.state.toLowerCase()+candidate.city.toLowerCase()
+  //       else if (searchOption === "Position") searchString = candidate.position
         
-        return searchString.includes(searchKey.toLocaleLowerCase())
+  //       return searchString.includes(searchKey.toLocaleLowerCase())
         
-      })
-      setCandidateData(matchedCharacters)
+  //     })
+  //     setCandidateData(matchedCharacters)
       
-    console.log(candidateData)
-  }
+  //   console.log(candidateData)
+  // }
     
     if(listType === 'readCandidates'){
       setFilteredList(
