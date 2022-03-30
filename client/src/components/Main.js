@@ -9,6 +9,7 @@ export default function Main({ listType, listData, deleteCandidate, updateCandid
     let cardElements
     let applicationCardElements
     let detailElements = [<DetailHeader key='header'/>]
+    const keys = !Object.keys(listData).length  ? ['Loading...'] : Object.keys(listData[0])
     if(listType === 'readCandidates' && listData){
         cardElements = listData.map(employee =>{
             return(
@@ -39,7 +40,7 @@ export default function Main({ listType, listData, deleteCandidate, updateCandid
     }
     return (
         <main className='main'>
-            <Ribbon setSearchKey={setSearchKey} setSearchOption={setSearchOption} dataKeys={Object.keys(listData[0])}/>
+            <Ribbon setSearchKey={setSearchKey} setSearchOption={setSearchOption} dataKeys={keys}/>
             {listType === 'readCandidates' ? cardElements : listType === 'readContacts' ? detailElements : listType === 'readApplications' ? applicationCardElements : null}
         </main>
     )
