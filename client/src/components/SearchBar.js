@@ -29,7 +29,7 @@ export default function SearchBar({setSearchKey, setSearchOption,dataKeys}) {
       }  
     })
     filteredKeys = filteredKeys.filter((element, pos) => filteredKeys.indexOf(element) == pos)
-    console.log(filteredKeys)
+    //console.log(filteredKeys)
     const optionElements = filteredKeys.map(element=> {
         return(
             element ? <option key={element} value = {element}>{element}</option> : null
@@ -37,11 +37,11 @@ export default function SearchBar({setSearchKey, setSearchOption,dataKeys}) {
     })
     function getFilterValues(dataKeys){
       for (var f in genericFilter) {
-        console.log(genericFilter)
+        //console.log(genericFilter)
         var genericFilterKey = genericFilter[f].toString()
         for (var dk in dataKeys){
           var dataKeyString = dataKeys[dk].toString()
-          console.log(dataKeyString + "<<>>"+ genericFilterKey)
+          //console.log(dataKeyString + "<<>>"+ genericFilterKey)
           if (dataKeyString.toLowerCase().search(genericFilterKey.toLowerCase())) genericFilter[genericFilterKey] = dataKeyString
         // if (dataKeys.toString().search(genericFilter[f].key().toLowercase())) genericFilter[genericFilter[f]] = genericFilter[genericFilter[f]] + " " +element
         }

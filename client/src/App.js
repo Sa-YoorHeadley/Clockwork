@@ -64,41 +64,19 @@ function App() {
     if(listType === 'readCandidates'){setFilteredList(candidateData)}
     else if(listType === 'readContacts'){setFilteredList(contactsData)}
     else if(listType === 'readApplications'){setFilteredList(applicationData)}
+    else{setFilteredList(['No Data'])}
     
-    setFilteredList( prevFiltered => {
-        prevFiltered.filter(application =>{
-            return application.firstName.toLowerCase().includes(searchKey.toLowerCase()) ||
-            application.lastName.toLowerCase().includes(searchKey.toLowerCase()) ||
-            application.PersonID.toString().includes(searchKey.toString())
-      })
+    setFilteredList(prevFiltered => {
+        return(
+          prevFiltered.filter(application =>{
+              return application.firstName.toLowerCase().includes(searchKey.toLowerCase()) ||
+              application.lastName.toLowerCase().includes(searchKey.toLowerCase()) ||
+              application.PersonID.toString().includes(searchKey.toString())
+            })
+        )  
     })
     console.log(filteredList)
   
-  // if(listType === 'readCandidates'){
-  //   setFilteredList(
-  //       candidateData.filter(candidate =>{
-  //         if(searchOption == 'Name'){}
-  //         return candidate.firstName.toLowerCase().includes(searchKey.toLowerCase()) ||
-  //         candidate.lastName.toLowerCase().includes(searchKey.toLowerCase()) ||
-  //         candidate.PersonID.toString().includes(searchKey.toString())
-  //     }))
-  //   }
-  //   else if(listType === 'readContacts'){
-  //     setFilteredList(
-  //       contactsData.filter(contact =>{
-  //         return contact.firstName.toLowerCase().includes(searchKey.toLowerCase()) ||
-  //         contact.lastName.toLowerCase().includes(searchKey.toLowerCase()) ||
-  //         contact.PersonID.toString().includes(searchKey.toString())
-  //     }))
-  //   }
-  //   else if(listType === 'readApplications'){
-  //     setFilteredList(
-  //       applicationData.filter(application =>{
-  //         return application.firstName.toLowerCase().includes(searchKey.toLowerCase()) ||
-  //         application.lastName.toLowerCase().includes(searchKey.toLowerCase()) ||
-  //         application.PersonID.toString().includes(searchKey.toString())
-  //     }))
-  //   }
     if(!searchKey){
       setFilteredList(['No Data'])
     }
