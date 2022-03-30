@@ -13,7 +13,7 @@ export default function SearchBar({setSearchKey, setSearchOption,dataKeys}) {
     })
     function getFilterValues(dataKeys){
       for (var f in genericFilter) {
-        console(genericFilter)
+        console.log(genericFilter)
         var genericFilterKey = genericFilter[f].toString()
         for (var dk in dataKeys){
           var dataKeyString = dataKeys[dk].toString()

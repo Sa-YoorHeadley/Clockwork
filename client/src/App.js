@@ -12,7 +12,7 @@ import React, { useState, useEffect } from 'react'
 //Candidate Contact List New Candidate and Contact
 function App() {
   const [formType, setFormType] = useState('create')
-  const [showList, setShowList] = useState({listName: 'readCandidates', status: false})
+  const [showList, setShowList] = useState({listName: '', status: false})
   const [selectedDatabase, setSelectedDatabase] = useState('default')
   const [selectedId, setSelectedId] = useState('')
   const [openScheduler, setOpenScheduler] = useState(false)
@@ -37,6 +37,7 @@ function App() {
     getContactsData()
     getApplicationData()
     
+    
   }, [])
    
   useEffect(() => {
@@ -56,14 +57,12 @@ function App() {
     Axios.get('http://localhost:3001/contacts')
     .then(res => {
       setContactsData(res.data)
-      setContactsDataP(res.data)
     })
   }
   function getApplicationData(){
     Axios.get('http://localhost:3001/applications')
     .then(res => {
       setApplicationData(res.data)
-      setApplicationDataP(res.data)
     })
   }
   // fix merge
@@ -86,7 +85,10 @@ function App() {
       
   //   console.log(candidateData)
   // }
-    
+  
+    if(!searchKey){
+      setFilteredList(['No Data'])
+    }
     if(listType === 'readCandidates'){
       setFilteredList(
         candidateData.filter(candidate =>{
@@ -110,9 +112,6 @@ function App() {
           application.lastName.toLowerCase().includes(searchKey.toLowerCase()) ||
           application.PersonID.toString().includes(searchKey.toString())
       }))
-    }
-    if(!searchKey){
-      setFilteredList(['No Data'])
     }
 
   }
@@ -183,7 +182,6 @@ function App() {
       setShowList({listName: listName, status: true})
     }
   }
-
   return (
     <div className="App">
       { !loggedIn ? 
@@ -194,7 +192,7 @@ function App() {
           {/* <Form listType={showList.listName} formType={formType} handleDelete={deleteCandidate} handleUpdate={updateCandidate} handleAdd={addCandidate} selectedId={selectedId} selectedDatabase={selectedDatabase}/> */}
           </aside>
           <Header loggedIn={loggedIn} setLoggedIn={setLoggedIn}/>
-          {showList && <Main 
+          {showList.status && <Main 
             listType={showList.listName}
             listData={filteredList[0] !== 'No Data' ? filteredList : showList.listName === "readCandidates" ? candidateData : showList.listName === "readContacts" ? contactsData : showList.listName === "readApplications" ? applicationData : null} 
             deleteCandidate={deleteCandidate} 
