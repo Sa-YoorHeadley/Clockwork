@@ -661,6 +661,36 @@ body {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.horizontal-navbar .searchbar-text {
+  position: relative;
+}
+
+.horizontal-navbar .searchbar-text-input {
+  padding: .25rem;
+  margin-right: 1rem;
+  border-radius: .25rem;
+  outline: none;
+  border: none;
+}
+
+.horizontal-navbar .searchbar-text-icon {
+  position: absolute;
+  right: 1.25rem;
+  width: 18px;
+  fill: white;
+}
+
+.horizontal-navbar .searchbar-select {
+  padding: .2rem;
+  margin-right: 1rem;
+  border-radius: .25rem;
+  outline: none;
+  border: none;
 }
 
 .detail-header {
