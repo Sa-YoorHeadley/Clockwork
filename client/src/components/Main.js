@@ -3,6 +3,7 @@ import ApplicationCard from './ApplicationCard'
 import Card from './Card'
 import Detail from './Detail'
 import DetailHeader from './DetailHeader'
+import Pagination from './Pagination'
 import Ribbon from './Ribbon'
 
 export default function Main({ listType, listData, deleteCandidate, updateCandidate, scheduleCandidate, contactCandidate, setSearchKey, setSearchOption, listStatus }) {
@@ -25,7 +26,9 @@ export default function Main({ listType, listData, deleteCandidate, updateCandid
     else if(listType === 'readContacts' && listData){
         detailElements.push(listData.map(contact => {
             return(
+                <>
                 <Detail key={contact.idContacts} {...contact} />
+                </>
                 )
             })
         )
@@ -41,7 +44,18 @@ export default function Main({ listType, listData, deleteCandidate, updateCandid
     return (
         <main className='main'>
             <Ribbon setSearchKey={setSearchKey} setSearchOption={setSearchOption} dataKeys={keys} listType={listType} listStatus={listStatus} />
-            {listType === 'readCandidates' ? cardElements : listType === 'readContacts' ? detailElements : listType === 'readApplications' ? applicationCardElements : null}
+            {listType === 'readContacts' ?
+                <div className='table-container'>
+                    <div className='detail-container'>
+                        {detailElements}
+                    </div>
+                </div>
+            :
+            <div className='card-container'>
+                {listType === 'readCandidates' ? cardElements : listType === 'readApplications' ? applicationCardElements : null}
+            </div>
+            }       
+            <Pagination />
         </main>
     )
 }

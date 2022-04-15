@@ -202,11 +202,11 @@ function App() {
       { !loggedIn ? 
         <LandingPage setLoggedIn={setLoggedIn}/> :
         <>
+          <Header loggedIn={loggedIn} setLoggedIn={setLoggedIn}/>
           <aside className="left-section">
           <Navbar handleClick={changeForm} changeDatabase={setSelectedDatabase} changeList={changeList} listType={showList.listName}/>
           {/* <Form listType={showList.listName} formType={formType} handleDelete={deleteCandidate} handleUpdate={updateCandidate} handleAdd={addCandidate} selectedId={selectedId} selectedDatabase={selectedDatabase}/> */}
           </aside>
-          <Header loggedIn={loggedIn} setLoggedIn={setLoggedIn}/>
           {showList.status && <Main 
             listType={showList.listName}
             listStatus={listStatus}
