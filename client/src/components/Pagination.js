@@ -1,27 +1,26 @@
 import React, { useState } from 'react'
 
-export default function Pagination() {
-    const [active, setActive] = useState(0)
+export default function Pagination({ currentPage, setCurrentPage, paginationData }) {
     function changePage(page){
-        if(!isNaN(page)){
-            console.log(page)
-            setActive(page)
+        if(!isNaN(page) && page > 0){
+            setCurrentPage(page)
         }
 
     }
-    const arr = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
-    const buttonElements = arr.map(button =>{
+    const buttonArray = paginationData.pageArray || [1]
+    const buttonElements = buttonArray.map(button =>{
+        if(button < 1) return
         return(
-            <button key={button} className={`pagination-btn btn number${active === button ? ' active' : ''}`} onClick={() => changePage(button)}>{button}</button>
+            <button key={button} className={`pagination-btn btn number${currentPage === button ? ' active' : ''}`} onClick={() => changePage(button)}>{button}</button>
         )
     })
   return (
     <nav className='horizontal-navbar pagination'>
-        <button className='pagination-btn btn' onClick={() => changePage('Start')}>Start</button>
-        <button className='pagination-btn btn' onClick={() => changePage('Previous')}>Previous</button>
+        <button className='pagination-btn btn' onClick={() => changePage(1)}>Start</button>
+        <button className='pagination-btn btn' disabled={paginationData.previousPage ? false : true} onClick={() => changePage(currentPage - 1)}>Previous</button>
         {buttonElements}
-        <button className='pagination-btn btn' onClick={() => changePage('Next')}>Next</button>
-        <button className='pagination-btn btn' onClick={() => changePage('End')}>End</button>
+        <button className='pagination-btn btn' disabled={paginationData.nextPage ? false : true} onClick={() => changePage(currentPage + 1)}>Next</button>
+        <button className='pagination-btn btn' onClick={() => changePage(paginationData.totalPages)}>End</button>
     </nav>
   )
 }

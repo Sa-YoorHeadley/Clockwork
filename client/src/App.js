@@ -18,22 +18,24 @@ function App() {
   const [selectedId, setSelectedId] = useState('')
   const [openScheduler, setOpenScheduler] = useState(false)
   const [targetCandidate, setTargetCandidate] = useState({})
-  const [loggedIn, setLoggedIn] = useState(false)
-  const [candidateData, setCandidateData] = useState([])
-  const [contactsData, setContactsData] = useState([])
-  const [applicationData, setApplicationData] = useState([])
+  const [loggedIn, setLoggedIn] = useState(true)
+  const [data, setData] = useState([])
   const [openContactForm, setOpenContactForm] = useState({data:{}, status:false})
+  const [paginationData, setPaginationData] = useState({})
   const [searchKey, setSearchKey] = useState('')
+  const [searchOption, setSearchOption] = useState('ID')
+  const [resultLimit, setResultLimit] = useState(50)
+  const [currentPage, setCurrentPage] = useState(1)
   const [filteredList, setFilteredList] = useState([])
-  const [searchOption, setSearchOption] = useState('')
+  
+  useEffect(() => {
+    setData([])
+    getData()
+  }, [currentPage, resultLimit, showList])
 
   useEffect(() => {
-    getCandidateData()
-    getContactsData()
-    getApplicationData()
-    
-    
-  }, [])
+    setCurrentPage(1)
+  }, [showList.listName])
    
   useEffect(() => {
     console.log(searchKey)
@@ -42,34 +44,40 @@ function App() {
   }, [searchKey, searchOption])
 
   useEffect(() => {
+    getPaginationData()
+  }, [currentPage, resultLimit, showList.listName])
+
+  useEffect(() => {
     setListStatus(prevListStatus => !prevListStatus)
     
   }, [showList.status, showList.listName])
 
-  function getCandidateData(){
-    Axios.get('http://localhost:3001/candidates')
+  function getData(){
+    let route 
+    if(showList.listName === 'readCandidates') route = 'candidates'
+    if(showList.listName === 'readContacts') route = 'contacts'
+    if(showList.listName === 'readApplications') route = 'applications'
+    Axios.get(`http://localhost:3001/${route}?page=${currentPage}&limit=${resultLimit}`)
     .then(res => {
-      setCandidateData(res.data)
+      setData(res.data.data)
     })
   }
-  
-  function getContactsData(){
-    Axios.get('http://localhost:3001/contacts')
+
+  function getPaginationData(){
+    let route 
+    if(showList.listName === 'readCandidates') route = 'candidates'
+    if(showList.listName === 'readContacts') route = 'contacts'
+    if(showList.listName === 'readApplications') route = 'applications'
+    Axios.get(`http://localhost:3001/${route}?page=${currentPage}&limit=${resultLimit}`)
     .then(res => {
-      setContactsData(res.data)
-    })
-  }
-  function getApplicationData(){
-    Axios.get('http://localhost:3001/applications')
-    .then(res => {
-      setApplicationData(res.data)
+      setPaginationData(res.data.paginationData)
     })
   }
   
   function filterList(listType){
-    if(listType === 'readCandidates'){setFilteredList(candidateData)}
-    else if(listType === 'readContacts'){setFilteredList(contactsData)}
-    else if(listType === 'readApplications'){setFilteredList(applicationData)}
+    if(listType === 'readCandidates'){setFilteredList(data)}
+    else if(listType === 'readContacts'){setFilteredList(data)}
+    else if(listType === 'readApplications'){setFilteredList(data)}
     else{setFilteredList(['No Data'])}
 
     setFilteredList(prevFiltered => {
@@ -162,7 +170,7 @@ function App() {
   
 
   function scheduleCandidate(employeeId){
-    setTargetCandidate(candidateData.find( employee => employee.id === employeeId))
+    setTargetCandidate(data.find( employee => employee.id === employeeId))
     if(targetCandidate.scheduled){
       console.log('Rescheduled Candidate')
       setOpenScheduler(true)
@@ -186,7 +194,7 @@ function App() {
     if(listName === showList.listName){
       setShowList(prevShowList => {
         return{
-            listName: '',
+            listName: prevShowList.listName,
             status: !prevShowList.status
         }
       })
@@ -210,13 +218,17 @@ function App() {
           {showList.status && <Main 
             listType={showList.listName}
             listStatus={listStatus}
-            listData={filteredList[0] !== 'No Data' ? filteredList : showList.listName === "readCandidates" ? candidateData : showList.listName === "readContacts" ? contactsData : showList.listName === "readApplications" ? applicationData : null} 
+            listData={filteredList[0] !== 'No Data' ? filteredList : data} 
+            currentPage={currentPage}
             deleteCandidate={deleteCandidate} 
             updateCandidate={updateCandidate} 
             scheduleCandidate={scheduleCandidate}
             contactCandidate={contactCandidate} 
             setSearchKey={setSearchKey} 
             setSearchOption={setSearchOption}
+            setResultLimit={setResultLimit}
+            setCurrentPage={setCurrentPage}
+            paginationData={paginationData}
             />}
           {openContactForm.status && <Contacts openContactForm={setOpenContactForm} data={openContactForm.data}/>} 
           {/* {openScheduler && <Scheduler targetCandidate={targetCandidate} openScheduler={setOpenScheduler} setTargetCandidate={setTargetCandidate} />} */}
