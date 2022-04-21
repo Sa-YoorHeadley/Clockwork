@@ -28,6 +28,7 @@ function App() {
   const [filteredList, setFilteredList] = useState([])
   
   useEffect(() => {
+    setFilterOptions({filterKey: '', filterBy: 'ID'})
     setData([])
     getData()
   }, [currentPage, resultLimit, showList])
@@ -205,6 +206,8 @@ function App() {
             listStatus={listStatus}
             listData={filteredList[0] !== 'No Data' ? filteredList : data} 
             currentPage={currentPage}
+            paginationData={paginationData}
+            filterOptions={filterOptions}
             deleteCandidate={deleteCandidate} 
             updateCandidate={updateCandidate} 
             scheduleCandidate={scheduleCandidate}
@@ -212,7 +215,6 @@ function App() {
             setFilterOptions={setFilterOptions}
             setResultLimit={setResultLimit}
             setCurrentPage={setCurrentPage}
-            paginationData={paginationData}
             />}
           {openContactForm.status && <Contacts openContactForm={setOpenContactForm} data={openContactForm.data}/>} 
           {/* {openScheduler && <Scheduler targetCandidate={targetCandidate} openScheduler={setOpenScheduler} setTargetCandidate={setTargetCandidate} />} */}
