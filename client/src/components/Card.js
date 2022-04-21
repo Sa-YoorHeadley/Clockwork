@@ -8,9 +8,9 @@ export default function Card({PersonID, firstName, lastName, currentStatus, city
                 <header className='card-header'>
                     <h1 className='name'>{firstName} {lastName}</h1>  
                 </header>
-                    <h4 className='currentStatus'>Current Status: {currentStatus}</h4>
-                    <h4 className='name'>Location: {city} {state}</h4>  
-                    <h4 className='emailAddress'>Email Address: {emailAddress}</h4>
+                    <h5 className='currentStatus'>Current Status: {currentStatus}</h5>
+                    <h5 className='name'>Location: {city} {state}</h5>  
+                    <h5 className='emailAddress'>Email Address: {emailAddress}</h5>
             </div>
             <div className='buttons'>
                 {/* {true ? <button className='btn schedule' onClick={onSchedule}>Contact</button> : <button className='btn reschedule' onClick={onSchedule}>Reschedule</button> } */}

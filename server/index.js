@@ -3,7 +3,11 @@ const express = require('express')
 const app = express()
 const mysql = require('mysql')
 const cors = require('cors')
+const pagination = require('./middleware/pagination.js')
 const bodyParser = require('body-parser');
+const countDocuments = require('./modules/countDocuments')
+const find = require('./modules/find')
+
 
 // CREATE AND TEST CONNECTION
 const connection = mysql.createConnection({
@@ -37,43 +41,17 @@ app.get("/", async (req, res) => {
 })
 
 
-//GET ALL CANDIDATES 
-app.get('/candidates', async (req, res) =>{
-    const query = `SELECT * FROM Persons`
-    connection.query(query, (error, results) =>{
-        if(error){
-            throw error
-        }
-        if(!results[0]){
-            res.json({status: 'No Results'})
-        } else {
-            res.json(results)
-        }
-    })
+//GET ALL CANDIDATES PAGINATED 
+app.get('/candidates', pagination('Persons'), async (req, res) =>{
+    res.json(res.results)
 })
 
-//GET ALL APPLICATIONS 
-app.get('/applications', async (req, res) =>{
-    const query = `SELECT *
-    FROM Applications
-    JOIN Openings 
-        ON Applications.OpeningId=Openings.idOpenings
-    JOIN Persons 
-        ON Persons.PersonID=Applications.ApplicationPersonId
-    WHERE ApplicationStatus = "Pending"
-    `
-    connection.query(query, (error, results) =>{
-        if(error){
-            throw error
-        }
-        if(!results[0]){
-            res.json({status: 'No Results'})
-        } else {
-            res.json(results)
-        }
-    })
+//GET ALL APPLICATIONS PAGINATED 
+app.get('/applications', pagination('Applications'), async (req, res) =>{
+    res.json(res.results)
 })
 
+<<<<<<< HEAD
 
 
 
@@ -99,7 +77,14 @@ app.get('/contacts', async (req, res) =>{
             res.json(results)
         }
     })
+=======
+//GET ALL CONTACTS PAGINATED
+app.get('/contacts', pagination('Contacts'), async (req, res) =>{  
+    res.json(res.results)
+>>>>>>> 070157a7185da8c491afe3eb40cab84550255bd6
 })
+
+
 
 //GET APPLICATION BY ID
 app.get('/applications/:id', async (req, res) =>{

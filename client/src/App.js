@@ -18,57 +18,50 @@ function App() {
   const [selectedId, setSelectedId] = useState('')
   const [openScheduler, setOpenScheduler] = useState(false)
   const [targetCandidate, setTargetCandidate] = useState({})
-  const [loggedIn, setLoggedIn] = useState(false)
-  const [candidateData, setCandidateData] = useState([])
-  const [contactsData, setContactsData] = useState([])
-  const [applicationData, setApplicationData] = useState([])
+  const [loggedIn, setLoggedIn] = useState(true)
+  const [data, setData] = useState([])
   const [openContactForm, setOpenContactForm] = useState({data:{}, status:false})
-  const [searchKey, setSearchKey] = useState('')
+  const [paginationData, setPaginationData] = useState({})
+  const [filterOptions, setFilterOptions] = useState({filterKey: '', filterBy: 'ID'})
+  const [resultLimit, setResultLimit] = useState(50)
+  const [currentPage, setCurrentPage] = useState(1)
   const [filteredList, setFilteredList] = useState([])
-  const [searchOption, setSearchOption] = useState('')
   const [LoggedInRecruiter, setLoggedInRecruiter] = useState({})
+  
   useEffect(() => {
-    getCandidateData()
-    getContactsData()
-    getApplicationData()
-    
-    
-  }, [])
+    setFilterOptions({filterKey: '', filterBy: 'ID'})
+    setData([])
+    getData()
+  }, [currentPage, resultLimit, showList])
+
+  useEffect(() => {
+    setCurrentPage(1)
+  }, [showList.listName])
    
   useEffect(() => {
-    console.log(searchKey)
-    console.log(searchOption)
-    console.log(LoggedInRecruiter)
-    filterList(showList.listName)
-  }, [searchKey, searchOption])
+    filterList()
+  }, [filterOptions.filterKey, filterOptions.filterBy])
+
+  useEffect(() => {
+    getPaginationData()
+  }, [currentPage, resultLimit, showList.listName])
 
   useEffect(() => {
     setListStatus(prevListStatus => !prevListStatus)
     
   }, [showList.status, showList.listName])
 
-  function getCandidateData(){
-    Axios.get('http://localhost:3001/candidates')
+  async function getData(){
+    let route 
+    if(showList.listName === 'readCandidates') route = 'candidates'
+    if(showList.listName === 'readContacts') route = 'contacts'
+    if(showList.listName === 'readApplications') route = 'applications'
+    await Axios.get(`http://localhost:3001/${route}?page=${currentPage}&limit=${resultLimit}`)
     .then(res => {
-      setCandidateData(res.data)
+      setData(res.data.data)
     })
   }
   
-  function getContactsData(){
-    Axios.get('http://localhost:3001/contacts')
-    .then(res => {
-      setContactsData(res.data)
-    })
-  }
-  function getApplicationData(){
-    Axios.get('http://localhost:3001/applications')
-    .then(res => {
-      setApplicationData(res.data)
-    })
-  }
-  
-
-
 function checkRecruiterLogin(recruiterEmail, attempt){
   console.log(`${recruiterEmail} ------- ${attempt}`)
   Axios.get(`http://localhost:3001/recruiters/${recruiterEmail}`)
@@ -84,64 +77,63 @@ function checkRecruiterLogin(recruiterEmail, attempt){
   })
 }
 
-  function filterList(listType){
-    if(listType === 'readCandidates'){setFilteredList(candidateData)}
-    else if(listType === 'readContacts'){setFilteredList(contactsData)}
-    else if(listType === 'readApplications'){setFilteredList(applicationData)}
-    else{setFilteredList(['No Data'])}
-
+  async function getPaginationData(){
+    let route 
+    if(showList.listName === 'readCandidates') route = 'candidates'
+    if(showList.listName === 'readContacts') route = 'contacts'
+    if(showList.listName === 'readApplications') route = 'applications'
+    await Axios.get(`http://localhost:3001/${route}?page=${currentPage}&limit=${resultLimit}`)
+    .then(res => {
+      setPaginationData(res.data.paginationData)
+    })
+  }
+  
+  function filterList(){
+    setFilteredList(data)
     setFilteredList(prevFiltered => {
         return(
           prevFiltered.filter(application =>{
               //Use Keys to get these values
-              if(searchOption === 'Name'){
-                return application.firstName.toLowerCase().includes(searchKey.toLowerCase()) ||
-                      application.lastName.toLowerCase().includes(searchKey.toLowerCase())
+              let keys = []
+              if(filterOptions.filterBy === 'Name'){
+                keys = ["firstName", "lastName"]
               }
 
-              else if(searchOption === 'Location'){
-                if(application.city) return application.city.toString().toLowerCase().includes(searchKey.toLowerCase())
-                if(application.state) return application.state.toString().toLowerCase().includes(searchKey.toLowerCase())
-                if(application.streetAddress) return application.streetAddress.toString().toLowerCase().includes(searchKey.toLowerCase())
+              else if(filterOptions.filterBy === 'Location'){
+                keys = ["city", "state", "streetAddress"]
               }
 
-              else if(searchOption === 'Email'){
-                if(application.emailAddress) return application.emailAddress.toString().toLowerCase().includes(searchKey.toLowerCase())
-                if(application.managerEmail) return application.managerEmail.toString().toLowerCase().includes(searchKey.toLowerCase())  
+              else if(filterOptions.filterBy === 'Email'){
+                keys = ["emailAddress", "managerEmail"]
               }
 
-              else if(searchOption === 'ID'){
-                if(application.idApplications) return application.idApplications.toString().includes(searchKey.toString())
-                if(application.idOpenings) return application.idOpenings.toString().includes(searchKey.toString())
-                if(application.idContacts) return application.idContacts.toString().includes(searchKey.toString())
-                if(application.PersonID) return application.PersonID.toString().includes(searchKey.toString())
-                if(application.OpeningId) return application.OpeningId.toString().includes(searchKey.toString())
-                if(application.ContactRecruiterId) return application.ContactRecruiterId.toString().includes(searchKey.toString())
-                if(application.ApplicationPersonId) return application.ApplicationPersonId.toString().includes(searchKey.toString())
-                if(application.ContactApplicationsId) return application.ContactApplicationsId.toString().includes(searchKey.toString())        
+              else if(filterOptions.filterBy === 'ID'){
+                keys = ["idApplications","idOpenings", "idContacts", "PersonID", "OpeningId", "ContactRecruiterId", "ApplicationPersonId", "ContactApplicationsId"]
               }
 
-              else if(searchOption === 'Phone Number'){
-                return application.phoneNumber.toString().includes(searchKey.toString())
+              else if(filterOptions.filterBy === 'Phone Number'){
+                keys = ["phoneNumber"]
               }
-
-              else if(searchOption === 'Status'){
-                if(application.currentStatus) return application.currentStatus.toString().toLowerCase().includes(searchKey.toLowerCase())
-                if(application.ApplicationStatus) return application.ApplicationStatus.toString().toLowerCase().includes(searchKey.toLowerCase())
-                if(application.ContactStatus) return application.ContactStatus.toString().toLowerCase().includes(searchKey.toLowerCase())
+              
+              else if(filterOptions.filterBy === 'Status'){
+                keys = ["currentStatus", "ApplicationStatus", "ContactStatus"]
               }
-              else if(searchOption === 'Other'){
-                if(application.ContactTimeStamp) return application.ContactTimeStamp.toString().toLowerCase().includes(searchKey.toLowerCase())
-                if(application.ApplicationDate) return application.ApplicationDate.toString().toLowerCase().includes(searchKey.toLowerCase())
-                if(application.position) return application.position.toString().toLowerCase().includes(searchKey.toLowerCase())
-                if(application.manager) return application.manager.toString().toLowerCase().includes(searchKey.toLowerCase())
+              
+              else if(filterOptions.filterBy === 'Other'){
+                keys = ["ContactTimeStamp", "ApplicationDate", "position", "manager"]
               }
+              
+              return keys.some((key) => {
+                if(application[key]){
+                  return application[key].toString().toLowerCase().includes(filterOptions.filterKey.toLowerCase())
+                } else return
+              })
 
             })
-        )  
+            )  
     })
   
-    if(!searchKey){
+    if(!filterOptions.filterKey){
       setFilteredList(['No Data'])
     }
     
@@ -180,7 +172,7 @@ function checkRecruiterLogin(recruiterEmail, attempt){
   
 
   function scheduleCandidate(employeeId){
-    setTargetCandidate(candidateData.find( employee => employee.id === employeeId))
+    setTargetCandidate(data.find( employee => employee.id === employeeId))
     if(targetCandidate.scheduled){
       console.log('Rescheduled Candidate')
       setOpenScheduler(true)
@@ -204,7 +196,7 @@ function checkRecruiterLogin(recruiterEmail, attempt){
     if(listName === showList.listName){
       setShowList(prevShowList => {
         return{
-            listName: '',
+            listName: prevShowList.listName,
             status: !prevShowList.status
         }
       })
@@ -228,13 +220,17 @@ function checkRecruiterLogin(recruiterEmail, attempt){
           {showList.status && <Main 
             listType={showList.listName}
             listStatus={listStatus}
-            listData={filteredList[0] !== 'No Data' ? filteredList : showList.listName === "readCandidates" ? candidateData : showList.listName === "readContacts" ? contactsData : showList.listName === "readApplications" ? applicationData : null} 
+            listData={filteredList[0] !== 'No Data' ? filteredList : data} 
+            currentPage={currentPage}
+            paginationData={paginationData}
+            filterOptions={filterOptions}
             deleteCandidate={deleteCandidate} 
             updateCandidate={updateCandidate} 
             scheduleCandidate={scheduleCandidate}
             contactCandidate={contactCandidate} 
-            setSearchKey={setSearchKey} 
-            setSearchOption={setSearchOption}
+            setFilterOptions={setFilterOptions}
+            setResultLimit={setResultLimit}
+            setCurrentPage={setCurrentPage}
             />}
           {openContactForm.status && <Contacts openContactForm={setOpenContactForm} data={openContactForm.data} LoggedInRecruiter={LoggedInRecruiter}/>} 
           {/* {openScheduler && <Scheduler targetCandidate={targetCandidate} openScheduler={setOpenScheduler} setTargetCandidate={setTargetCandidate} />} */}

@@ -6,7 +6,7 @@ import DetailHeader from './DetailHeader'
 import Pagination from './Pagination'
 import Ribbon from './Ribbon'
 
-export default function Main({ listType, listData, deleteCandidate, updateCandidate, scheduleCandidate, contactCandidate, setSearchKey, setSearchOption, listStatus }) {
+export default function Main({ listType, filterOptions, listData, deleteCandidate, updateCandidate, setCurrentPage, currentPage, contactCandidate, setResultLimit, setFilterOptions, listStatus, paginationData }) {
     let cardElements
     let applicationCardElements
     let detailElements = [<DetailHeader key='header'/>]
@@ -15,7 +15,7 @@ export default function Main({ listType, listData, deleteCandidate, updateCandid
         cardElements = listData.map(employee =>{
             return(
                 <Card
-                key={employee.PersonID}
+                key={JSON.stringify(employee)}
                 onEdit={() => updateCandidate(employee.PersonID)}
                 onDelete={() => deleteCandidate(employee.PersonID)}
                 {...employee}
@@ -26,9 +26,7 @@ export default function Main({ listType, listData, deleteCandidate, updateCandid
     else if(listType === 'readContacts' && listData){
         detailElements.push(listData.map(contact => {
             return(
-                <>
-                <Detail key={contact.idContacts} {...contact} />
-                </>
+                <Detail key={JSON.stringify(contact)} {...contact} />
                 )
             })
         )
@@ -36,17 +34,23 @@ export default function Main({ listType, listData, deleteCandidate, updateCandid
     else if(listType === 'readApplications' && listData){
         applicationCardElements = listData.map(application => {
             return(
-                <ApplicationCard key={application.idApplications} {...application} onContact={() => contactCandidate(application.idApplications)} />
+                <ApplicationCard key={JSON.stringify(application)} {...application} onContact={() => contactCandidate(application.idApplications)} />
             )
         })
         
     }
     return (
         <main className='main'>
-            <Ribbon setSearchKey={setSearchKey} setSearchOption={setSearchOption} dataKeys={keys} listType={listType} listStatus={listStatus} />
+            <Ribbon 
+                setFilterOptions={setFilterOptions}
+                filterOptions={filterOptions}
+                listType={listType} 
+                listStatus={listStatus} 
+                setResultLimit={setResultLimit}
+            />
             {listType === 'readContacts' ?
-                <div className='table-container'>
-                    <div className='detail-container'>
+                <div className='table-container' key='table-container'>
+                    <div className='detail-container' key='detail-container'>
                         {detailElements}
                     </div>
                 </div>
@@ -55,7 +59,7 @@ export default function Main({ listType, listData, deleteCandidate, updateCandid
                 {listType === 'readCandidates' ? cardElements : listType === 'readApplications' ? applicationCardElements : null}
             </div>
             }       
-            <Pagination />
+            <Pagination currentPage={currentPage} setCurrentPage={setCurrentPage} paginationData={paginationData}/>
         </main>
     )
 }
