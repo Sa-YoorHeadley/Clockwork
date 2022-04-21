@@ -74,6 +74,9 @@ app.get('/applications', async (req, res) =>{
     })
 })
 
+
+
+
 //GET ALL CONTACTS
 app.get('/contacts', async (req, res) =>{  
     const query = `SELECT *
@@ -81,7 +84,11 @@ app.get('/contacts', async (req, res) =>{
     JOIN Applications 
         ON Contacts.ContactApplicationsId=Applications.idApplications
     JOIN Persons 
-        ON Persons.PersonID=Applications.ApplicationPersonId`
+        ON Persons.PersonID=Applications.ApplicationPersonId
+    JOIN Recruiters 
+        ON Contacts.ContactRecruiterId=Recruiters.idRecruiters
+    JOIN Openings 
+        ON Applications.OpeningId=Openings.idOpenings`
     connection.query(query, (error, results) =>{
         if(error){
             throw error
@@ -135,6 +142,51 @@ app.post('/candidate/create', (req,res) => {
     })
 })
 
+//GET APPLICATION BY ID
+app.get('/applications/:id', async (req, res) =>{
+    const {id} = req.params
+    const query = `SELECT *
+    FROM Applications
+    JOIN Openings 
+        ON Applications.OpeningId=Openings.idOpenings
+    JOIN Persons 
+        ON Persons.PersonID=Applications.ApplicationPersonId
+    WHERE Applications.idApplications = ?`
+    connection.query(query, id , (error, results) =>{
+        if(error){
+            throw error
+        }
+        if(!results[0]){
+            res.json({status: 'No Results'})
+        } else {
+            res.json(results)
+        }
+    })
+})
+
+
+// Get Recruiter by ID
+app.get('/recruiters/:emailAddress', (req,res) => {
+    const {emailAddress} = req.params
+    const query = `SELECT *
+    FROM Recruiters
+    
+    WHERE Recruiters.email = ?`
+    connection.query(query, emailAddress , (error, results) =>{
+        if(error){
+            throw error
+        }
+        if(!results[0]){
+            res.json({status: 'No Results'})
+        } else {
+            res.json(results)
+        }
+    })
+})
+
+
+
+
 
 //DELETE CANDIDATE
 app.delete('/candidate/delete/:id', (req,res) => {
@@ -175,18 +227,37 @@ app.put('/candidate/update/:id', (req,res) => {
 // CREATE CONTACT
 app.post('/contact/create', (req,res) => {
     const ContactTimeStamp = new Date()
-    const ContactRecruiterId = 9999
-    const ContactApplicationsId = 9999
-    const {contactStatus} = req.body.formData
+    const ContactRecruiterId = req.body.formData.idRecruiters
+
+    const {contactStatus, idApplications} = req.body.formData
     const query = `INSERT INTO Contacts(ContactTimeStamp, ContactStatus, ContactRecruiterId, ContactApplicationsId)
     VALUES (?,?,?,?)
     `
-    connection.query(query, [ContactTimeStamp, contactStatus, ContactRecruiterId, ContactApplicationsId], (error, results) =>{
+    connection.query(query, [ContactTimeStamp, contactStatus, ContactRecruiterId, idApplications], (error, results) =>{
         if(error){
             throw error
         }
         if(!results[0]){
             res.json({status: 'No Results'})
+        } else {
+            res.json(results[0])
+        }
+    })
+})
+
+// Update Application
+app.put('/application/update/:id', (req,res) => {
+    
+    const {id} = req.params
+    const {contactStatus} = req.body.formData
+    console.log(`this is contact statuse ${contactStatus} and id ${id}`)
+    const query = `UPDATE Applications SET ApplicationStatus=? WHERE idApplications=?`
+    connection.query(query, [contactStatus, id], (error, results) =>{
+        if(error){
+            throw error
+        }
+        if(!results[0]){
+            res.json({status: 'No Results',id})
         } else {
             res.json(results[0])
         }
