@@ -39,7 +39,7 @@ export default function SearchBar({ setFilterOptions, filterOptions }) {
             </svg>
           </div>
           <select defaultValue={filterOptions.filterBy} onChange={changeFilterBy} className='filter-select'>
-              {optionElements !== undefined && optionElements}
+              {optionElements}
           </select>  
         </div>
       </div>

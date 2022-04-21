@@ -125,7 +125,7 @@ function App() {
   
   function addCandidate(newCandidate){
     Axios.post('http://localhost:3001/candidate/create', {newCandidate}).then(() => alert("Candidate Created"))
-    getCandidateData()
+    getData()
   }
 
   function updateCandidate(employeeId, updatedCandidate){
@@ -135,7 +135,7 @@ function App() {
       return
     }
     Axios.put(`http://localhost:3001/candidate/update/${employeeId}`, {updatedCandidate}).then(() => alert("Candidate Updated"))
-    getCandidateData()
+    getData()
   }
 
   function deleteCandidate(employeeId){
@@ -143,7 +143,7 @@ function App() {
     if(confirmation){
       Axios.delete(`http://localhost:3001/candidate/delete/${employeeId}`).then(() => alert("Candidate Deleted"))
     }
-    getCandidateData()
+    getData()
   }
 
   function contactCandidate(applicationId){
@@ -151,7 +151,7 @@ function App() {
     Axios.get(`http://localhost:3001/applications/${applicationId}`).then(res => {
       setOpenContactForm({data: res.data, status: true})
     })
-
+    getData()
   }
   
 
