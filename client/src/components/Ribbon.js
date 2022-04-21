@@ -1,12 +1,12 @@
 import React from 'react'
 import SearchBar from './SearchBar'
-export default function Ribbon({setSearchKey, setSearchOption, setResultLimit, dataKeys, listType, listStatus}) {
+export default function Ribbon({ setResultLimit, setFilterOptions }) {
   function changeLimit(event){
     setResultLimit(event.target.value)
   }
   return (
     <nav className="horizontal-navbar">
-        <SearchBar setSearchKey={setSearchKey} setSearchOption={setSearchOption} dataKeys={dataKeys} listType={listType} listStatus={listStatus} setResultLimit={setResultLimit}/>
+        <SearchBar setFilterOptions={setFilterOptions}/>
         
         <div className='limit function'>
           <h5 className='function-title'>Limit Results</h5>

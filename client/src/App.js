@@ -22,8 +22,7 @@ function App() {
   const [data, setData] = useState([])
   const [openContactForm, setOpenContactForm] = useState({data:{}, status:false})
   const [paginationData, setPaginationData] = useState({})
-  const [searchKey, setSearchKey] = useState('')
-  const [searchOption, setSearchOption] = useState('ID')
+  const [filterOptions, setFilterOptions] = useState({filterKey: '', filterBy: 'ID'})
   const [resultLimit, setResultLimit] = useState(50)
   const [currentPage, setCurrentPage] = useState(1)
   const [filteredList, setFilteredList] = useState([])
@@ -38,10 +37,8 @@ function App() {
   }, [showList.listName])
    
   useEffect(() => {
-    console.log(searchKey)
-    console.log(searchOption)
-    filterList(showList.listName)
-  }, [searchKey, searchOption])
+    filterList()
+  }, [filterOptions.filterKey, filterOptions.filterBy])
 
   useEffect(() => {
     getPaginationData()
@@ -52,86 +49,74 @@ function App() {
     
   }, [showList.status, showList.listName])
 
-  function getData(){
+  async function getData(){
     let route 
     if(showList.listName === 'readCandidates') route = 'candidates'
     if(showList.listName === 'readContacts') route = 'contacts'
     if(showList.listName === 'readApplications') route = 'applications'
-    Axios.get(`http://localhost:3001/${route}?page=${currentPage}&limit=${resultLimit}`)
+    await Axios.get(`http://localhost:3001/${route}?page=${currentPage}&limit=${resultLimit}`)
     .then(res => {
       setData(res.data.data)
     })
   }
 
-  function getPaginationData(){
+  async function getPaginationData(){
     let route 
     if(showList.listName === 'readCandidates') route = 'candidates'
     if(showList.listName === 'readContacts') route = 'contacts'
     if(showList.listName === 'readApplications') route = 'applications'
-    Axios.get(`http://localhost:3001/${route}?page=${currentPage}&limit=${resultLimit}`)
+    await Axios.get(`http://localhost:3001/${route}?page=${currentPage}&limit=${resultLimit}`)
     .then(res => {
       setPaginationData(res.data.paginationData)
     })
   }
   
-  function filterList(listType){
-    if(listType === 'readCandidates'){setFilteredList(data)}
-    else if(listType === 'readContacts'){setFilteredList(data)}
-    else if(listType === 'readApplications'){setFilteredList(data)}
-    else{setFilteredList(['No Data'])}
-
+  function filterList(){
+    setFilteredList(data)
     setFilteredList(prevFiltered => {
         return(
           prevFiltered.filter(application =>{
               //Use Keys to get these values
-              if(searchOption === 'Name'){
-                return application.firstName.toLowerCase().includes(searchKey.toLowerCase()) ||
-                      application.lastName.toLowerCase().includes(searchKey.toLowerCase())
+              let keys = []
+              if(filterOptions.filterBy === 'Name'){
+                keys = ["firstName", "lastName"]
               }
 
-              else if(searchOption === 'Location'){
-                if(application.city) return application.city.toString().toLowerCase().includes(searchKey.toLowerCase())
-                if(application.state) return application.state.toString().toLowerCase().includes(searchKey.toLowerCase())
-                if(application.streetAddress) return application.streetAddress.toString().toLowerCase().includes(searchKey.toLowerCase())
+              else if(filterOptions.filterBy === 'Location'){
+                keys = ["city", "state", "streetAddress"]
               }
 
-              else if(searchOption === 'Email'){
-                if(application.emailAddress) return application.emailAddress.toString().toLowerCase().includes(searchKey.toLowerCase())
-                if(application.managerEmail) return application.managerEmail.toString().toLowerCase().includes(searchKey.toLowerCase())  
+              else if(filterOptions.filterBy === 'Email'){
+                keys = ["emailAddress", "managerEmail"]
               }
 
-              else if(searchOption === 'ID'){
-                if(application.idApplications) return application.idApplications.toString().includes(searchKey.toString())
-                if(application.idOpenings) return application.idOpenings.toString().includes(searchKey.toString())
-                if(application.idContacts) return application.idContacts.toString().includes(searchKey.toString())
-                if(application.PersonID) return application.PersonID.toString().includes(searchKey.toString())
-                if(application.OpeningId) return application.OpeningId.toString().includes(searchKey.toString())
-                if(application.ContactRecruiterId) return application.ContactRecruiterId.toString().includes(searchKey.toString())
-                if(application.ApplicationPersonId) return application.ApplicationPersonId.toString().includes(searchKey.toString())
-                if(application.ContactApplicationsId) return application.ContactApplicationsId.toString().includes(searchKey.toString())        
+              else if(filterOptions.filterBy === 'ID'){
+                keys = ["idApplications","idOpenings", "idContacts", "PersonID", "OpeningId", "ContactRecruiterId", "ApplicationPersonId", "ContactApplicationsId"]
               }
 
-              else if(searchOption === 'Phone Number'){
-                return application.phoneNumber.toString().includes(searchKey.toString())
+              else if(filterOptions.filterBy === 'Phone Number'){
+                keys = ["phoneNumber"]
               }
-
-              else if(searchOption === 'Status'){
-                if(application.currentStatus) return application.currentStatus.toString().toLowerCase().includes(searchKey.toLowerCase())
-                if(application.ApplicationStatus) return application.ApplicationStatus.toString().toLowerCase().includes(searchKey.toLowerCase())
-                if(application.ContactStatus) return application.ContactStatus.toString().toLowerCase().includes(searchKey.toLowerCase())
+              
+              else if(filterOptions.filterBy === 'Status'){
+                keys = ["currentStatus", "ApplicationStatus", "ContactStatus"]
               }
-              else if(searchOption === 'Other'){
-                if(application.ContactTimeStamp) return application.ContactTimeStamp.toString().toLowerCase().includes(searchKey.toLowerCase())
-                if(application.ApplicationDate) return application.ApplicationDate.toString().toLowerCase().includes(searchKey.toLowerCase())
-                if(application.position) return application.position.toString().toLowerCase().includes(searchKey.toLowerCase())
-                if(application.manager) return application.manager.toString().toLowerCase().includes(searchKey.toLowerCase())
+              
+              else if(filterOptions.filterBy === 'Other'){
+                keys = ["ContactTimeStamp", "ApplicationDate", "position", "manager"]
               }
+              
+              return keys.some((key) => {
+                if(application[key]){
+                  return application[key].toString().toLowerCase().includes(filterOptions.filterKey.toLowerCase())
+                } else return
+              })
 
             })
-        )  
+            )  
     })
   
-    if(!searchKey){
+    if(!filterOptions.filterKey){
       setFilteredList(['No Data'])
     }
     
@@ -224,8 +209,7 @@ function App() {
             updateCandidate={updateCandidate} 
             scheduleCandidate={scheduleCandidate}
             contactCandidate={contactCandidate} 
-            setSearchKey={setSearchKey} 
-            setSearchOption={setSearchOption}
+            setFilterOptions={setFilterOptions}
             setResultLimit={setResultLimit}
             setCurrentPage={setCurrentPage}
             paginationData={paginationData}

@@ -6,7 +6,7 @@ import DetailHeader from './DetailHeader'
 import Pagination from './Pagination'
 import Ribbon from './Ribbon'
 
-export default function Main({ listType, listData, deleteCandidate, updateCandidate, setCurrentPage, currentPage, contactCandidate, setSearchKey, setSearchOption, setResultLimit, listStatus, paginationData }) {
+export default function Main({ listType, listData, deleteCandidate, updateCandidate, setCurrentPage, currentPage, contactCandidate, setResultLimit, setFilterOptions, listStatus, paginationData }) {
     let cardElements
     let applicationCardElements
     let detailElements = [<DetailHeader key='header'/>]
@@ -42,9 +42,7 @@ export default function Main({ listType, listData, deleteCandidate, updateCandid
     return (
         <main className='main'>
             <Ribbon 
-                setSearchKey={setSearchKey} 
-                setSearchOption={setSearchOption} 
-                dataKeys={keys} 
+                setFilterOptions={setFilterOptions}
                 listType={listType} 
                 listStatus={listStatus} 
                 setResultLimit={setResultLimit}
