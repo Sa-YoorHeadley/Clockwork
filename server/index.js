@@ -51,37 +51,9 @@ app.get('/applications', pagination('Applications'), async (req, res) =>{
     res.json(res.results)
 })
 
-<<<<<<< HEAD
-
-
-
-//GET ALL CONTACTS
-app.get('/contacts', async (req, res) =>{  
-    const query = `SELECT *
-    FROM Contacts
-    JOIN Applications 
-        ON Contacts.ContactApplicationsId=Applications.idApplications
-    JOIN Persons 
-        ON Persons.PersonID=Applications.ApplicationPersonId
-    JOIN Recruiters 
-        ON Contacts.ContactRecruiterId=Recruiters.idRecruiters
-    JOIN Openings 
-        ON Applications.OpeningId=Openings.idOpenings`
-    connection.query(query, (error, results) =>{
-        if(error){
-            throw error
-        }
-        if(!results[0]){
-            res.json({status: 'No Results'})
-        } else {
-            res.json(results)
-        }
-    })
-=======
 //GET ALL CONTACTS PAGINATED
 app.get('/contacts', pagination('Contacts'), async (req, res) =>{  
     res.json(res.results)
->>>>>>> 070157a7185da8c491afe3eb40cab84550255bd6
 })
 
 

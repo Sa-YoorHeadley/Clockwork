@@ -36,8 +36,12 @@ const find = (table, options) =>{
             FROM ${table}
             JOIN Applications 
             ON ${table}.ContactApplicationsId=Applications.idApplications
-            JOIN Persons 
+            JOIN Persons
             ON Persons.PersonID=Applications.ApplicationPersonId
+            JOIN Recruiters 
+            ON Contacts.ContactRecruiterId=Recruiters.idRecruiters
+            JOIN Openings 
+            ON Applications.OpeningId=Openings.idOpenings
             LIMIT ${options.skip}, ${options.limit}
             `
         }
