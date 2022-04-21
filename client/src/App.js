@@ -26,7 +26,7 @@ function App() {
   const [searchKey, setSearchKey] = useState('')
   const [filteredList, setFilteredList] = useState([])
   const [searchOption, setSearchOption] = useState('')
-
+  const [LoggedInRecruiter, setLoggedInRecruiter] = useState({})
   useEffect(() => {
     getCandidateData()
     getContactsData()
@@ -38,6 +38,7 @@ function App() {
   useEffect(() => {
     console.log(searchKey)
     console.log(searchOption)
+    console.log(LoggedInRecruiter)
     filterList(showList.listName)
   }, [searchKey, searchOption])
 
@@ -66,6 +67,23 @@ function App() {
     })
   }
   
+
+
+function checkRecruiterLogin(recruiterEmail, attempt){
+  console.log(`${recruiterEmail} ------- ${attempt}`)
+  Axios.get(`http://localhost:3001/recruiters/${recruiterEmail}`)
+  .then(res => {
+    console.log(res)
+    let credentials = res.data[0].loginCredentials
+    let isSuccessful  = (credentials === attempt && credentials !== undefined)? true:false
+    console.log(`${credentials} ------- ${attempt}`)
+    setLoggedInRecruiter(res.data)
+    setLoggedIn(isSuccessful)
+    
+    console.log(LoggedInRecruiter)
+  })
+}
+
   function filterList(listType){
     if(listType === 'readCandidates'){setFilteredList(candidateData)}
     else if(listType === 'readContacts'){setFilteredList(contactsData)}
@@ -200,7 +218,7 @@ function App() {
   return (
     <div className="App">
       { !loggedIn ? 
-        <LandingPage setLoggedIn={setLoggedIn}/> :
+        <LandingPage setLoggedIn={checkRecruiterLogin}/> :
         <>
           <Header loggedIn={loggedIn} setLoggedIn={setLoggedIn}/>
           <aside className="left-section">
@@ -218,7 +236,7 @@ function App() {
             setSearchKey={setSearchKey} 
             setSearchOption={setSearchOption}
             />}
-          {openContactForm.status && <Contacts openContactForm={setOpenContactForm} data={openContactForm.data}/>} 
+          {openContactForm.status && <Contacts openContactForm={setOpenContactForm} data={openContactForm.data} LoggedInRecruiter={LoggedInRecruiter}/>} 
           {/* {openScheduler && <Scheduler targetCandidate={targetCandidate} openScheduler={setOpenScheduler} setTargetCandidate={setTargetCandidate} />} */}
         </>
       }

@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function Detail({ PersonID, ContactTimeStamp, ContactStatus, ContactRecruiterId, ContactApplicationsId, firstName, lastName, emailAddress, phoneNumber}) {
+export default function Detail({ PersonID, ContactTimeStamp, ContactStatus, recruiterFirstName, ContactApplicationsId, firstName, lastName, emailAddress, phoneNumber}) {
   return (
     <>
       <div className='detail row'>
@@ -11,7 +11,7 @@ export default function Detail({ PersonID, ContactTimeStamp, ContactStatus, Cont
           <p className='detail-contact-phone cell'>{phoneNumber}</p>
           <p className='detail-contact-time cell'>{ContactTimeStamp}</p>
           <p className='detail-contact-status cell'>{ContactStatus}</p>
-          <p className='detail-recruiter cell'>{ContactRecruiterId}</p>
+          <p className='detail-recruiter cell'>{recruiterFirstName}</p>
           <p className='detail-application-id cell'>{ContactApplicationsId}</p>
       </div>
     </>

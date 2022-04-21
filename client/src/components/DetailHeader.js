@@ -10,7 +10,7 @@ export default function DetailHeader() {
         <span className='cell'>Phone Number</span>
         <span className='cell'>Contact Time</span>
         <span className='cell'>Contact Status</span>
-        <span className='cell'>Recruiter ID</span>
+        <span className='cell'>Recruiter Name</span>
         <span className='cell'>Application ID</span>
     </header>
   )
