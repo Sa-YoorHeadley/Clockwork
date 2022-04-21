@@ -1,13 +1,17 @@
 import Axios from 'axios'
 import React, { useState, useEffect } from 'react'
 
-export default function Scheduler({ targetCandidate, openContactForm, data}) {
-  
-  const [formData, setFormData] = useState({
+export default function Scheduler({ targetCandidate, openContactForm, data, LoggedInRecruiter}) {
+  const {PersonID, firstName, lastName,OpeningId,idApplications} = data[0]
+  console.log(idApplications)
+  let formPopulation = {
     notes: '',
-    contactStatus: ''
-  })
-  const {PersonID, firstName, lastName} = data[0]
+    contactStatus: '',
+    idApplications
+  }
+  let formState = {...formPopulation,...LoggedInRecruiter[0]}
+  const [formData, setFormData] = useState(formState)
+ 
 
   function closeContactForm(){
     openContactForm(false)
@@ -28,10 +32,20 @@ export default function Scheduler({ targetCandidate, openContactForm, data}) {
   function submitForm(){
     const blank = element => !element
     let values = Object.values(formData)
-
-    if(!values.some(blank)){
+    let id = formData.idApplications
+    
+    console.log(`this is formdata` +JSON.stringify(formData))
+    
+    //if(!values.some(blank)){
+     {
+      Axios.put(`http://localhost:3001/application/update/${id}`,{formData}).then(function(response) {
+        console.log(response.data);
+     }).catch(function(error) {
+        console.log(error.response.data);
+     });
       Axios.post('http://localhost:3001/contact/create', {formData}).then(() => alert("Contact Created"))
       closeContactForm()
+      
       return
     }    
   }

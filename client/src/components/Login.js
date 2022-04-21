@@ -46,7 +46,7 @@ export default function Login({ setOpenLogin, changeLoggedIn }) {
                     </div>
                 </div>
 
-                <button className='btn login' onClick={() => changeLoggedIn(true) } >Login</button>
+                <button className='btn login' onClick={() => changeLoggedIn(document.getElementById("login-id").value, document.getElementById("login-password").value) } >Login</button>
             </div>
         </div>
 

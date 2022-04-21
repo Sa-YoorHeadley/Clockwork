@@ -26,6 +26,7 @@ function App() {
   const [resultLimit, setResultLimit] = useState(50)
   const [currentPage, setCurrentPage] = useState(1)
   const [filteredList, setFilteredList] = useState([])
+  const [LoggedInRecruiter, setLoggedInRecruiter] = useState({})
   
   useEffect(() => {
     setFilterOptions({filterKey: '', filterBy: 'ID'})
@@ -60,6 +61,21 @@ function App() {
       setData(res.data.data)
     })
   }
+  
+function checkRecruiterLogin(recruiterEmail, attempt){
+  console.log(`${recruiterEmail} ------- ${attempt}`)
+  Axios.get(`http://localhost:3001/recruiters/${recruiterEmail}`)
+  .then(res => {
+    console.log(res)
+    let credentials = res.data[0].loginCredentials
+    let isSuccessful  = (credentials === attempt && credentials !== undefined)? true:false
+    console.log(`${credentials} ------- ${attempt}`)
+    setLoggedInRecruiter(res.data)
+    setLoggedIn(isSuccessful)
+    
+    console.log(LoggedInRecruiter)
+  })
+}
 
   async function getPaginationData(){
     let route 
@@ -194,7 +210,7 @@ function App() {
   return (
     <div className="App">
       { !loggedIn ? 
-        <LandingPage setLoggedIn={setLoggedIn}/> :
+        <LandingPage setLoggedIn={checkRecruiterLogin}/> :
         <>
           <Header loggedIn={loggedIn} setLoggedIn={setLoggedIn}/>
           <aside className="left-section">
@@ -216,7 +232,7 @@ function App() {
             setResultLimit={setResultLimit}
             setCurrentPage={setCurrentPage}
             />}
-          {openContactForm.status && <Contacts openContactForm={setOpenContactForm} data={openContactForm.data}/>} 
+          {openContactForm.status && <Contacts openContactForm={setOpenContactForm} data={openContactForm.data} LoggedInRecruiter={LoggedInRecruiter}/>} 
           {/* {openScheduler && <Scheduler targetCandidate={targetCandidate} openScheduler={setOpenScheduler} setTargetCandidate={setTargetCandidate} />} */}
         </>
       }
