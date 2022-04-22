@@ -10,6 +10,10 @@ import React, { useState, useEffect } from 'react'
 
 //Add function to get employee data and every time employee is added we call it
 //Candidate Contact List New Candidate and Contact
+//Fix modal and show Please Click List if show list is false, change to drop down {Pending, Called, Submitted, Withdrew, Could not Reach, Not Interested}
+// Move login form up and fix hashing
+//My queue route ????? based on logged in recruiter ID
+//Show Contacts on candidates
 function App() {
   const [formType, setFormType] = useState('create')
   const [showList, setShowList] = useState({listName: 'readCandidates', status: true})
