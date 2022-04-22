@@ -175,7 +175,7 @@ function checkRecruiterLogin(recruiterEmail, attempt){
     Axios.get(`http://localhost:3001/applications/${applicationId}`).then(res => {
       setOpenContactForm({data: res.data, status: true})
     })
-
+    getData()
   }
   
 
