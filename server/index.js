@@ -322,12 +322,27 @@ app.post('/openings/create', (req,res) => {
 })
 
 //GET Locations 
-app.get('/location/', async (req, res) =>{
+app.get('/locations', async (req, res) =>{
    
     const query = `SELECT *
     FROM Locations
     `
-    connection.query(query, id , (error, results) =>{
+    connection.query(query, (error, results) =>{
+        if(error){
+            throw error
+        }
+        if(!results[0]){
+            res.json({status: 'No Results'})
+        } else {
+            res.json(results)
+        }
+    })
+})
+//GET Openings 
+app.get('/openings', async (req, res) =>{
+   
+    const query = `SELECT * FROM Openings`
+    connection.query(query, (error, results) =>{
         if(error){
             throw error
         }

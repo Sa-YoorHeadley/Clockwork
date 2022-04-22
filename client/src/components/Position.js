@@ -1,15 +1,8 @@
 import Axios from 'axios'
 import React, { useState, useEffect } from 'react'
 
-export default function Position({}) {
-  
-  async function getOptions(){
-    await Axios.get('http://localhost:3001/openings').then(res => {
-       const options = res.data
-    })
-
-  }
-
+export default function Position({ locationOptions }) {
+  const [optionElements, setOptionElements] = useState([]) 
   const [newPosition, setNewPosition] = useState({ 
     "city": '',
     "state": '',
@@ -18,6 +11,34 @@ export default function Position({}) {
     "managerEmail": '',
     "idLocations": '',
   })
+  
+  useEffect(() => {
+    getOptionElements()
+  }, [locationOptions])
+
+  function setValues(selectedLocation){
+    if(locationOptions.length !== 0) {
+      if(!selectedLocation) return
+      const locationElement = locationOptions.find(location => location.idLocations === parseInt(selectedLocation))
+      setNewPosition(prevPosition => {
+        return{
+          ...prevPosition,
+          city: locationElement.city,
+          state: locationElement.state
+        }
+      })
+    }
+  }
+
+  async function getOptionElements(){
+    await setOptionElements (locationOptions.map((option, index) => {
+      if(index === 0) setValues(option.idLocations)
+        return(
+          <option key={option.name} value={option.idLocations}>{option.name}</option>
+        )
+    }))
+  }
+
 
   function closeContactForm(){
     // openNewPositionForm(false)
@@ -25,6 +46,10 @@ export default function Position({}) {
 
   function handleChange(event){
     const { name, value } = event.target
+
+    if(name === 'idLocations'){
+      setValues(value)
+    }
     
     setNewPosition(prevPositionData => {
         return{
@@ -63,8 +88,10 @@ export default function Position({}) {
         <div className='contact-form-body'>
           
           <label htmlFor='idLocations'>Location ID</label>
-          <input required type='text' name='idLocations' id='idLocations' value={newPosition.idLocations} onChange={handleChange}/>
-          
+          <select required type='text' name='idLocations' id='idLocations' value={newPosition.idLocations} onChange={handleChange}>
+            {optionElements}
+          </select>
+
           <label htmlFor='city'>City</label>
           <input required type='text' name='city' id='city' value={newPosition.city} onChange={handleChange}/>
           

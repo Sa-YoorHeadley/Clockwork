@@ -33,6 +33,7 @@ function App() {
   const [resultLimit, setResultLimit] = useState(50)
   const [currentPage, setCurrentPage] = useState(1)
   const [filteredList, setFilteredList] = useState([])
+  const [locationOptions, setLocationOptions] = useState([])
   const [LoggedInRecruiter, setLoggedInRecruiter] = useState(
     {
         "idRecruiters": 9999,
@@ -43,6 +44,12 @@ function App() {
         "loginCredentials": "Password"
     })
   
+  useEffect(()=>{
+    Axios.get('http://localhost:3001/locations').then(res => {
+      setLocationOptions(res.data)
+    }) 
+  }, [])
+
   useEffect(() => {
     setFilterOptions({filterKey: '', filterBy: 'ID'})
     setData([])
@@ -281,7 +288,8 @@ async function parseCandidate(){
             setCurrentPage={setCurrentPage}
             />}
           {openContactForm.status && <Contacts openContactForm={setOpenContactForm} data={openContactForm.data} LoggedInRecruiter={LoggedInRecruiter}/>} 
-          <Position />
+          {/* <Position locationOptions={locationOptions}/> */}
+          {/* <Location /> */}
           {/* {openScheduler && <Scheduler targetCandidate={targetCandidate} openScheduler={setOpenScheduler} setTargetCandidate={setTargetCandidate} />} */}
         </>
       }
