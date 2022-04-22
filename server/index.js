@@ -283,3 +283,25 @@ app.get('/openings/', async (req, res) =>{
     })
 })
 
+// CREATE APPLICATION
+app.post('/location/create', (req,res) => {
+    
+
+    const ApplicationDate = new Date()
+    const {StreetAddress, city, state, phoneNumber, LocationsAlias, email, name} = req.body.newLocation
+    
+
+    const query = `INSERT INTO Applications ( StreetAddress, city, state, phoneNumber, LocationsAlias, email, name)
+    VALUES (?,?,?,?,?,?,?)
+    `
+    connection.query(query, [StreetAddress, city, state, phoneNumber, LocationsAlias, email, name], (error, results) =>{
+        if(error){
+            throw error
+        }
+        if(!results[0]){
+            res.json({status: 'No Results'})
+        } else {
+            res.json(results[0])
+        }
+    })
+})
