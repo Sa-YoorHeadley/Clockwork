@@ -13,7 +13,8 @@ import React, { useState, useEffect } from 'react'
 //Fix modal and show Please Click List if show list is false, change to drop down {Pending, Called, Submitted, Withdrew, Could not Reach, Not Interested}
 // Move login form up and fix hashing
 //My queue route ????? based on logged in recruiter ID
-//Show Contacts on candidates
+//Show Info on candidates
+//Button create location and create position 
 function App() {
   const [formType, setFormType] = useState('create')
   const [showList, setShowList] = useState({listName: 'readCandidates', status: true})
