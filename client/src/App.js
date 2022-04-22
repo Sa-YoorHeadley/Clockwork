@@ -23,7 +23,7 @@ function App() {
   const [selectedId, setSelectedId] = useState('')
   const [openScheduler, setOpenScheduler] = useState(false)
   const [targetCandidate, setTargetCandidate] = useState({})
-  const [loggedIn, setLoggedIn] = useState(true)
+  const [loggedIn, setLoggedIn] = useState(false)
   const [data, setData] = useState([])
   const [openContactForm, setOpenContactForm] = useState({data:{}, status:false})
   const [paginationData, setPaginationData] = useState({})
@@ -31,7 +31,15 @@ function App() {
   const [resultLimit, setResultLimit] = useState(50)
   const [currentPage, setCurrentPage] = useState(1)
   const [filteredList, setFilteredList] = useState([])
-  const [LoggedInRecruiter, setLoggedInRecruiter] = useState({})
+  const [LoggedInRecruiter, setLoggedInRecruiter] = useState(
+    {
+        "idRecruiters": 9999,
+        "recruiterFirstName": "Daniel",
+        "recruiterLastName": "RecruiterLast",
+        "email": "Daniel.Rollins@bayardad.com",
+        "assignedAccounts": "3213",
+        "loginCredentials": "Password"
+    })
   
   useEffect(() => {
     setFilterOptions({filterKey: '', filterBy: 'ID'})
@@ -176,6 +184,39 @@ function checkRecruiterLogin(recruiterEmail, attempt){
   }
   
 
+
+async function parseCandidate(){
+  
+
+
+  let newEmployee = {
+    firstName:"Chris",
+    lastName : "Guy",
+    city : "Aurora",
+    state : "IL",
+    position : "3rd Shift Warehouse Associate - IMMEDIATE HIRE",
+    emailAddress:"cguy@gmail.com",
+    phoneNumber:9999999
+  }
+  await Axios.post(`http://localhost:3001/candidate/create`, {newEmployee}).then(res => {
+   
+    newEmployee.ApplicationPersonId = res.data
+    })
+   
+    var queryString = Object.keys(newEmployee).map(key => key + '=' + newEmployee[key]).join('&');
+    queryString = queryString.replace(/ /g,"%20")
+    console.log(queryString)
+    await Axios.get(`http://localhost:3001/openings?${queryString}`).then(res => {
+      console.log(res)
+      newEmployee.OpeningId = res.data[0].idOpenings
+    })
+    
+    console.log(newEmployee)
+  await Axios.post(`http://localhost:3001/application/create`, {newEmployee}).then(res => {
+    })
+   
+}
+
   function scheduleCandidate(employeeId){
     setTargetCandidate(data.find( employee => employee.id === employeeId))
     if(targetCandidate.scheduled){
@@ -219,7 +260,7 @@ function checkRecruiterLogin(recruiterEmail, attempt){
         <>
           <Header loggedIn={loggedIn} setLoggedIn={setLoggedIn}/>
           <aside className="left-section">
-          <Navbar handleClick={changeForm} changeDatabase={setSelectedDatabase} changeList={changeList} listType={showList.listName}/>
+          <Navbar handleClick={changeForm} changeDatabase={setSelectedDatabase} changeList={changeList} listType={showList.listName} parseCandidate = {parseCandidate}/>
           {/* <Form listType={showList.listName} formType={formType} handleDelete={deleteCandidate} handleUpdate={updateCandidate} handleAdd={addCandidate} selectedId={selectedId} selectedDatabase={selectedDatabase}/> */}
           </aside>
           {showList.status && <Main 
