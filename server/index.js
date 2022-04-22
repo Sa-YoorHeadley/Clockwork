@@ -94,7 +94,6 @@ app.post('/candidate/create', (req,res) => {
         if(!results[0]){
           insertNewCandidate()
         } else {
-            console.log(results[0].PersonID)
             res.json(results[0].PersonID)
         }
     })
@@ -108,7 +107,6 @@ app.post('/candidate/create', (req,res) => {
             if(error){
                 throw error
             }
-            console.log(results.insertId)
             res.json(results.insertId)
         })
     }
@@ -184,7 +182,6 @@ app.get('/recruiters/:emailAddress', (req,res) => {
 //DELETE CANDIDATE
 app.delete('/candidate/delete/:id', (req,res) => {
     const {id} = req.params
-    console.log(id)
     const query = `DELETE FROM Persons WHERE PersonID = ?`
     connection.query(query, id, (error, results) =>{
         if(error){
@@ -259,7 +256,6 @@ app.put('/application/update/:id', (req,res) => {
 
 app.get('/openings/', async (req, res) =>{
     const{city,state,position} = req.query
-    console.log(`${city} ${state} ${position}`)
     let query
     if(city&&state&&position){ 
         query = `SELECT *
@@ -286,8 +282,8 @@ app.get('/openings/', async (req, res) =>{
 // CREATE LOCATION
 app.post('/location/create', (req,res) => {
     
-    const {streetAddress, city, state, phoneNumber, locationAliases, emailAddress, name} = req.body.newLocation
-    const query = `INSERT INTO Locations ( streetAddress, city, state, phoneNumber, locationAliases, emailAddress, name)
+    const {streetAddress, city, state, phoneNumber, locationAliases, emailAddress, name} = req.body.newPosition
+    const query = `INSERT INTO Positions ( streetAddress, city, state, phoneNumber, locationAliases, emailAddress, name)
     VALUES (?,?,?,?,?,?,?)
     `
     connection.query(query, [streetAddress, city, state, phoneNumber, locationAliases, emailAddress, name], (error, results) =>{
@@ -303,13 +299,13 @@ app.post('/location/create', (req,res) => {
 })
 
 // CREATE POSITION
-app.post('/openings/create', (req,res) => {
-    
-    const {mananger, city, state, position, locationAliases, emailAddress, name} = req.body.newPosition
-    const query = `INSERT INTO Positions ( streetAddress, city, state, phoneNumber, locationAliases, emailAddress, name)
-    VALUES (?,?,?,?,?,?,?)
+app.post('/position/create', (req,res) => {
+
+    const {city, state, position, manager, managerEmail, idLocations} = req.body.newPosition
+    const query = `INSERT INTO Openings (city, state, position, manager, managerEmail, idLocations)
+    VALUES (?,?,?,?,?,?)
     `
-    connection.query(query, [streetAddress, city, state, phoneNumber, locationAliases, emailAddress, name], (error, results) =>{
+    connection.query(query, [city, state, position, manager, managerEmail, idLocations], (error, results) =>{
         if(error){
             throw error
         }

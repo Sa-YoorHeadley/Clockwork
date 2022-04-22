@@ -24,7 +24,8 @@ export default function Position({ locationOptions }) {
         return{
           ...prevPosition,
           city: locationElement.city,
-          state: locationElement.state
+          state: locationElement.state,
+          idLocations: locationElement.idLocations
         }
       })
     }
@@ -50,6 +51,8 @@ export default function Position({ locationOptions }) {
     if(name === 'idLocations'){
       setValues(value)
     }
+    console.log(name)
+    console.log(value)
     
     setNewPosition(prevPositionData => {
         return{
@@ -65,6 +68,7 @@ export default function Position({ locationOptions }) {
     let values = Object.values(newPosition)
     
     if(values.some(blank)){
+      console.log(newPosition)
       return
     }
 
@@ -102,7 +106,7 @@ export default function Position({ locationOptions }) {
           <input required type='text' name='position' id='position' value={newPosition.position} onChange={handleChange}/>
 
           <label htmlFor='manager'>Manager</label>
-          <input required type='text' name='manager' id='manager'/>
+          <input required type='text' name='manager' id='manager' value={newPosition.manager} onChange={handleChange}/>
 
           <label htmlFor='managerEmail'>Manager's Email</label>
           <input required type='email' name='managerEmail' id='managerEmail' value={newPosition.managerEmail} onChange={handleChange}/>
