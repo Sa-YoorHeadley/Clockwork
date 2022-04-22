@@ -81,22 +81,37 @@ app.get('/applications/:id', async (req, res) =>{
 })
 
 
-// CREATE CANDIDATE
+// CREATE CANDIDATE OR RETURN CANDIDATE ID
 app.post('/candidate/create', (req,res) => {
-    const {currentStatus, lastName, firstName, emailAddress, city, state} = req.body.newEmployee
-    const query = `INSERT INTO Persons(currentStatus, lastName, firstName, emailAddress, city, state)
-    VALUES (?,?,?,?,?,?)
-    `
-    connection.query(query, [currentStatus, lastName, firstName, emailAddress, city, state], (error, results) =>{
+    const {phoneNumber, lastName, firstName, emailAddress, city, state} = req.body.newEmployee
+    
+    const checkQuery = `select * from Persons 
+    where  Persons.firstName = ? AND Persons.lastName = ? AND Persons.emailAddress = ?`
+    connection.query(checkQuery, [firstName, lastName, emailAddress], (error, results) =>{
         if(error){
             throw error
         }
         if(!results[0]){
-            res.json({status: 'No Results'})
+          insertNewCandidate()
         } else {
-            res.json(results[0])
+            console.log(results[0].PersonID)
+            res.json(results[0].PersonID)
         }
     })
+
+    //if results null proceed else return ID  
+    function insertNewCandidate(){
+            const query = `INSERT INTO Persons(currentStatus, lastName, firstName, emailAddress, city, state,phoneNumber)
+        VALUES (?,?,?,?,?,?,?)
+        `
+        connection.query(query, ["Pending", lastName, firstName, emailAddress, city, state,phoneNumber], (error, results) =>{
+            if(error){
+                throw error
+            }
+            console.log(results.insertId)
+            res.json(results.insertId)
+        })
+    }
 })
 
 //GET APPLICATION BY ID
@@ -120,7 +135,28 @@ app.get('/applications/:id', async (req, res) =>{
         }
     })
 })
+// CREATE APPLICATION
+app.post('/application/create', (req,res) => {
+    
+    const DEFAULT_STATUS = "Pending"
+    const ApplicationDate = new Date()
+    const {OpeningId, ApplicationPersonId, assignedRecruiter} = req.body.newEmployee
+    
 
+    const query = `INSERT INTO Applications (OpeningId, ApplicationDate, ApplicationPersonId, ApplicationStatus, assignedRecruiter)
+    VALUES (?,?,?,?,?)
+    `
+    connection.query(query, [OpeningId, ApplicationDate, ApplicationPersonId, DEFAULT_STATUS, assignedRecruiter], (error, results) =>{
+        if(error){
+            throw error
+        }
+        if(!results[0]){
+            res.json({status: 'No Results'})
+        } else {
+            res.json(results[0])
+        }
+    })
+})
 
 // Get Recruiter by ID
 app.get('/recruiters/:emailAddress', (req,res) => {
@@ -207,7 +243,7 @@ app.put('/application/update/:id', (req,res) => {
     
     const {id} = req.params
     const {contactStatus} = req.body.formData
-    console.log(`this is contact statuse ${contactStatus} and id ${id}`)
+   
     const query = `UPDATE Applications SET ApplicationStatus=? WHERE idApplications=?`
     connection.query(query, [contactStatus, id], (error, results) =>{
         if(error){
@@ -220,3 +256,30 @@ app.put('/application/update/:id', (req,res) => {
         }
     })
 })
+
+app.get('/openings/', async (req, res) =>{
+    const{city,state,position} = req.query
+    console.log(`${city} ${state} ${position}`)
+    let query
+    if(city&&state&&position){ 
+        query = `SELECT *
+            FROM Openings
+            WHERE Openings.city = ? AND Openings.state = ? AND Openings.position = ?`
+        }
+    else {
+        query = `SELECT *
+            FROM Openings`
+    }
+    
+    connection.query(query ,[city,state,position], (error, results) =>{
+        if(error){
+            throw error
+        }
+        if(!results[0]){
+            res.json({status: 'No Results'})
+        } else {
+            res.json(results)
+        }
+    })
+})
+
