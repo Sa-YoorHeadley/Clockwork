@@ -283,18 +283,33 @@ app.get('/openings/', async (req, res) =>{
     })
 })
 
-// CREATE APPLICATION
+// CREATE LOCATION
 app.post('/location/create', (req,res) => {
     
-
-    const ApplicationDate = new Date()
-    const {StreetAddress, city, state, phoneNumber, LocationsAlias, email, name} = req.body.newLocation
-    
-
-    const query = `INSERT INTO Applications ( StreetAddress, city, state, phoneNumber, LocationsAlias, email, name)
+    const {streetAddress, city, state, phoneNumber, locationAliases, emailAddress, name} = req.body.newLocation
+    const query = `INSERT INTO Locations ( streetAddress, city, state, phoneNumber, locationAliases, emailAddress, name)
     VALUES (?,?,?,?,?,?,?)
     `
-    connection.query(query, [StreetAddress, city, state, phoneNumber, LocationsAlias, email, name], (error, results) =>{
+    connection.query(query, [streetAddress, city, state, phoneNumber, locationAliases, emailAddress, name], (error, results) =>{
+        if(error){
+            throw error
+        }
+        if(!results[0]){
+            res.json({status: 'No Results'})
+        } else {
+            res.json(results[0])
+        }
+    })
+})
+
+// CREATE POSITION
+app.post('/openings/create', (req,res) => {
+    
+    const {mananger, city, state, position, locationAliases, emailAddress, name} = req.body.newPosition
+    const query = `INSERT INTO Positions ( streetAddress, city, state, phoneNumber, locationAliases, emailAddress, name)
+    VALUES (?,?,?,?,?,?,?)
+    `
+    connection.query(query, [streetAddress, city, state, phoneNumber, locationAliases, emailAddress, name], (error, results) =>{
         if(error){
             throw error
         }

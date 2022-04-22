@@ -5,6 +5,8 @@ import Scheduler from "./components/Scheduler";
 import Contacts from "./components/Contacts"
 import LandingPage from "./components/LandingPage";
 import Header from "./components/Header";
+import Location from "./components/Location";
+import Position from "./components/Position";
 import Axios from 'axios'
 import React, { useState, useEffect } from 'react'
 
@@ -23,7 +25,7 @@ function App() {
   const [selectedId, setSelectedId] = useState('')
   const [openScheduler, setOpenScheduler] = useState(false)
   const [targetCandidate, setTargetCandidate] = useState({})
-  const [loggedIn, setLoggedIn] = useState(false)
+  const [loggedIn, setLoggedIn] = useState(true)
   const [data, setData] = useState([])
   const [openContactForm, setOpenContactForm] = useState({data:{}, status:false})
   const [paginationData, setPaginationData] = useState({})
@@ -279,6 +281,7 @@ async function parseCandidate(){
             setCurrentPage={setCurrentPage}
             />}
           {openContactForm.status && <Contacts openContactForm={setOpenContactForm} data={openContactForm.data} LoggedInRecruiter={LoggedInRecruiter}/>} 
+          <Position />
           {/* {openScheduler && <Scheduler targetCandidate={targetCandidate} openScheduler={setOpenScheduler} setTargetCandidate={setTargetCandidate} />} */}
         </>
       }

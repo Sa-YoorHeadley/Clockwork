@@ -13,6 +13,8 @@ export default function Navbar({ handleClick, changeDatabase, changeList, listTy
             <button className='btn' onClick={() => changeList('readContacts')} >Contact List</button> 
             <button className='btn' onClick={() => changeList('readApplications')} >Application List</button> 
             <button className='btn' onClick={() => parseCandidate()} >Parse Candidates</button> 
+            <button className='btn' onClick={() => console.log('New Location')} >New Location</button> 
+            <button className='btn' onClick={() => console.log('New Position')} >New Position</button> 
 
 
             {/* {buttonType && <button className='btn' onClick={() => handleClick('create')} >New {buttonType}</button>}   */}
