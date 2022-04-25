@@ -11,23 +11,21 @@ import Axios from 'axios'
 import React, { useState, useEffect } from 'react'
 
 //Add function to get employee data and every time employee is added we call it
-//Candidate Contact List New Candidate and Contact
-//Fix modal and show Please Click List if show list is false, change to drop down {Pending, Called, Submitted, Withdrew, Could not Reach, Not Interested}
+//Show Please Click List if show list is false, 
 // Move login form up and fix hashing
 //My queue route ????? based on logged in recruiter ID
 //Show Info on candidates
-//Button create location and create position 
 function App() {
   const [formType, setFormType] = useState('create')
   const [showList, setShowList] = useState({listName: 'readCandidates', status: true})
+  const [showModal, setShowModal] = useState('')
   const [listStatus, setListStatus] = useState(false)
   const [selectedDatabase, setSelectedDatabase] = useState('default')
   const [selectedId, setSelectedId] = useState('')
-  const [openScheduler, setOpenScheduler] = useState(false)
   const [targetCandidate, setTargetCandidate] = useState({})
-  const [loggedIn, setLoggedIn] = useState(true)
+  const [loggedIn, setLoggedIn] = useState(false)
   const [data, setData] = useState([])
-  const [openContactForm, setOpenContactForm] = useState({data:{}, status:false})
+  const [contactForm, setContactForm] = useState({})
   const [paginationData, setPaginationData] = useState({})
   const [filterOptions, setFilterOptions] = useState({filterKey: '', filterBy: 'ID'})
   const [resultLimit, setResultLimit] = useState(50)
@@ -84,9 +82,9 @@ function App() {
     })
   }
   
-function checkRecruiterLogin(recruiterEmail, attempt){
+async function checkRecruiterLogin(recruiterEmail, attempt){
   console.log(`${recruiterEmail} ------- ${attempt}`)
-  Axios.get(`http://localhost:3001/recruiters/${recruiterEmail}`)
+  await Axios.get(`http://localhost:3001/recruiters/${recruiterEmail}`)
   .then(res => {
     console.log(res)
     let credentials = res.data[0].loginCredentials
@@ -161,33 +159,33 @@ function checkRecruiterLogin(recruiterEmail, attempt){
     
   }
   
-  function addCandidate(newCandidate){
-    Axios.post('http://localhost:3001/candidate/create', {newCandidate}).then(() => alert("Candidate Created"))
+  async function addCandidate(newCandidate){
+    await Axios.post('http://localhost:3001/candidate/create', {newCandidate}).then(() => alert("Candidate Created"))
     getData()
   }
 
-  function updateCandidate(employeeId, updatedCandidate){
+  async function updateCandidate(employeeId, updatedCandidate){
     if(!updatedCandidate){
       setSelectedId(employeeId)
       setFormType('update')
       return
     }
-    Axios.put(`http://localhost:3001/candidate/update/${employeeId}`, {updatedCandidate}).then(() => alert("Candidate Updated"))
+    await Axios.put(`http://localhost:3001/candidate/update/${employeeId}`, {updatedCandidate}).then(() => alert("Candidate Updated"))
     getData()
   }
 
-  function deleteCandidate(employeeId){
+  async function deleteCandidate(employeeId){
     const confirmation = confirm(`You are about to delete Candidate: #${employeeId}`)
     if(confirmation){
-      Axios.delete(`http://localhost:3001/candidate/delete/${employeeId}`).then(() => alert("Candidate Deleted"))
+      await Axios.delete(`http://localhost:3001/candidate/delete/${employeeId}`).then(() => alert("Candidate Deleted"))
     }
     getData()
   }
 
-  function contactCandidate(applicationId){
-    setOpenContactForm(true)
-    Axios.get(`http://localhost:3001/applications/${applicationId}`).then(res => {
-      setOpenContactForm({data: res.data, status: true})
+  async function contactCandidate(applicationId){
+    changeModal('newContact')
+    await Axios.get(`http://localhost:3001/applications/${applicationId}`).then(res => {
+      setContactForm(res.data)
     })
     getData()
   }
@@ -195,8 +193,6 @@ function checkRecruiterLogin(recruiterEmail, attempt){
 
 
 async function parseCandidate(){
-  
-
 
   let newEmployee = {
     firstName:"Chris",
@@ -214,14 +210,12 @@ async function parseCandidate(){
    
     var queryString = Object.keys(newEmployee).map(key => key + '=' + newEmployee[key]).join('&');
     queryString = queryString.replace(/ /g,"%20")
-    console.log(queryString)
+    
     await Axios.get(`http://localhost:3001/openings?${queryString}`).then(res => {
-      console.log(res)
       newEmployee.OpeningId = res.data[0].idOpenings
     })
     
-    console.log(newEmployee)
-  await Axios.post(`http://localhost:3001/application/create`, {newEmployee}).then(res => {
+    await Axios.post(`http://localhost:3001/application/create`, {newEmployee}).then(res => {
     })
    
 }
@@ -240,13 +234,12 @@ async function parseCandidate(){
   function changeForm(formType){
     if(formType !== 'read' || formType !== 'readContacts'){
       setFormType(formType)
-      console.log(formType)
     }
     else{
        setShowList(true)
-       console.log(formType)
     }
   }
+
   function changeList(listName){
     if(listName === showList.listName){
       setShowList(prevShowList => {
@@ -262,6 +255,16 @@ async function parseCandidate(){
       setListStatus("true")
     }
   }
+
+  function changeModal(modalName){
+    setShowModal(prevShowModal => {
+      if(prevShowModal === modalName){
+        return ''
+      }
+      return modalName
+    })
+  }
+
   return (
     <div className="App">
       { !loggedIn ? 
@@ -269,7 +272,7 @@ async function parseCandidate(){
         <>
           <Header loggedIn={loggedIn} setLoggedIn={setLoggedIn}/>
           <aside className="left-section">
-          <Navbar handleClick={changeForm} changeDatabase={setSelectedDatabase} changeList={changeList} listType={showList.listName} parseCandidate = {parseCandidate}/>
+          <Navbar handleClick={changeForm} changeDatabase={setSelectedDatabase} changeList={changeList} listType={showList.listName} parseCandidate={parseCandidate} changeModal={changeModal}/>
           {/* <Form listType={showList.listName} formType={formType} handleDelete={deleteCandidate} handleUpdate={updateCandidate} handleAdd={addCandidate} selectedId={selectedId} selectedDatabase={selectedDatabase}/> */}
           </aside>
           {showList.status && <Main 
@@ -287,10 +290,10 @@ async function parseCandidate(){
             setResultLimit={setResultLimit}
             setCurrentPage={setCurrentPage}
             />}
-          {openContactForm.status && <Contacts openContactForm={setOpenContactForm} data={openContactForm.data} LoggedInRecruiter={LoggedInRecruiter}/>} 
-          {/* <Position locationOptions={locationOptions}/> */}
-          {/* <Location /> */}
-          {/* {openScheduler && <Scheduler targetCandidate={targetCandidate} openScheduler={setOpenScheduler} setTargetCandidate={setTargetCandidate} />} */}
+          {showModal === 'newContact' && <Contacts showModal={showModal} changeModal={changeModal} data={contactForm} LoggedInRecruiter={LoggedInRecruiter}/>} 
+          {showModal === 'newPosition' && <Position showModal={showModal} changeModal={changeModal} locationOptions={locationOptions}/>}
+          {showModal === 'newLocation' && <Location showModal={showModal} changeModal={changeModal} />}
+          {/* {showModak === 'newSchedule' && <Scheduler targetCandidate={targetCandidate} showModal={showModal} changeModal={changeModal} setTargetCandidate={setTargetCandidate} />} */}
         </>
       }
     </div>

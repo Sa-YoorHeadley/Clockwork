@@ -32,6 +32,7 @@ body{
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 2.5rem;
     position: relative;
     background-color: white;
     padding: 2.25em 1.5em;
@@ -115,11 +116,11 @@ body{
     }
 }
 
-.contact-form{
-    position:fixed;
+.modal-form{
+    position: fixed;
     top: 0;
     bottom: 0;
-    left: 20%;
+    left: 0;
     right: 0;
     background-color: rgba(125, 125, 125, 0.5);
     z-index: 1000;
@@ -128,7 +129,7 @@ body{
     justify-content: center;
     align-items: center;
 
-    .contact-form-main{
+    .modal-form-main{
         position: relative;
         background-color: white;
         width: 500px;
@@ -148,7 +149,7 @@ body{
             }
         }
         
-        .contact-form-header{
+        .modal-form-header{
             text-transform: uppercase;
             align-self: center;
             margin: 1rem .5rem;
@@ -156,7 +157,7 @@ body{
             border-bottom: 2px solid #333;
         }
 
-        .contact-form-body{
+        .modal-form-body{
             display: flex;
             flex-direction: column;
 

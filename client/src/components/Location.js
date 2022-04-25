@@ -1,7 +1,7 @@
 import Axios from 'axios'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef, useCallback } from 'react'
 
-export default function Location({}) {
+export default function Location({ changeModal, showModal }) {
   
   const [newLocation, setNewLocation] = useState({ 
     "streetAddress": '',
@@ -12,11 +12,29 @@ export default function Location({}) {
     "emailAddress": '',
     "locationAliases": '',
   })
+ 
+  const modalRef = useRef()
 
-  function closeContactForm(){
-    // openNewLocationForm(false)
+  function closeModal(event){
+    if(modalRef.current === event.target){
+      changeModal('')
+    }
   }
 
+  const keyPress = useCallback(event => {
+    if(event.key === 'Escape' && showModal === 'newLocation'){
+      changeModal('')
+    }
+    if(event.key === 'Enter' && showModal === 'newLocation'){
+      submitForm()
+    }
+  }, [showModal, changeModal, submitForm])
+
+  useEffect(() => {
+    document.addEventListener('keydown', keyPress)
+    return () => document.removeEventListener('keydown', keyPress)
+  }, [keyPress])
+  
   function handleChange(event){
     const { name, value } = event.target
     
@@ -29,34 +47,25 @@ export default function Location({}) {
     )
   }
 
-  function submitForm(){
+  async function submitForm(){
     const blank = element => !element
     let values = Object.values(newLocation)
     
-    if(values.some(blank)){
-      console.log(values)
-      console.log(newLocation)
-      return
-    }
-
-    Axios.post('http://localhost:3001/location/create', {newLocation}).then(() => alert("Location Created"))
-    
-    closeContactForm()
-    
-    return
+    if(values.some(blank)){ return }
   
+    await Axios.post('http://localhost:3001/location/create', {newLocation}).then(() => alert("Location Created"))
+    closeModal()
+    return
+ 
   }
 
-
-
-
   return (
-    <div className='contact-form'>
-      <div className='contact-form-main'>
-        <button className='btn close' onClick={closeContactForm}>X</button>
-        <h2 className='contact-form-header'>New Location</h2>
+    <div className='modal-form' ref={modalRef} onClick={closeModal}>
+      <div className='modal-form-main'>
+        <button className='btn close' onClick={() => changeModal('')}>X</button>
+        <h2 className='modal-form-header'>New Location</h2>
 
-        <div className='contact-form-body'>
+        <div className='modal-form-body'>
           
           <label htmlFor='name'>Name</label>
           <input required type='text' name='name' id='name' value={newLocation.name} onChange={handleChange}/>

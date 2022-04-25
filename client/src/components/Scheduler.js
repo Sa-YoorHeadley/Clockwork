@@ -1,13 +1,28 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef, useCallback } from 'react'
 
-export default function Scheduler({ targetCandidate, openScheduler }) {
+export default function Scheduler({ targetCandidate, changeModal, showModal }) {
   
   const [formData, setFormData] = useState(targetCandidate)
-
-  function closeScheduler(){
-    console.log('close')
-    openScheduler(false)
+  const modalRef = useRef
+  function closeModal(event){
+    if(modalRef.current === event.target){
+      changeModal('')
+    }
   }
+
+  const keyPress = useCallback(event => {
+    if(event.key === 'Escape' && showModal === 'newSchedule'){
+      changeModal('')
+    }
+    if(event.key === 'Enter' && showModal === 'newSchedule'){
+      submitForm()
+    }
+  }, [showModal, changeModal, submitForm])
+
+  useEffect(() => {
+    document.addEventListener('keydown', keyPress)
+    return () => document.removeEventListener('keydown', keyPress)
+  }, [keyPress])
 
   function handleChange(event){
     const { name, value } = event.target
@@ -27,25 +42,22 @@ export default function Scheduler({ targetCandidate, openScheduler }) {
     const blank = element => !element
     let values = Object.values(formData.scheduleData)
 
-    if(values.some(blank)){
-        console.log('blank values')
-        return
-    } 
-    else{
-      closeScheduler()
-    }      
+    if(values.some(blank)){ return } 
+      
+    closeModal()
+    return   
   }
 
 
 
 
   return (
-    <div className='scheduler'>
-      <div className='scheduler-main'>
-        <button className='btn close' onClick={closeScheduler}>X</button>
-        <h2 className='scheduler-header'>Schedule Candidate</h2>
+    <div className='modal-form' ref={modalRef} onClick={closeModal}>
+      <div className='modal-main'>
+        <button className='btn close' onClick={() => changeModal('')}>X</button>
+        <h2 className='modal-header'>Schedule Candidate</h2>
 
-        <div className='scheduler-body'>
+        <div className='modal-body'>
           <label htmlFor='employeeId'>Candidate ID</label>
           <input type='text' id='employeeId' value={targetCandidate.id} readOnly/>
           

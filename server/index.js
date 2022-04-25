@@ -75,7 +75,7 @@ app.get('/applications/:id', async (req, res) =>{
         if(!results[0]){
             res.json({status: 'No Results'})
         } else {
-            res.json(results)
+            res.json(...results)
         }
     })
 })
@@ -129,7 +129,7 @@ app.get('/applications/:id', async (req, res) =>{
         if(!results[0]){
             res.json({status: 'No Results'})
         } else {
-            res.json(results)
+            res.json(...results)
         }
     })
 })
@@ -247,7 +247,7 @@ app.put('/application/update/:id', (req,res) => {
             throw error
         }
         if(!results[0]){
-            res.json({status: 'No Results',id})
+            res.json({status: 'No Results', id})
         } else {
             res.json(results[0])
         }

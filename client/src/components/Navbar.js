@@ -1,6 +1,6 @@
 import React from 'react'
 import Accounts from './Accounts'
-export default function Navbar({ handleClick, changeDatabase, changeList, listType,parseCandidate}) {
+export default function Navbar({ handleClick, changeDatabase, changeList, listType, parseCandidate, changeModal}) {
     const buttonType = listType === 'readCandidates' ? 'Candidate' : listType === 'readContacts' ? 'Contact' : null
     return (
         <nav className='navbar'>
@@ -13,8 +13,8 @@ export default function Navbar({ handleClick, changeDatabase, changeList, listTy
             <button className='btn' onClick={() => changeList('readContacts')} >Contact List</button> 
             <button className='btn' onClick={() => changeList('readApplications')} >Application List</button> 
             <button className='btn' onClick={() => parseCandidate()} >Parse Candidates</button> 
-            <button className='btn' onClick={() => console.log('New Location')} >New Location</button> 
-            <button className='btn' onClick={() => console.log('New Position')} >New Position</button> 
+            <button className='btn' onClick={() => changeModal('newLocation')} >New Location</button> 
+            <button className='btn' onClick={() => changeModal('newPosition')} >New Position</button> 
 
 
             {/* {buttonType && <button className='btn' onClick={() => handleClick('create')} >New {buttonType}</button>}   */}

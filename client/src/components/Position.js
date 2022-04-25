@@ -1,7 +1,8 @@
 import Axios from 'axios'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef, useCallback } from 'react'
 
-export default function Position({ locationOptions }) {
+export default function Position({ locationOptions, changeModal, showModal }) {
+
   const [optionElements, setOptionElements] = useState([]) 
   const [newPosition, setNewPosition] = useState({ 
     "city": '',
@@ -31,8 +32,8 @@ export default function Position({ locationOptions }) {
     }
   }
 
-  async function getOptionElements(){
-    await setOptionElements (locationOptions.map((option, index) => {
+  function getOptionElements(){
+    setOptionElements (locationOptions.map((option, index) => {
       if(index === 0) setValues(option.idLocations)
         return(
           <option key={option.name} value={option.idLocations}>{option.name}</option>
@@ -41,9 +42,27 @@ export default function Position({ locationOptions }) {
   }
 
 
-  function closeContactForm(){
-    // openNewPositionForm(false)
+  const modalRef = useRef()
+
+  function closeModal(event){
+    if(modalRef.current === event.target){
+      changeModal('')
+    }
   }
+
+  const keyPress = useCallback(event => {
+    if(event.key === 'Escape' && showModal === 'newPosition'){
+      changeModal('')
+    }
+    if(event.key === 'Enter' && showModal === 'newPosition'){
+      submitForm()
+    }
+  }, [showModal, changeModal, submitForm])
+
+  useEffect(() => {
+    document.addEventListener('keydown', keyPress)
+    return () => document.removeEventListener('keydown', keyPress)
+  }, [keyPress])
 
   function handleChange(event){
     const { name, value } = event.target
@@ -51,8 +70,6 @@ export default function Position({ locationOptions }) {
     if(name === 'idLocations'){
       setValues(value)
     }
-    console.log(name)
-    console.log(value)
     
     setNewPosition(prevPositionData => {
         return{
@@ -67,29 +84,22 @@ export default function Position({ locationOptions }) {
     const blank = element => !element
     let values = Object.values(newPosition)
     
-    if(values.some(blank)){
-      console.log(newPosition)
-      return
-    }
+    if(values.some(blank)){ return }
 
     await Axios.post('http://localhost:3001/position/create', {newPosition}).then(() => alert("Position Created"))
     
-    closeContactForm()
-    
+    closeModal()
     return
   
   }
 
-
-
-
   return (
-    <div className='contact-form'>
-      <div className='contact-form-main'>
-        <button className='btn close' onClick={closeContactForm}>X</button>
-        <h2 className='contact-form-header'>New Position</h2>
+    <div className='modal-form' ref={modalRef} onClick={closeModal}>
+      <div className='modal-form-main'>
+        <button className='btn close' onClick={() => changeModal('')}>X</button>
+        <h2 className='modal-form-header'>New Position</h2>
 
-        <div className='contact-form-body'>
+        <div className='modal-form-body'>
           
           <label htmlFor='idLocations'>Location ID</label>
           <select required type='text' name='idLocations' id='idLocations' value={newPosition.idLocations} onChange={handleChange}>
