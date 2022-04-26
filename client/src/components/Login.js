@@ -45,7 +45,9 @@ export default function Login({ setOpenLogin, changeLoggedIn }) {
                         </button>
                     </div>
                 </div>
-
+                {/* Fix Error Message */}
+                {/* <small className='login-error-message'>Error Message</small> */}
+                
                 <button className='btn login' onClick={() => changeLoggedIn(document.getElementById("login-id").value, document.getElementById("login-password").value) } >Login</button>
             </div>
         </div>

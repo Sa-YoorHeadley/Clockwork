@@ -1,8 +1,9 @@
 import React from 'react'
 
-export default function ApplicationCard({firstName, lastName, position, phoneNumber, onContact}) {
+export default function ApplicationCard({firstName, lastName, position, phoneNumber, PersonID, onContact}) {
     return (
         <article className='card'>
+            <small className='id'>{PersonID}</small>
             <div className='personal-information'>
                 <header className='card-header'>
                     <h1 className='name'>{firstName} {lastName}</h1>  

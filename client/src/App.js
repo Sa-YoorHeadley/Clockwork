@@ -10,20 +10,21 @@ import Position from "./components/Position";
 import Axios from 'axios'
 import React, { useState, useEffect } from 'react'
 
-//Add refresh button
 //Show Please Click List if show list is false, 
 // Move login form up and fix hashing
 //My queue route ????? based on logged in recruiter ID
 //Show Info on candidates
+// Last used list
 function App() {
+  const LOCAL_STORAGE_LAST_LIST = 'clockwork.list'
   const [formType, setFormType] = useState('create')
-  const [showList, setShowList] = useState({listName: 'readCandidates', status: true})
+  const [showList, setShowList] = useState(JSON.parse(localStorage.getItem(LOCAL_STORAGE_LAST_LIST)) || {listName: 'readCandidates', status: true})
   const [showModal, setShowModal] = useState('')
   const [listStatus, setListStatus] = useState(false)
   const [selectedDatabase, setSelectedDatabase] = useState('default')
   const [selectedId, setSelectedId] = useState('')
   const [targetCandidate, setTargetCandidate] = useState({})
-  const [loggedIn, setLoggedIn] = useState(false)
+  const [loggedIn, setLoggedIn] = useState(true)
   const [data, setData] = useState([])
   const [contactForm, setContactForm] = useState({})
   const [paginationData, setPaginationData] = useState({})
@@ -68,9 +69,13 @@ function App() {
 
   useEffect(() => {
     setListStatus(prevListStatus => !prevListStatus)
+    saveLastUsedList()
     
   }, [showList.status, showList.listName])
 
+  function saveLastUsedList(){
+    localStorage.setItem(LOCAL_STORAGE_LAST_LIST, JSON.stringify(showList))
+  }
   async function getData(){
     let route 
     if(showList.listName === 'readCandidates') route = 'candidates'
@@ -183,14 +188,10 @@ async function checkRecruiterLogin(recruiterEmail, attempt){
   }
 
   function contactCandidate(applicationId){
-    /********************************************************/
     Axios.get(`http://localhost:3001/applications/${applicationId}`).then(res => {
-      console.log(res.data)
       setContactForm(res.data)
     })
     changeModal('newContact')
-    /********************************************************/
-
   }
   
 
@@ -198,8 +199,8 @@ async function checkRecruiterLogin(recruiterEmail, attempt){
 async function parseCandidate(){
 
   let newEmployee = {
-    firstName:"Chris3",
-    lastName : "Guy3",
+    firstName:"Chris",
+    lastName : "Guy",
     city : "Aurora",
     state : "IL",
     position : "3rd Shift Warehouse Associate - IMMEDIATE HIRE",
