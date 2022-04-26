@@ -329,7 +329,7 @@ body {
 .landing-page .login-form-overlay {
   background-color: rgba(64, 64, 64, 0.9);
   position: absolute;
-  top: 95px;
+  top: -2.5rem;
   bottom: 0;
   right: 0;
   left: 0;
@@ -435,6 +435,10 @@ body {
   border-radius: .25rem;
   padding: .5em .25em;
   width: 100%;
+}
+
+.landing-page .login-form-field .password .password-toggle-btn {
+  background-color: transparent;
 }
 
 .landing-page .login-form .login {
