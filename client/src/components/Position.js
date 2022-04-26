@@ -88,7 +88,7 @@ export default function Position({ locationOptions, changeModal, showModal }) {
 
     await Axios.post('http://localhost:3001/position/create', {newPosition}).then(() => alert("Position Created"))
     
-    closeModal()
+    changeModal('')
     return
   
   }

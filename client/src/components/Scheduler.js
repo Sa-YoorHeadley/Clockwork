@@ -44,7 +44,7 @@ export default function Scheduler({ targetCandidate, changeModal, showModal }) {
 
     if(values.some(blank)){ return } 
       
-    closeModal()
+    changeModal('')
     return   
   }
 

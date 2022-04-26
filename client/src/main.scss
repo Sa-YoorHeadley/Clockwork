@@ -535,8 +535,8 @@ body{
     color: white;
     z-index: 999;
     display: flex;
+    justify-content: space-between;
     .function{
-        width: 425px;
         display: flex;
         gap: .1rem;
         align-items: flex-end;
@@ -582,6 +582,12 @@ body{
             align-self: center;
             width: 5rem;
         }
+    }
+
+    .refresh{
+        padding: 0;
+        background-color: transparent;
+        align-self: center;
     }
 }
 .pagination{

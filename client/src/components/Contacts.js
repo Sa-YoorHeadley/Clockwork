@@ -1,5 +1,6 @@
 import Axios from 'axios'
 import React, { useState, useEffect, useRef, useCallback } from 'react'
+import ScheduleInputs from './ScheduleInputs'
 
 export default function Contact({ changeModal, data, LoggedInRecruiter, showModal }) {
   const {PersonID, firstName, lastName, OpeningId, idApplications} = data
@@ -7,11 +8,28 @@ export default function Contact({ changeModal, data, LoggedInRecruiter, showModa
   let formPopulation = {
     notes: '',
     contactStatus: '',
-    idApplications
+    idApplications: idApplications
   }
-  let formState = {...formPopulation,...LoggedInRecruiter[0]}
-  const [formData, setFormData] = useState(formState)
- 
+  let formState = {...formPopulation, ...LoggedInRecruiter[0]}
+  const [formData, setFormData] = useState({formState})
+  
+  const [scheduleData, setScheduleData] = useState({date: '', time: '', message:''})
+  const unavailableDates = [{date: '2022-01-01', time: '02:00'}, ] 
+  
+  useEffect(() => {
+    console.log('Changing data')
+
+    setFormData(prevFormData => {
+      console.log(formData.idApplications)
+      console.log(data.idApplications)
+      return {
+        ...prevFormData,
+        idApplications : data.idApplications
+      }
+    })
+    
+    console.log(formData)
+  }, [data])
 
   const modalRef = useRef()
 
@@ -47,8 +65,45 @@ export default function Contact({ changeModal, data, LoggedInRecruiter, showModa
     )
   }
 
+  function handleChangeSchedule(event){
+    const {name, value} = event.target
+    
+    setScheduleData(prevScheduleData => {
+        return{
+            ...prevScheduleData,
+            [name] : value
+        }
+    })
+  }
+
+  function checkAvailability(){
+    const dateTime = new Date(`${scheduleData.date} ${scheduleData.time}`)
+
+    const dateCheck = unavailableDates.find(unavailableDate => unavailableDate.date === scheduleData.date && unavailableDate.time === scheduleData.time )
+    
+    if(dateCheck || dateTime.getDay() === 6 || dateTime.getDay() === 0 || dateTime.getHours() < 8 || dateTime.getHours() > 17){
+        setScheduleData(prevScheduleData => {
+            return{
+                ...prevScheduleData,
+                message : 'Date Unavailable'
+            }
+        })
+    }
+    else{
+        setScheduleData(prevScheduleData => {
+            return{
+                ...prevScheduleData,
+                message : ''
+            }
+        })
+    }
+    return scheduleData.message
+  }
+
   async function submitForm(){
-    let id = formData.idApplications
+    let id = idApplications
+    const message = checkAvailability()
+    if(message !== '') return
     
     //if(!values.some(blank)){
      {
@@ -57,12 +112,13 @@ export default function Contact({ changeModal, data, LoggedInRecruiter, showModa
         console.log(error.response.data);
      });
       await Axios.post('http://localhost:3001/contact/create', {formData}).then(() => alert("Contact Created"))
-      closeModal()
+      changeModal('')
       
       return
     }    
   }
 
+  //Available Days and times for days
 
 
 
@@ -91,9 +147,18 @@ export default function Contact({ changeModal, data, LoggedInRecruiter, showModa
             <option value={'Withdrew'}>Withdrew</option>
             <option value={'Could not Reach'}>Could not Reach</option>
             <option value={'Not Interested'}>Not Interested</option>
-            {/* //change to drop down {Pending, Called, Submitted, Withdrew, Could not Reach, Not Interested} */}
           </select>
           
+          {formData.contactStatus === 'Submitted' &&
+            <div className='schedule-inputs'>
+              <label htmlFor='date'>Date</label>
+              <input type='date' id='date' name='date' value={scheduleData.date} onChange={handleChangeSchedule}/>
+      
+              <label htmlFor='time'>Time</label>
+              <input type='time' id='time' name='time' value={scheduleData.time} onChange={handleChangeSchedule}/>
+              {scheduleData.message !== '' && <small>{scheduleData.message}</small>}
+            </div>
+          }
 
           <button className='btn submit' onClick={submitForm}>Submit</button>
         </div>

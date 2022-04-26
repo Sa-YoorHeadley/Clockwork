@@ -707,10 +707,12 @@ body {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
 }
 
 .horizontal-navbar .function {
-  width: 425px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -779,6 +781,14 @@ body {
       -ms-grid-row-align: center;
       align-self: center;
   width: 5rem;
+}
+
+.horizontal-navbar .refresh {
+  padding: 0;
+  background-color: transparent;
+  -ms-flex-item-align: center;
+      -ms-grid-row-align: center;
+      align-self: center;
 }
 
 .pagination {

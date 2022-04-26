@@ -5,8 +5,6 @@ const mysql = require('mysql')
 const cors = require('cors')
 const pagination = require('./middleware/pagination.js')
 const bodyParser = require('body-parser');
-const countDocuments = require('./modules/countDocuments')
-const find = require('./modules/find')
 
 
 // CREATE AND TEST CONNECTION
@@ -15,7 +13,7 @@ const connection = mysql.createConnection({
     user: process.env.DB_USER,
     password: process.env.DB_PASS,
     database: process.env.DB_NAME,
-    // socketPath: `/cloudsql/${process.env.INSTANCE_CONNECTION_NAME}`
+    // socketPath: process.env.INSTANCE_CONNECTION_NAME
 })
 connection.connect(err => {
     if(err){
@@ -218,6 +216,7 @@ app.put('/candidate/update/:id', (req,res) => {
 app.post('/contact/create', (req,res) => {
     const ContactTimeStamp = new Date()
     const ContactRecruiterId = req.body.formData.idRecruiters
+    console.log(req.body.formData)
 
     const {contactStatus, idApplications} = req.body.formData
     const query = `INSERT INTO Contacts(ContactTimeStamp, ContactStatus, ContactRecruiterId, ContactApplicationsId)
@@ -254,7 +253,7 @@ app.put('/application/update/:id', (req,res) => {
     })
 })
 
-app.get('/openings/', async (req, res) =>{
+app.get('/openings', async (req, res) =>{
     const{city,state,position} = req.query
     let query
     if(city&&state&&position){ 

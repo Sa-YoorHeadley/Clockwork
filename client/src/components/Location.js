@@ -54,7 +54,7 @@ export default function Location({ changeModal, showModal }) {
     if(values.some(blank)){ return }
   
     await Axios.post('http://localhost:3001/location/create', {newLocation}).then(() => alert("Location Created"))
-    closeModal()
+    changeModal('')
     return
  
   }

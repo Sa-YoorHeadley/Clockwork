@@ -6,7 +6,7 @@ import DetailHeader from './DetailHeader'
 import Pagination from './Pagination'
 import Ribbon from './Ribbon'
 
-export default function Main({ listType, filterOptions, listData, deleteCandidate, updateCandidate, setCurrentPage, currentPage, contactCandidate, setResultLimit, setFilterOptions, listStatus, paginationData }) {
+export default function Main({ listType, filterOptions, listData, deleteCandidate, updateCandidate, setCurrentPage, currentPage, contactCandidate, setResultLimit, setFilterOptions, listStatus, paginationData, getData }) {
     let cardElements
     let applicationCardElements
     let detailElements = [<DetailHeader key='header'/>]
@@ -47,6 +47,7 @@ export default function Main({ listType, filterOptions, listData, deleteCandidat
                 listType={listType} 
                 listStatus={listStatus} 
                 setResultLimit={setResultLimit}
+                getData={getData}
             />
             {listType === 'readContacts' ?
                 <div className='table-container' key='table-container'>

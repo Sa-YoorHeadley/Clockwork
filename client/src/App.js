@@ -10,7 +10,7 @@ import Position from "./components/Position";
 import Axios from 'axios'
 import React, { useState, useEffect } from 'react'
 
-//Add function to get employee data and every time employee is added we call it
+//Add refresh button
 //Show Please Click List if show list is false, 
 // Move login form up and fix hashing
 //My queue route ????? based on logged in recruiter ID
@@ -182,12 +182,15 @@ async function checkRecruiterLogin(recruiterEmail, attempt){
     getData()
   }
 
-  async function contactCandidate(applicationId){
+  function contactCandidate(applicationId){
+    /********************************************************/
     changeModal('newContact')
-    await Axios.get(`http://localhost:3001/applications/${applicationId}`).then(res => {
+    Axios.get(`http://localhost:3001/applications/${applicationId}`).then(res => {
+      console.log(res.data)
       setContactForm(res.data)
     })
-    getData()
+    /********************************************************/
+
   }
   
 
@@ -195,8 +198,8 @@ async function checkRecruiterLogin(recruiterEmail, attempt){
 async function parseCandidate(){
 
   let newEmployee = {
-    firstName:"Chris",
-    lastName : "Guy",
+    firstName:"Chris3",
+    lastName : "Guy3",
     city : "Aurora",
     state : "IL",
     position : "3rd Shift Warehouse Associate - IMMEDIATE HIRE",
@@ -289,6 +292,7 @@ async function parseCandidate(){
             setFilterOptions={setFilterOptions}
             setResultLimit={setResultLimit}
             setCurrentPage={setCurrentPage}
+            getData={getData}
             />}
           {showModal === 'newContact' && <Contacts showModal={showModal} changeModal={changeModal} data={contactForm} LoggedInRecruiter={LoggedInRecruiter}/>} 
           {showModal === 'newPosition' && <Position showModal={showModal} changeModal={changeModal} locationOptions={locationOptions}/>}
