@@ -42,6 +42,7 @@ const find = (table, options) =>{
             ON Contacts.ContactRecruiterId=Recruiters.idRecruiters
             JOIN Openings 
             ON Applications.OpeningId=Openings.idOpenings
+            ORDER BY ContactTimeStamp
             LIMIT ${options.skip}, ${options.limit}
             `
         }
