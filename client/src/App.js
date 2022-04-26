@@ -184,11 +184,11 @@ async function checkRecruiterLogin(recruiterEmail, attempt){
 
   function contactCandidate(applicationId){
     /********************************************************/
-    changeModal('newContact')
     Axios.get(`http://localhost:3001/applications/${applicationId}`).then(res => {
       console.log(res.data)
       setContactForm(res.data)
     })
+    changeModal('newContact')
     /********************************************************/
 
   }

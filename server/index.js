@@ -216,8 +216,7 @@ app.put('/candidate/update/:id', (req,res) => {
 app.post('/contact/create', (req,res) => {
     const ContactTimeStamp = new Date()
     const ContactRecruiterId = req.body.formData.idRecruiters
-    console.log(req.body.formData)
-
+    
     const {contactStatus, idApplications} = req.body.formData
     const query = `INSERT INTO Contacts(ContactTimeStamp, ContactStatus, ContactRecruiterId, ContactApplicationsId)
     VALUES (?,?,?,?)

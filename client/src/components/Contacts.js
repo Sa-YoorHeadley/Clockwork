@@ -11,24 +11,13 @@ export default function Contact({ changeModal, data, LoggedInRecruiter, showModa
     idApplications: idApplications
   }
   let formState = {...formPopulation, ...LoggedInRecruiter[0]}
-  const [formData, setFormData] = useState({formState})
-  
+  const [formData, setFormData] = useState({})
+
   const [scheduleData, setScheduleData] = useState({date: '', time: '', message:''})
   const unavailableDates = [{date: '2022-01-01', time: '02:00'}, ] 
   
   useEffect(() => {
-    console.log('Changing data')
-
-    setFormData(prevFormData => {
-      console.log(formData.idApplications)
-      console.log(data.idApplications)
-      return {
-        ...prevFormData,
-        idApplications : data.idApplications
-      }
-    })
-    
-    console.log(formData)
+    setFormData(formState)
   }, [data])
 
   const modalRef = useRef()
