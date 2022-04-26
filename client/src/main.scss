@@ -242,7 +242,7 @@ body{
     .login-form-overlay{
         background-color: rgba(64,64,64, .9);
         position: absolute;
-        top: 95px;
+        top: -2.5rem;
         bottom: 0;
         right: 0;
         left: 0;
@@ -321,6 +321,9 @@ body{
                 padding: .5em .25em;
                 width: 100%;
 
+            }
+            .password .password-toggle-btn{
+                background-color: transparent;
             }
         }
 
