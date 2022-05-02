@@ -233,7 +233,7 @@ body {
   margin-bottom: .25rem;
 }
 
-.modal-form .modal-form-main .modal-form-body input {
+.modal-form .modal-form-main .modal-form-body input, .modal-form .modal-form-main .modal-form-body #date-time, .modal-form .modal-form-main .modal-form-body select {
   margin-bottom: .75rem;
 }
 

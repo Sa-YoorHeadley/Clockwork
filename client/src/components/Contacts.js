@@ -1,20 +1,20 @@
 import Axios from 'axios'
 import React, { useState, useEffect, useRef, useCallback } from 'react'
-import ScheduleInputs from './ScheduleInputs'
+import Flatpickr from "react-flatpickr"
+import "flatpickr/dist/themes/dark.css"
 
 export default function Contact({ changeModal, data, LoggedInRecruiter, showModal }) {
   const {PersonID, firstName, lastName, OpeningId, idApplications} = data
   
   let formPopulation = {
     notes: '',
-    contactStatus: '',
+    contactStatus: 'Submitted',
     idApplications: idApplications
   }
   let formState = {...formPopulation, ...LoggedInRecruiter[0]}
   const [formData, setFormData] = useState({})
-
-  const [scheduleData, setScheduleData] = useState({date: '', time: '', message:''})
-  const unavailableDates = [{date: '2022-01-01', time: '02:00'}, ] 
+  const [scheduleData, setScheduleData] = useState({dateValue: '', date: '', time: '', messages:[]})
+  const [defaultValue, setDefaultValue] = useState(new Date())
   
   useEffect(() => {
     setFormData(formState)
@@ -54,45 +54,56 @@ export default function Contact({ changeModal, data, LoggedInRecruiter, showModa
     )
   }
 
-  function handleChangeSchedule(event){
-    const {name, value} = event.target
+  function handleChangeSchedule(dateValue, dateString){
+    const [selectedDate, selectedTime] = dateString.split('  ')
     
     setScheduleData(prevScheduleData => {
-        return{
-            ...prevScheduleData,
-            [name] : value
-        }
+      return{
+        ...prevScheduleData,
+        dateValue: dateValue[0],
+        date: selectedDate,
+        time: selectedTime
+      }
     })
   }
-
-  function checkAvailability(){
-    const dateTime = new Date(`${scheduleData.date} ${scheduleData.time}`)
-
-    const dateCheck = unavailableDates.find(unavailableDate => unavailableDate.date === scheduleData.date && unavailableDate.time === scheduleData.time )
     
-    if(dateCheck || dateTime.getDay() === 6 || dateTime.getDay() === 0 || dateTime.getHours() < 8 || dateTime.getHours() > 17){
-        setScheduleData(prevScheduleData => {
-            return{
-                ...prevScheduleData,
-                message : 'Date Unavailable'
-            }
-        })
+  function checkAvailability(){
+    // const dateCheck = unavailableDates.find(unavailableDate => unavailableDate.date === scheduleData.date && unavailableDate.time === scheduleData.time )
+    
+    if(scheduleData.dateValue.getMinutes() !== 0 && scheduleData.dateValue.getMinutes() !== 30){
+      setScheduleData(prevScheduleData => {
+        const error = 'Minutes must be 0 or 30'
+        const newMessages = [...prevScheduleData.messages]
+        const duplicateMessage = newMessages.find(message => message.includes(error))
+        if(!duplicateMessage){
+          newMessages.push(error)
+          return{
+              ...prevScheduleData,
+              messages: newMessages
+          }
+        }
+        else{
+          return{...prevScheduleData}
+        }
+
+      })
+    } 
+    else {
+      setScheduleData(prevScheduleData => {
+        return{
+            ...prevScheduleData,
+            messages: []
+        }
+      })
     }
-    else{
-        setScheduleData(prevScheduleData => {
-            return{
-                ...prevScheduleData,
-                message : ''
-            }
-        })
-    }
-    return scheduleData.message
+
+    return scheduleData.messages
   }
 
   async function submitForm(){
     let id = idApplications
-    const message = checkAvailability()
-    if(message !== '') return
+    const messages = checkAvailability()
+    if(messages.length !== 0) return
     
     //if(!values.some(blank)){
      {
@@ -106,8 +117,6 @@ export default function Contact({ changeModal, data, LoggedInRecruiter, showModa
       return
     }    
   }
-
-  //Available Days and times for days
 
 
 
@@ -138,15 +147,40 @@ export default function Contact({ changeModal, data, LoggedInRecruiter, showModa
             <option value={'Not Interested'}>Not Interested</option>
           </select>
           
-          {formData.contactStatus === 'Submitted' &&
-            <div className='schedule-inputs'>
-              <label htmlFor='date'>Date</label>
-              <input type='date' id='date' name='date' value={scheduleData.date} onChange={handleChangeSchedule}/>
-      
-              <label htmlFor='time'>Time</label>
-              <input type='time' id='time' name='time' value={scheduleData.time} onChange={handleChangeSchedule}/>
-              {scheduleData.message !== '' && <small>{scheduleData.message}</small>}
-            </div>
+          
+         {formData.contactStatus === 'Submitted' &&
+          <>
+            <label htmlFor='date-time'>Date</label>
+            <Flatpickr
+              placeholder='Please select date and time...'
+              id='date-time'
+              value={scheduleData.dateValue} 
+              options={{
+                enableTime: true,
+                position: 'auto center',
+                minDate: new Date(),
+                minTime: "8:00",
+                maxTime: "17:00",
+                dateFormat: 'd-m-Y  h:i K',
+                disable: [
+                  function(date) {
+                    // return true to disable
+                    return (date.getDay() === 0 || date.getDay() === 6);
+                  }
+                ],
+                minuteIncrement : 30
+              }}
+              onChange={(date, dateString) => handleChangeSchedule(date, dateString)}
+            />
+            {scheduleData.messages.length !== 0 &&
+              <div className='error-list'>
+                {scheduleData.messages.map(message => { 
+                  return(<small key={message}>{message}</small>)
+                })}
+              </div>
+            
+            }
+          </>
           }
 
           <button className='btn submit' onClick={submitForm}>Submit</button>
