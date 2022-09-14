@@ -24,7 +24,7 @@ function App() {
   const [selectedDatabase, setSelectedDatabase] = useState('default')
   const [selectedId, setSelectedId] = useState('')
   const [targetCandidate, setTargetCandidate] = useState({})
-  const [loggedIn, setLoggedIn] = useState(true)
+  const [loggedIn, setLoggedIn] = useState(false)
   const [data, setData] = useState([])
   const [contactForm, setContactForm] = useState({})
   const [paginationData, setPaginationData] = useState({})
