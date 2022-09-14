@@ -280,7 +280,7 @@ app.get('/openings', async (req, res) =>{
 // CREATE LOCATION
 app.post('/location/create', (req,res) => {
     
-    const {streetAddress, city, state, phoneNumber, locationAliases, emailAddress, name} = req.body.newPosition
+    const {streetAddress, city, state, phoneNumber, locationAliases, emailAddress, name} = req.body.newLocation
     const query = `INSERT INTO Positions ( streetAddress, city, state, phoneNumber, locationAliases, emailAddress, name)
     VALUES (?,?,?,?,?,?,?)
     `

@@ -11,10 +11,10 @@ import Axios from 'axios'
 import React, { useState, useEffect } from 'react'
 
 //Show Please Click List if show list is false, 
-// Move login form up and fix hashing
+//Fix hashing
 //My queue route ????? based on logged in recruiter ID
 //Show Info on candidates
-// Last used list
+
 function App() {
   const LOCAL_STORAGE_LAST_LIST = 'clockwork.list'
   const [formType, setFormType] = useState('create')
@@ -199,11 +199,11 @@ async function checkRecruiterLogin(recruiterEmail, attempt){
 async function parseCandidate(){
 
   let newEmployee = {
-    firstName:"Chris",
+    firstName:"Christof",
     lastName : "Guy",
     city : "Aurora",
     state : "IL",
-    position : "3rd Shift Warehouse Associate - IMMEDIATE HIRE",
+    position : "Programmer",
     emailAddress:"cguy@gmail.com",
     phoneNumber:9999999
   }
@@ -214,13 +214,16 @@ async function parseCandidate(){
    
     var queryString = Object.keys(newEmployee).map(key => key + '=' + newEmployee[key]).join('&');
     queryString = queryString.replace(/ /g,"%20")
+    console.log(queryString) 
     
     await Axios.get(`http://localhost:3001/openings?${queryString}`).then(res => {
+      console.log(res.data)
       newEmployee.OpeningId = res.data[0].idOpenings
     })
     
     await Axios.post(`http://localhost:3001/application/create`, {newEmployee}).then(res => {
     })
+    getData()
    
 }
 
