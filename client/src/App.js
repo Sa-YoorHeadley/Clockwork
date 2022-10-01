@@ -35,12 +35,12 @@ function App() {
   const [locationOptions, setLocationOptions] = useState([])
   const [LoggedInRecruiter, setLoggedInRecruiter] = useState(
     {
-        "idRecruiters": 9999,
-        "recruiterFirstName": "Daniel",
-        "recruiterLastName": "RecruiterLast",
-        "email": "Daniel.Rollins@bayardad.com",
-        "assignedAccounts": "3213",
-        "loginCredentials": "Password"
+        "idRecruiters": 0,
+        "recruiterFirstName": "",
+        "recruiterLastName": "",
+        "email": "",
+        "assignedAccounts": "",
+        "loginCredentials": ""
     })
   
   useEffect(()=>{
@@ -279,7 +279,7 @@ async function parseCandidate(){
         <>
           <Header loggedIn={loggedIn} setLoggedIn={setLoggedIn}/>
           <aside className="left-section">
-          <Navbar handleClick={changeForm} changeDatabase={setSelectedDatabase} changeList={changeList} listType={showList.listName} parseCandidate={parseCandidate} changeModal={changeModal}/>
+          <Navbar handleClick={changeForm} showList={showList}changeDatabase={setSelectedDatabase} changeList={changeList} listType={showList.listName} parseCandidate={parseCandidate} changeModal={changeModal}/>
           {/* <Form listType={showList.listName} formType={formType} handleDelete={deleteCandidate} handleUpdate={updateCandidate} handleAdd={addCandidate} selectedId={selectedId} selectedDatabase={selectedDatabase}/> */}
           </aside>
           {showList.status && <Main 
@@ -301,7 +301,7 @@ async function parseCandidate(){
           {showModal === 'newContact' && <Contacts showModal={showModal} changeModal={changeModal} data={contactForm} LoggedInRecruiter={LoggedInRecruiter}/>} 
           {showModal === 'newPosition' && <Position showModal={showModal} changeModal={changeModal} locationOptions={locationOptions}/>}
           {showModal === 'newLocation' && <Location showModal={showModal} changeModal={changeModal} />}
-          {/* {showModak === 'newSchedule' && <Scheduler targetCandidate={targetCandidate} showModal={showModal} changeModal={changeModal} setTargetCandidate={setTargetCandidate} />} */}
+          {/* {showModal === 'newSchedule' && <Scheduler targetCandidate={targetCandidate} showModal={showModal} changeModal={changeModal} setTargetCandidate={setTargetCandidate} />} */}
         </>
       }
     </div>
