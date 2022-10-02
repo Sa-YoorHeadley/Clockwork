@@ -123,7 +123,7 @@ Modal that can be used to create a new open opening for candidates to apply to.
 </div>
 <br />
 
-> [Client Live URL](https://sa-yoorheadley.github.io/Clockwork/)
+> [Client Live URL](https://sa-yoorheadley.github.io/Clockwork/) *Hosted server is not running at the moment. Message [Sa-Yoor Headley](https://github.com/Sa-YoorHeadley) to request it*
 
 <br />
 <br />
