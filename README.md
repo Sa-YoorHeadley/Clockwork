@@ -12,6 +12,7 @@ This is client side of Clockwork. Clockwork is candidate management application.
 1. **Server must be running on localhost:3001**
 2. The user is greeted by the login page upon submitting correct credentials they are given access to CMA. 
 
+> [Client Live URL](https://sa-yoorheadley.github.io/Clockwork/) *Hosted server is not running at the moment. Message [Sa-Yoor Headley](https://github.com/Sa-YoorHeadley) to request it*
 <br />
 
 ## Login Page
