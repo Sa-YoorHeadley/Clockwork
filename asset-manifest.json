@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/Clockwork/static/css/main.4bd0a084.css",
+    "main.js": "/Clockwork/static/js/main.1462f5f1.js",
+    "static/media/Clockwork Logo.png": "/Clockwork/static/media/Clockwork Logo.9810b83b12f8716ad9f6.png",
+    "index.html": "/Clockwork/index.html",
+    "main.4bd0a084.css.map": "/Clockwork/static/css/main.4bd0a084.css.map",
+    "main.1462f5f1.js.map": "/Clockwork/static/js/main.1462f5f1.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.4bd0a084.css",
+    "static/js/main.1462f5f1.js"
+  ]
+}
