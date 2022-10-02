@@ -155,6 +155,7 @@ app.post("/application/create", (req, res) => {
 // Get Recruiter by ID
 app.get("/recruiters/:emailAddress&:password", (req, res) => {
   const { emailAddress, password } = req.params;
+  console.log(req.params)
   const query = `SELECT idRecruiters, recruiterFirstName, recruiterLastName, email, assignedAccounts
     FROM Recruiters
     WHERE Recruiters.email = ? AND  Recruiters.loginCredentials = ?`;
