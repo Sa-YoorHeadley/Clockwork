@@ -9,7 +9,7 @@
 This is client side of Clockwork. Clockwork is candidate management application. 
 
 ## User Instructions
-1. **Server must be running on localhost:3000**
+1. **Server must be running on localhost:3001**
 2. The user is greeted by the login page upon submitting correct credentials they are given access to CMA. 
 
 <br />
@@ -146,17 +146,17 @@ Modal that can be used to create a new open opening for candidates to apply to.
 ## Prerequisites
 
 1. ### Install Node JS
-Refer to https://nodejs.org/en/ to install nodejs
+    Refer to https://nodejs.org/en/ to install nodejs
 
 2. ### Install create-react-app
-Install create-react-app npm package globally. This will help to easily run the project and also build the source files easily. Use the following command to install create-react-app
+    Install create-react-app npm package globally. This will help to easily run the project and also build the source files easily. Use the following command to install create-react-app
 
-```bash
-npm install -g create-react-app
-```
+    ```bash
+    npm install -g create-react-app
+    ```
 
 3. ### Install and run server
-Refer to [Server README](https://github.com/Sa-YoorHeadley/Clockwork/blob/main/server/README.md) or [Main README](https://github.com/Sa-YoorHeadley/Clockwork#readme) to install and run server files
+    Refer to [Server README](https://github.com/Sa-YoorHeadley/Clockwork/blob/main/server/README.md) or [Main README](https://github.com/Sa-YoorHeadley/Clockwork#readme) to install and run server files
 
 <br />
 
@@ -181,7 +181,7 @@ Install all the npm packages.
 npm install
 ```
 
-In order to run the application Type the following command
+In order to run the application type the following command
 
 ```bash
 npm start
@@ -195,5 +195,4 @@ The Application Runs on **localhost:3000**
 ## Acknowledgements
 
 - [GldnArms](https://github.com/GldnArms)
-- [Pagination](https://github.com/GldnArms)
-*Find pagination video*
+- [Cododev for Pagination Solution](https://www.youtube.com/watch?v=vP9fOEAlo74)
