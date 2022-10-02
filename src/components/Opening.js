@@ -86,7 +86,7 @@ export default function Opening({ locationOptions, changeModal, showModal }) {
     
     if(values.some(blank)){ return }
 
-    await Axios.post('http://localhost:3001/opening/create', {newOpening}).then(() => alert("Opening Created"))
+    await Axios.post(`${API}/opening/create`, {newOpening}).then(() => alert("Opening Created"))
     
     changeModal('')
     return

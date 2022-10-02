@@ -107,11 +107,11 @@ export default function Contact({ changeModal, data, LoggedInRecruiter, showModa
     
     //if(!values.some(blank)){
      {
-      await Axios.put(`http://localhost:3001/application/update/${id}`,{formData}).then(function(response) {
+      await Axios.put(`${API}/application/update/${id}`,{formData}).then(function(response) {
      }).catch(function(error) {
         console.log(error.response.data);
      });
-      await Axios.post('http://localhost:3001/contact/create', {formData}).then(() => alert("Contact Created"))
+      await Axios.post(`${API}/contact/create`, {formData}).then(() => alert("Contact Created"))
       changeModal('')
       
       return

@@ -41,9 +41,10 @@ function App() {
         "email": "",
         "assignedAccounts": ""
     })
+  const API = "https://clockwork-api.onrender.com"
   
   useEffect(()=>{
-    Axios.get('http://localhost:3001/locations').then(res => {
+    Axios.get(`${API}/locations`).then(res => {
       setLocationOptions(res.data)
     }) 
   }, [])
@@ -80,7 +81,7 @@ function App() {
     if(showList.listName === 'readCandidates') route = 'candidates'
     if(showList.listName === 'readContacts') route = 'contacts'
     if(showList.listName === 'readApplications') route = 'applications'
-    await Axios.get(`http://localhost:3001/${route}?page=${currentPage}&limit=${resultLimit}`)
+    await Axios.get(`${API}/${route}?page=${currentPage}&limit=${resultLimit}`)
     .then(res => {
       setData(res.data.data)
     })
@@ -88,7 +89,7 @@ function App() {
 
 // MAJOR BUG FIX
 async function checkRecruiterLogin(recruiterEmail, password){
-  await Axios.get(`http://localhost:3001/recruiters/${recruiterEmail}&${password}`)
+  await Axios.get(`${API}/recruiters/${recruiterEmail}&${password}`)
   .then(res => {
     
     if(res.data.login == true ){
@@ -105,7 +106,7 @@ async function checkRecruiterLogin(recruiterEmail, password){
     if(showList.listName === 'readCandidates') route = 'candidates'
     if(showList.listName === 'readContacts') route = 'contacts'
     if(showList.listName === 'readApplications') route = 'applications'
-    await Axios.get(`http://localhost:3001/${route}?page=${currentPage}&limit=${resultLimit}`)
+    await Axios.get(`${API}/${route}?page=${currentPage}&limit=${resultLimit}`)
     .then(res => {
       setPaginationData(res.data.paginationData)
     })
@@ -163,7 +164,7 @@ async function checkRecruiterLogin(recruiterEmail, password){
   }
   
   async function addCandidate(newCandidate){
-    await Axios.post('http://localhost:3001/candidate/create', {newCandidate}).then(() => alert("Candidate Created"))
+    await Axios.post(`${API}/candidate/create`, {newCandidate}).then(() => alert("Candidate Created"))
     getData()
   }
 
@@ -173,20 +174,20 @@ async function checkRecruiterLogin(recruiterEmail, password){
       setFormType('update')
       return
     }
-    await Axios.put(`http://localhost:3001/candidate/update/${employeeId}`, {updatedCandidate}).then(() => alert("Candidate Updated"))
+    await Axios.put(`${API}/candidate/update/${employeeId}`, {updatedCandidate}).then(() => alert("Candidate Updated"))
     getData()
   }
 
   async function deleteCandidate(employeeId){
     const confirmation = confirm(`You are about to delete Candidate: #${employeeId}`)
     if(confirmation){
-      await Axios.delete(`http://localhost:3001/candidate/delete/${employeeId}`).then(() => alert("Candidate Deleted"))
+      await Axios.delete(`${API}/candidate/delete/${employeeId}`).then(() => alert("Candidate Deleted"))
     }
     getData()
   }
 
   function contactCandidate(applicationId){
-    Axios.get(`http://localhost:3001/applications/${applicationId}`).then(res => {
+    Axios.get(`${API}/applications/${applicationId}`).then(res => {
       setContactForm(res.data)
     })
     changeModal('newContact')
@@ -205,7 +206,7 @@ async function parseCandidate(){
     emailAddress:"cguy@gmail.com",
     phoneNumber:9999999
   }
-  await Axios.post(`http://localhost:3001/candidate/create`, {newEmployee}).then(res => {
+  await Axios.post(`${API}/candidate/create`, {newEmployee}).then(res => {
    
     newEmployee.ApplicationPersonId = res.data
     })
@@ -214,12 +215,12 @@ async function parseCandidate(){
     queryString = queryString.replace(/ /g,"%20")
     console.log(queryString) 
     
-    await Axios.get(`http://localhost:3001/openings?${queryString}`).then(res => {
+    await Axios.get(`${API}/openings?${queryString}`).then(res => {
       console.log(res.data)
       newEmployee.OpeningId = res.data[0].idOpenings
     })
     
-    await Axios.post(`http://localhost:3001/application/create`, {newEmployee}).then(res => {
+    await Axios.post(`${API}/application/create`, {newEmployee}).then(res => {
     })
     getData()
    

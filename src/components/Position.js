@@ -53,7 +53,7 @@ export default function Position({ changeModal, showModal }) {
     
     if(values.some(blank)){ return }
   
-    await Axios.post('http://localhost:3001/position/create', {newPosition}).then(() => alert("Position Created"))
+    await Axios.post(`${API}/position/create`, {newPosition}).then(() => alert("Position Created"))
     changeModal('')
     return
  
