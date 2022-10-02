@@ -78,7 +78,7 @@ This is server side of Clockwork. Clockwork is candidate management application.
 ## Database
 ### ER Diagram
 <div align="center"> 
-  <img src="https://github.com/Sa-YoorHeadley/clockwork/blob/main/assets/server/ER Diagram.png?raw=true" alt="screenshot" />
+  <img src="https://github.com/Sa-YoorHeadley/clockwork/blob/main/assets/server/ER-Diagram.png?raw=true" alt="screenshot" />
 </div>
 
 **ALL RELATIONS MUST BE FOLLOWED AS PER ER DIAGRAM ABOVE**
