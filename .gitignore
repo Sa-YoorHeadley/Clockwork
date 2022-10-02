@@ -41,3 +41,4 @@ server/yarn-error.log*
 # files
 /client/src/data.js
 /server/.env
+node_modules
