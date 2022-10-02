@@ -51,8 +51,8 @@ This is client side of Clockwork. Clockwork is candidate management application.
 - \* **Select Database** - used to change database. 
 - **Lists** - used to show the Candidates, Contacts and Applications
 - \* **Parse Candidates** - used to get a list of new applications from candidates.
-- **New Location** - brings up a modal that can be used to create a new location for new positions to be linked to.
-- **New Position** - brings up a modal that can be used to create a new open position for candidates to apply to.
+- **New Position** - brings up a modal that can be used to create a new position for new positions to be linked to.
+- **New Opening** - brings up a modal that can be used to create a new open opening for candidates to apply to.
 <div align="center"> 
   <img src="https://github.com/Sa-YoorHeadley/clockwork/blob/main/assets/homepage/Preview-Homepage-Navbar.PNG?raw=true" alt="screenshot" />
 </div>
@@ -85,17 +85,17 @@ List of candidates that have applied for positions but have not been contacted y
 </div>
 <br />
 
-### **New Location**
-Modal that can be used to create a new location for new positions to be linked to. 
+### **New Position**
+Modal that can be used to create a new position for new positions to be linked to. 
 <div align="center"> 
-  <img src="https://github.com/Sa-YoorHeadley/clockwork/blob/main/assets/homepage/Preview-Homepage-New-Location.PNG?raw=true" alt="screenshot" />
+  <img src="https://github.com/Sa-YoorHeadley/clockwork/blob/main/assets/homepage/Preview-Homepage-New-Position.PNG?raw=true" alt="screenshot" />
 </div>
 <br />
 
-### **New Position**
-Modal that can be used to create a new open position for candidates to apply to. 
+### **New Opening**
+Modal that can be used to create a new open opening for candidates to apply to. 
 <div align="center"> 
-  <img src="https://github.com/Sa-YoorHeadley/clockwork/blob/main/assets/homepage/Preview-Homepage-New-Position.PNG?raw=true" alt="screenshot" />
+  <img src="https://github.com/Sa-YoorHeadley/clockwork/blob/main/assets/homepage/Preview-Homepage-New-Opening.PNG?raw=true" alt="screenshot" />
 </div>
 <br />
 
@@ -123,13 +123,13 @@ Modal that can be used to create a new open position for candidates to apply to.
   </ul>
  <br />
 
- ### Concepts Used
+ ## Concepts Used
  <details>
  <summary>React</summary>
   <ul>
     <li>Fetching APIs using Axios, Reusable Components, Props, Conditional Rendering</li>
     <li>Data Manipulation (Filters, Mapping, Looping, Regular Expressions) and Display</li>
-    <li>useState, useEffect, useRef</li>
+    <li>useState, useEffect, useRef, useCallback</li>
     <li>Class Toggling, Modals, Forms, Cards</li>
   </ul>
  </details>
@@ -141,23 +141,22 @@ Modal that can be used to create a new open position for candidates to apply to.
   </ul>
  </details>
 
+<br />
+
 ## Prerequisites
 
-### Install Node JS
+1. ### Install Node JS
 Refer to https://nodejs.org/en/ to install nodejs
 
-### Install create-react-app
+2. ### Install create-react-app
 Install create-react-app npm package globally. This will help to easily run the project and also build the source files easily. Use the following command to install create-react-app
 
 ```bash
 npm install -g create-react-app
 ```
-### Install and run server
-Refer to [Server README](https://github.com/Sa-YoorHeadley/Clockwork/blob/main/server/README.md) or [Main README](https://github.com/Sa-YoorHeadley/Clockwork#readme) to install and run server files
 
-```bash
-npm install -g create-react-app
-```
+3. ### Install and run server
+Refer to [Server README](https://github.com/Sa-YoorHeadley/Clockwork/blob/main/server/README.md) or [Main README](https://github.com/Sa-YoorHeadley/Clockwork#readme) to install and run server files
 
 <br />
 

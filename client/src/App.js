@@ -5,8 +5,8 @@ import Scheduler from "./components/Scheduler";
 import Contacts from "./components/Contacts"
 import LandingPage from "./components/LandingPage";
 import Header from "./components/Header";
-import Location from "./components/Location";
 import Position from "./components/Position";
+import Opening from "./components/Opening";
 import Axios from 'axios'
 import React, { useState, useEffect } from 'react'
 
@@ -39,8 +39,7 @@ function App() {
         "recruiterFirstName": "",
         "recruiterLastName": "",
         "email": "",
-        "assignedAccounts": "",
-        "loginCredentials": ""
+        "assignedAccounts": ""
     })
   
   useEffect(()=>{
@@ -86,19 +85,18 @@ function App() {
       setData(res.data.data)
     })
   }
-  
-async function checkRecruiterLogin(recruiterEmail, attempt){
-  console.log(`${recruiterEmail} ------- ${attempt}`)
-  await Axios.get(`http://localhost:3001/recruiters/${recruiterEmail}`)
+
+// MAJOR BUG FIX
+async function checkRecruiterLogin(recruiterEmail, password){
+  await Axios.get(`http://localhost:3001/recruiters/${recruiterEmail}&${password}`)
   .then(res => {
-    console.log(res)
-    let credentials = res.data[0].loginCredentials
-    let isSuccessful  = (credentials === attempt && credentials !== undefined)? true:false
-    console.log(`${credentials} ------- ${attempt}`)
-    setLoggedInRecruiter(res.data)
-    setLoggedIn(isSuccessful)
     
-    console.log(LoggedInRecruiter)
+    if(res.data.login == true ){
+      console.log(LoggedInRecruiter)
+      setLoggedInRecruiter(res.data)
+      setLoggedIn(res.data.login)
+    }
+    
   })
 }
 
@@ -299,8 +297,8 @@ async function parseCandidate(){
             getData={getData}
             />}
           {showModal === 'newContact' && <Contacts showModal={showModal} changeModal={changeModal} data={contactForm} LoggedInRecruiter={LoggedInRecruiter}/>} 
-          {showModal === 'newPosition' && <Position showModal={showModal} changeModal={changeModal} locationOptions={locationOptions}/>}
-          {showModal === 'newLocation' && <Location showModal={showModal} changeModal={changeModal} />}
+          {showModal === 'newOpening' && <Opening showModal={showModal} changeModal={changeModal} locationOptions={locationOptions}/>}
+          {showModal === 'newPosition' && <Position showModal={showModal} changeModal={changeModal} />}
           {/* {showModal === 'newSchedule' && <Scheduler targetCandidate={targetCandidate} showModal={showModal} changeModal={changeModal} setTargetCandidate={setTargetCandidate} />} */}
         </>
       }

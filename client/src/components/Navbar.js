@@ -13,7 +13,7 @@ export default function Navbar({ handleClick, showList, changeDatabase, changeLi
             <button className={`btn ${showList.listName == "readContacts" ? "disabled": " "}`} onClick={() => changeList('readContacts')} >Contact List</button> 
             <button className={`btn ${showList.listName == "readApplications" ? "disabled": " "}`} onClick={() => changeList('readApplications')} >Application List</button> 
             <button className='btn' onClick={() => parseCandidate()} >Parse Candidates</button> 
-            <button className='btn' onClick={() => changeModal('newLocation')} >New Location</button> 
+            <button className='btn' onClick={() => changeModal('newOpening')} >New Opening</button> 
             <button className='btn' onClick={() => changeModal('newPosition')} >New Position</button> 
 
 
