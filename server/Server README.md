@@ -206,7 +206,7 @@ This is server side of Clockwork. Clockwork is candidate management application.
 1. ### Install Node JS
     Refer to https://nodejs.org/en/ to install nodejs
 
-2. ### Create database and .env file
+2. ### Create database
     Refer to **Database** section of the README for the ER Diagram.
 
 3. ### Create environment variables in .env file
